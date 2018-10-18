@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css" />
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    <title>Sorteio</title>
+    <style type="text/css">
+      #corpo div {
+	width: 100%;
+	text-align: center;
+      }
+      h1 {
+	text-align: center;
+	font-size: 36px;
+      }
+      #painel table {
+	border: 1px solid #000;
+	margin-left: auto;
+	margin-right: auto;
+      }
+      #painel td {
+	width: 90px;
+	height: 80px;
+	background-color: #ccc;
+	text-align: center;
+	border: 1px solid #000;
+      }
+      button {
+	margin-top: 20px;
+	width: 200px;
+	height: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 20px;
+      }
+      td.selecionado {
+	background-color: #f00 !important;
+      }
+      #msgtexto {
+	text-align: center;
+	font-size: 22px;
+      }
+    </style>
+
+    <script type="text/javascript">
+      var nomes = ["Alan", "Benylton", "Carlos", "Felipe Nasc", "Felipe Mag", "Felipe Jerez", "Felippe Moreira",
+	"Guilherme", "Henrique", "Isaque", "Joao", "Josiano", "Julio", "Maisa", "Marcel", "Marcelo", "Matheus",
+	"Mauricio", "Murilo", "Pablo", "Paulo", "Rafael", "Vinicius"];
+
+      var clock = setInterval(setTime, 1);
+      var counter = 0;
+      var countdown = 0;
+      var idSelected = "pnl00";
+      var number = 0;
+
+      function setTime() {
+	counter++;
+      }
+
+      function selectNumber() {
+	countdown--;
+	$(idSelected).removeClass("selecionado");
+	var currentNumber;
+	do {
+	  currentNumber = Math.floor(Math.random() * nomes.length);
+	} while (currentNumber == number);
+	number = currentNumber;
+	if (number < 10) {
+	  idSelected = "#pnl0" + number;
+	} else {
+	  idSelected = "#pnl" + number;
+	}
+	$(idSelected).addClass("selecionado");
+
+	var timer;
+	if (countdown > 500) {
+	  timer = 10;
+	} else if (countdown > 250) {
+	  timer = 20;
+	} else if (countdown > 100) {
+	  timer = 30;
+	} else if (countdown > 20) {
+	  timer = 50;
+	} else if (countdown > 15) {
+	  timer = 100;
+	} else if (countdown > 10) {
+	  timer = 200;
+	} else if (countdown > 7) {
+	  timer = 400;
+	} else if (countdown > 4) {
+	  timer = 700;
+	} else if (countdown > 1) {
+	  timer = 1100;
+	} else {
+	  //alert("" + $(idSelected).text() + " foi escolhido(a) !!!");
+	  $("#msgtexto").text($(idSelected).text() + " foi escolhido(a)!!!");
+	  $("#mensagem").dialog("open");
+	  return;
+	}
+	setTimeout(selectNumber, timer);
+      }
+
+      function removeItem(array, item) {
+	for (var i in array) {
+	  if (array[i] == item) {
+	    array.splice(i, 1);
+	    break;
+	  }
+	}
+      }
+
+      $(document).ready(function () {
+	$("#gatilho").mousedown(function (e) {
+	  counter = 0;
+	  clock = setInterval(setTime, 1);
+	}).mouseup(function (e) {
+	  clearInterval(clock);
+	  countdown = 50 + counter;
+	  if (countdown > 1000) {
+	    countdown = 1000;
+	  }
+	  selectNumber();
+	  //alert(counter);
+	});
+
+	$("#nomeordem").click(function (e) {
+	  for (index = 0; index < 40; index++) {
+	    var cel = "";
+	    if (index < 10) {
+	      cel = "#pnl0" + index;
+	    } else {
+	      cel = "#pnl" + index;
+	    }
+	    if (index < nomes.length) {
+	      $(cel).text(nomes[index]);
+	    } else {
+	      $(cel).text("");
+	      $(cel).css("background-color", "#fff");
+	    }
+	  }
+	  $("#preparacao").hide();
+	  $("#acaosorteio").show();
+	});
+
+	$("#nomealeat").click(function (e) {
+	  var nomesCpy = nomes.slice();
+	  for (index = 0; index < 40; index++) {
+	    var cel = "";
+	    if (index < 10) {
+	      cel = "#pnl0" + index;
+	    } else {
+	      cel = "#pnl" + index;
+	    }
+	    if (index < nomes.length) {
+	      var i = Math.floor(Math.random() * nomesCpy.length);
+	      var nome = nomesCpy[i];
+	      nomesCpy.splice(i, 1);
+	      $(cel).text(nome);
+	    } else {
+	      $(cel).text("");
+	      $(cel).css("background-color", "#fff");
+	    }
+	  }
+	  $("#preparacao").hide();
+	  $("#acaosorteio").show();
+	});
+
+	$("#mensagem").dialog({
+	  autoOpen: false,
+	  modal: true,
+	  width: 500,
+	  title: "Parabéns",
+	  show: {
+	    effect: "blind",
+	    duration: 250
+	  },
+	  hide: {
+	    effect: "explode",
+	    duration: 250
+	  }
+	});
+      });
+
+    </script>
+  </head>
+  <body>
+    <h1>Sorteio</h1>
+    <div id="corpo">
+      <div id="painel">
+	<table>
+
+	  <tr>
+
+	    <td id="pnl00">00</td>
+
+	    <td id="pnl01">01</td>
+
+	    <td id="pnl02">02</td>
+
+	    <td id="pnl03">03</td>
+
+	    <td id="pnl04">04</td>
+
+	    <td id="pnl05">05</td>
+
+	    <td id="pnl06">06</td>
+
+	    <td id="pnl07">07</td>
+
+	    <td id="pnl08">08</td>
+
+	    <td id="pnl09">09</td>
+
+	  </tr>
+
+	  <tr>
+
+	    <td id="pnl10">10</td>
+
+	    <td id="pnl11">11</td>
+
+	    <td id="pnl12">12</td>
+
+	    <td id="pnl13">13</td>
+
+	    <td id="pnl14">14</td>
+
+	    <td id="pnl15">15</td>
+
+	    <td id="pnl16">16</td>
+
+	    <td id="pnl17">17</td>
+
+	    <td id="pnl18">18</td>
+
+	    <td id="pnl19">19</td>
+
+	  </tr>
+
+	  <tr>
+
+	    <td id="pnl20">20</td>
+
+	    <td id="pnl21">21</td>
+
+	    <td id="pnl22">22</td>
+
+	    <td id="pnl23">23</td>
+
+	    <td id="pnl24">24</td>
+
+	    <td id="pnl25">25</td>
+
+	    <td id="pnl26">26</td>
+
+	    <td id="pnl27">27</td>
+
+	    <td id="pnl28">28</td>
+
+	    <td id="pnl29">29</td>
+
+	  </tr>
+
+	</table>
+      </div>
+      <div id="preparacao">
+	<button id="nomeordem">Ordem Alfabética</button>&nbsp;<button id="nomealeat">Aleatório</button>
+      </div>
+      <div id="acaosorteio" style="display:none;">
+	<button id="gatilho">Sortear</button>
+      </div>
+    </div>    
+    <div id="mensagem" style="width: 500px;"><p id="msgtexto"></p></div>
+  </body>
+</html>
