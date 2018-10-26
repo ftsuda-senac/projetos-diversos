@@ -15,65 +15,99 @@ import java.util.List;
  */
 public class Produto implements Serializable {
 
-  private long id = 0;
-  private String nome;
-  private String descricao;
-  private BigDecimal preco;
-  private List<Categoria> categorias;
+    private Long id;
 
-  public Produto() {
+    private String nome;
 
-  }
+    private String descricao;
 
-  public Produto(String nome, String descricao, BigDecimal preco) {
-    this.nome = nome;
-    this.descricao = descricao;
-    this.preco = preco;
-  }
+    private BigDecimal precoCompra;
 
-  public Produto(long id, String nome, String descricao, BigDecimal preco) {
-    this(nome, descricao, preco);
-    this.id = id;
-  }
+    private BigDecimal precoVenda;
 
-  public Long getId() {
-    return id;
-  }
+    private int quantidade;
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    private boolean disponivel;
 
-  public String getNome() {
-    return nome;
-  }
+    private List<Categoria> categorias;
 
-  public void setNome(String nome) {
-    this.nome = nome;
-  }
+    public Produto() {
 
-  public String getDescricao() {
-    return descricao;
-  }
+    }
 
-  public void setDescricao(String descricao) {
-    this.descricao = descricao;
-  }
+    public Produto(String nome, String descricao, BigDecimal preco) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.precoVenda = preco;
+    }
 
-  public BigDecimal getPreco() {
-    return preco;
-  }
+    public Produto(long id, String nome, String descricao, BigDecimal preco) {
+        this(nome, descricao, preco);
+        this.id = id;
+    }
 
-  public void setPreco(BigDecimal preco) {
-    this.preco = preco;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public List<Categoria> getCategorias() {
-    return categorias;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  public void setCategorias(List<Categoria> categorias) {
-    this.categorias = categorias;
-  }
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public BigDecimal getPrecoCompra() {
+        return precoCompra;
+    }
+
+    public void setPrecoCompra(BigDecimal precoCompra) {
+        this.precoCompra = precoCompra;
+    }
+
+    public BigDecimal getPrecoVenda() {
+        return precoVenda;
+    }
+
+    public void setPrecoVenda(BigDecimal precoVenda) {
+        this.precoVenda = precoVenda;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public boolean isDisponivel() {
+        return disponivel;
+    }
+
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
+    }
+
+    public List<Categoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
+    }
 
 }

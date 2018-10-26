@@ -48,7 +48,7 @@ public class ProdutoServlet extends HttpServlet {
 	out.println("<li><div>");
 	out.println("<h3>" + p.getNome() + "</h3>");
 	out.println("<p>" + p.getDescricao()+ "</p>");
-	out.println("<p>" + p.getPreco().toString() + "</p>");
+	out.println("<p>" + p.getPrecoVenda().toString() + "</p>");
 	out.println("</div></li>");
       }
       out.println("</ul>");

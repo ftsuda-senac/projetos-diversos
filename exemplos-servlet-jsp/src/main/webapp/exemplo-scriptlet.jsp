@@ -24,7 +24,7 @@
       <li><div>
 	<h3><%= p.getNome() %></h3>
 	<p><%= p.getDescricao() %></p>
-	<p><%= p.getPreco().toString() %></p>
+	<p><%= p.getPrecoVenda().toString() %></p>
       <% } %>
       </div></li>
     </ul>

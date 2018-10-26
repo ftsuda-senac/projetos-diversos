@@ -11,31 +11,15 @@ import java.io.Serializable;
  *
  * @author fernando.tsuda
  */
-public class Categoria implements Serializable {
-
-    private Integer id = 0;
+public class Papel implements Serializable {
 
     private String nome;
 
-    public Categoria() {
-
+    public Papel() {
     }
 
-    public Categoria(String nome) {
+    public Papel(String nome) {
         this.nome = nome;
-    }
-
-    public Categoria(Integer id, String nome) {
-        this(nome);
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {
