@@ -21,25 +21,25 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "DetalhePessoaServlet", urlPatterns = {"/detalhe-pessoa"})
 public class DetalhePessoaServlet extends HttpServlet {
-  
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	  throws ServletException, IOException {
-    PessoaService service = new PessoaService();
-    
-    String idStr = request.getParameter("id");
-    if (idStr != null && idStr.trim().length() > 0) {
-      long id = Long.parseLong(idStr);
-      Pessoa pessoa = service.obter(id);
-      if (pessoa != null) {
-	// Preparar resposta
-	request.setAttribute("pessoaAtrib", pessoa);
-	RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/detalhe.jsp");
-	dispatcher.forward(request, response);
-      } else {
-	response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-      }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        PessoaService service = new PessoaService();
+
+        String idStr = request.getParameter("id");
+        if (idStr != null && idStr.trim().length() > 0) {
+            long id = Long.parseLong(idStr);
+            Pessoa pessoa = service.obter(id);
+            if (pessoa != null) {
+                // Preparar resposta
+                request.setAttribute("pessoaAtrib", pessoa);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/detalhe.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
+        }
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
-    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-  }
 }

@@ -23,15 +23,15 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ListaPessoasServlet", urlPatterns = {"/lista-pessoas"})
 public class ListaPessoasServlet extends HttpServlet {
 
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	  throws ServletException, IOException {
-    PessoaService service = new PessoaService();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        PessoaService service = new PessoaService();
 
-    // Lista todas as pessoas cadastradas
-    List<Pessoa> lista = service.listar();
-    request.setAttribute("listaAtrib", lista);
-    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/lista.jsp");
-    dispatcher.forward(request, response);
-  }
+        // Lista todas as pessoas cadastradas
+        List<Pessoa> lista = service.listar();
+        request.setAttribute("listaAtrib", lista);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/lista.jsp");
+        dispatcher.forward(request, response);
+    }
 }

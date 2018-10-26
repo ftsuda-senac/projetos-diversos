@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 public class Categoria implements Serializable {
 
-    private Integer id = 0;
+    private Integer id ;
 
     private String nome;
 

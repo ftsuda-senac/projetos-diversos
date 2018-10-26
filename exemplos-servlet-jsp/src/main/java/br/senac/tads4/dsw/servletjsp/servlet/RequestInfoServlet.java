@@ -21,29 +21,29 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "RequestInfoServlet", urlPatterns = {"/request-info"})
 public class RequestInfoServlet extends HttpServlet {
 
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	  throws ServletException, IOException {
-    try (PrintWriter out = response.getWriter()) {
-      response.setContentType("text/plain");
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try (PrintWriter out = response.getWriter()) {
+            response.setContentType("text/plain");
 
-      Enumeration<String> headerNames = request.getHeaderNames();
+            Enumeration<String> headerNames = request.getHeaderNames();
 
-      while (headerNames.hasMoreElements()) {
+            while (headerNames.hasMoreElements()) {
 
-	String headerName = headerNames.nextElement();
-	out.write(headerName);
-	out.write("\n");
+                String headerName = headerNames.nextElement();
+                out.write(headerName);
+                out.write("\n");
 
-	Enumeration<String> headers = request.getHeaders(headerName);
-	while (headers.hasMoreElements()) {
-	  String headerValue = headers.nextElement();
-	  out.write("\t" + headerValue);
-	  out.write("\n");
-	}
+                Enumeration<String> headers = request.getHeaders(headerName);
+                while (headers.hasMoreElements()) {
+                    String headerValue = headers.nextElement();
+                    out.write("\t" + headerValue);
+                    out.write("\n");
+                }
 
-      }
+            }
+        }
     }
-  }
 
 }

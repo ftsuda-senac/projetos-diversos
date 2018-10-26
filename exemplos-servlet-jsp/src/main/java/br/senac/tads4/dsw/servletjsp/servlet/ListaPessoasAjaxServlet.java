@@ -25,22 +25,22 @@ import org.json.JSONObject;
 @WebServlet(name = "ListaPessoasAjaxServlet", urlPatterns = {"/lista-pessoas-ajax"})
 public class ListaPessoasAjaxServlet extends HttpServlet {
 
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	  throws ServletException, IOException {
-    PessoaService service = new PessoaService();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        PessoaService service = new PessoaService();
 
-    // Lista todas as pessoas cadastradas
-    List<Pessoa> lista = service.listar();
+        // Lista todas as pessoas cadastradas
+        List<Pessoa> lista = service.listar();
 
-    // Preparar resposta
-    JSONObject json = new JSONObject(lista);
-    response.setContentType("application/json");
-    response.setCharacterEncoding("utf-8");
-    //response.addHeader("Access-Control-Allow-Origin", "*");
-    try (PrintWriter out = response.getWriter()) {
-      out.print(json.toString());
+        // Preparar resposta
+        JSONObject json = new JSONObject(lista);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
+        //response.addHeader("Access-Control-Allow-Origin", "*");
+        try (PrintWriter out = response.getWriter()) {
+            out.print(json.toString());
+        }
     }
-  }
 
 }

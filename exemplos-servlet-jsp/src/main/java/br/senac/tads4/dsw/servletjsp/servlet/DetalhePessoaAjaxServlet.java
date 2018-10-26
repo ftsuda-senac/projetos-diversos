@@ -23,30 +23,30 @@ import org.json.JSONObject;
 @WebServlet(name = "DetalhePessoaAjaxServlet", urlPatterns = {"/detalhe-pessoa-ajax"})
 public class DetalhePessoaAjaxServlet extends HttpServlet {
 
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	  throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-    PessoaService service = new PessoaService();
+        PessoaService service = new PessoaService();
 
-    String idStr = request.getParameter("id");
-    if (idStr != null && idStr.trim().length() > 0) {
-      long id = Long.parseLong(idStr);
-      Pessoa pessoa = service.obter(id);
-      if (pessoa != null) {
-	// Preparar resposta
-	JSONObject json = new JSONObject(pessoa);
-	response.setContentType("application/json");
-	response.setCharacterEncoding("utf-8");
-	//response.addHeader("Access-Control-Allow-Origin", "*");
-	try (PrintWriter out = response.getWriter()) {
-	  out.print(json.toString());
-	}
-      } else {
-	response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-      }
+        String idStr = request.getParameter("id");
+        if (idStr != null && idStr.trim().length() > 0) {
+            long id = Long.parseLong(idStr);
+            Pessoa pessoa = service.obter(id);
+            if (pessoa != null) {
+                // Preparar resposta
+                JSONObject json = new JSONObject(pessoa);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+                //response.addHeader("Access-Control-Allow-Origin", "*");
+                try (PrintWriter out = response.getWriter()) {
+                    out.print(json.toString());
+                }
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
+        }
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
-    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-  }
 
 }

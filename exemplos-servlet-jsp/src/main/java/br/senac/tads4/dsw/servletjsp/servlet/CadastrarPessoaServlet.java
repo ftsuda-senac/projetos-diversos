@@ -1,4 +1,4 @@
-   /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -23,51 +23,51 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "CadastrarPessoaServlet", urlPatterns = {"/cadastrar-pessoa"})
 public class CadastrarPessoaServlet extends HttpServlet {
 
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	  throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-    PessoaService service = new PessoaService();
+        PessoaService service = new PessoaService();
 
-    String idStr = request.getParameter("id");
-    if (idStr != null && idStr.trim().length() > 0) {
-      // Recupera uma pessoa
-      Pessoa pessoa = service.obter(Long.parseLong(idStr));
-      request.setAttribute("pessoaAtrib", pessoa);
+        String idStr = request.getParameter("id");
+        if (idStr != null && idStr.trim().length() > 0) {
+            // Recupera uma pessoa
+            Pessoa pessoa = service.obter(Long.parseLong(idStr));
+            request.setAttribute("pessoaAtrib", pessoa);
+        }
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/formulario.jsp");
+        dispatcher.forward(request, response);
     }
-    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/formulario.jsp");
-    dispatcher.forward(request, response);
-  }
 
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	  throws ServletException, IOException {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-    Pessoa pessoa = new Pessoa();
+        Pessoa pessoa = new Pessoa();
 
-    String idStr = request.getParameter("id");
-    if (idStr != null) {
-      long id = Long.parseLong(idStr);
-      pessoa.setId(id);
+        String idStr = request.getParameter("id");
+        if (idStr != null) {
+            long id = Long.parseLong(idStr);
+            pessoa.setId(id);
+        }
+        String nome = request.getParameter("nome");
+        pessoa.setNome(nome);
+
+        String idadeStr = request.getParameter("idade");
+        int idade = Integer.parseInt(idadeStr);
+        pessoa.setIdade(idade);
+
+        if (pessoa.isValido()) {
+            PessoaService service = new PessoaService();
+            service.salvar(pessoa);
+        } else {
+            // ERRO
+
+        }
+        // POST-REDIRECT-GET
+        request.setAttribute("flash.mensagem-sucesso", "Usuario adicionado com sucesso");
+        response.sendRedirect(request.getContextPath() + "/lista-pessoas");
+
     }
-    String nome = request.getParameter("nome");
-    pessoa.setNome(nome);
-
-    String idadeStr = request.getParameter("idade");
-    int idade = Integer.parseInt(idadeStr);
-    pessoa.setIdade(idade);
-
-    if (pessoa.isValido()) {
-      PessoaService service = new PessoaService();
-      service.salvar(pessoa);
-    } else {
-      // ERRO
-
-    }
-    // POST-REDIRECT-GET
-    request.setAttribute("flash.mensagem-sucesso", "Usuario adicionado com sucesso");
-    response.sendRedirect(request.getContextPath() + "/lista-pessoas");
-
-  }
 
 }
