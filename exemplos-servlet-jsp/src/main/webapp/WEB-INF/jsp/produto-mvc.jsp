@@ -20,7 +20,7 @@
                     <div>
                         <h3>${prod.nome}</h3>
                         <p>${prod.descricao}</p>
-                        <p>${prod.preco.toString()}</p>
+                        <p>${prod.precoVenda.toString()}</p>
                     </div>
                 </li>
             </c:forEach>
