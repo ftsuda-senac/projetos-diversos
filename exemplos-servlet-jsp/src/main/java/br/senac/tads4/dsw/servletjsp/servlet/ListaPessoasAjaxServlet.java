@@ -7,10 +7,10 @@ package br.senac.tads4.dsw.servletjsp.servlet;
 
 import br.senac.tads4.dsw.servletjsp.modelo.Pessoa;
 import br.senac.tads4.dsw.servletjsp.service.PessoaService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,8 +38,14 @@ public class ListaPessoasAjaxServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         //response.addHeader("Access-Control-Allow-Origin", "*");
+        
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        
+        // Jackson 2
+        ObjectMapper mapper = new ObjectMapper();
         try (PrintWriter out = response.getWriter()) {
-            out.print(json.toString());
+            out.print(mapper.writeValueAsString(lista));
         }
     }
 
