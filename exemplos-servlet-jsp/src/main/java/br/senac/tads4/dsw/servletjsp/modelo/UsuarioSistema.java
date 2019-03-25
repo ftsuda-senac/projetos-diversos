@@ -57,7 +57,7 @@ public class UsuarioSistema implements Serializable {
         this.hashSenha = senha;
     }
 
-    public void setSenha(String senhaAberta) {
+    public final void setSenha(String senhaAberta) {
         this.hashSenha = BCrypt.hashpw(senhaAberta, BCrypt.gensalt());
     }
 

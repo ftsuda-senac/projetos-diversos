@@ -7,6 +7,7 @@ package br.senac.tads4.dsw.servletjsp.servlet;
 
 import br.senac.tads4.dsw.servletjsp.modelo.Pessoa;
 import br.senac.tads4.dsw.servletjsp.service.PessoaService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -14,7 +15,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONObject;
 
 /**
  *
@@ -35,12 +35,14 @@ public class DetalhePessoaAjaxServlet extends HttpServlet {
             Pessoa pessoa = service.obter(id);
             if (pessoa != null) {
                 // Preparar resposta
-                JSONObject json = new JSONObject(pessoa);
                 response.setContentType("application/json");
                 response.setCharacterEncoding("utf-8");
                 //response.addHeader("Access-Control-Allow-Origin", "*");
+
+                // Jackson 2
+                ObjectMapper mapper = new ObjectMapper();
                 try (PrintWriter out = response.getWriter()) {
-                    out.print(json.toString());
+                    out.print(mapper.writeValueAsString(pessoa));
                 }
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);

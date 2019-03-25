@@ -16,7 +16,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONObject;
 
 /**
  *
@@ -34,13 +33,9 @@ public class ListaPessoasAjaxServlet extends HttpServlet {
         List<Pessoa> lista = service.listar();
 
         // Preparar resposta
-        JSONObject json = new JSONObject(lista);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         //response.addHeader("Access-Control-Allow-Origin", "*");
-        
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
         
         // Jackson 2
         ObjectMapper mapper = new ObjectMapper();

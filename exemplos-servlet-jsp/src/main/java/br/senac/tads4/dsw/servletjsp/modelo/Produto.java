@@ -29,20 +29,33 @@ public class Produto implements Serializable {
 
     private boolean disponivel;
 
+    private String imagem;
+
     private List<Categoria> categorias;
 
     public Produto() {
 
     }
-
-    public Produto(String nome, String descricao, BigDecimal preco) {
-        this.nome = nome;
-        this.descricao = descricao;
-        this.precoVenda = preco;
+    
+    public Produto(long id, String nome, String descricao, BigDecimal precoCompra, BigDecimal precoVenda, String imagem) {
+        this(nome, descricao, precoCompra, precoVenda, imagem);
+        this.id = id;
     }
 
-    public Produto(long id, String nome, String descricao, BigDecimal preco) {
-        this(nome, descricao, preco);
+    public Produto(String nome, String descricao, BigDecimal precoCompra, BigDecimal precoVenda, String imagem) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.precoCompra = precoCompra;
+        this.precoVenda = precoVenda;
+        this.imagem = imagem;
+    }
+
+    public Produto(String nome, String descricao, BigDecimal preco, String imagem) {
+        this(nome, descricao, preco, preco, imagem);
+    }
+
+    public Produto(long id, String nome, String descricao, BigDecimal preco, String imagem) {
+        this(nome, descricao, preco, preco, imagem);
         this.id = id;
     }
 
@@ -100,6 +113,14 @@ public class Produto implements Serializable {
 
     public void setDisponivel(boolean disponivel) {
         this.disponivel = disponivel;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 
     public List<Categoria> getCategorias() {
