@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Exemplo Servlet + JSP (MVC)</title>
     </head>
     <body>
         <h1>Cake Web MVC</h1>

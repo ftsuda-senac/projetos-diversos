@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Exemplo Servlet + AJAX</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+
+            // http://youmightnotneedjquery.com/#ready
+            // EXECUTA A FUNÇÃO fn SOMENTE APÓS CARREGAR O DOM HTML
+            function ready(fn) {
+                if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+                    fn();
+                } else {
+                    document.addEventListener('DOMContentLoaded', fn);
+                }
+            }
+
+            function obterItem(item) {
+                return "<li><div>" +
+                        "<h3>" + item.nome + "</h3>" +
+                        "<p>" + item.descricao + "</h3>" +
+                        "<p>" + item.precoVenda + "</p>" +
+                        "</div></li>";
+            }
+
+            ready(function () {
+                let botao = document.querySelector("#btnNovo");
+                botao.addEventListener("click", function (ev) {
+
+                    let xhr = new XMLHttpRequest();
+                    xhr.open('GET', 'produto-ajax', true);
+                    xhr.onload = function () {
+                        if (xhr.status >= 200 && xhr.status < 400) {
+                            let data = JSON.parse(xhr.responseText);
+                            let container = document.querySelector("#resultado");
+                            for (let i = 0; i < data.length; i++) {
+                                container.insertAdjacentHTML("beforeend", obterItem(data[i]));
+                            }
+                        }
+                    };
+                    xhr.send();
+                });
+            });
+
+        </script>
+    </head>
+    <body>
+        <h1>Cake Web - AJAX</h1>
+        <div>
+            <ul id="resultado">
+            </ul>
+        </div>
+        <button type="button" id="btnNovo">Carregar produto</button>
+    </body>
+</html>
