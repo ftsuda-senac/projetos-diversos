@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+/* http://sergiolopes.org/css-box-sizing-border-box/ */
+*, *:before, *:after {
+    box-sizing: border-box;
+}
 html {
   position: relative;
   min-height: 100%;

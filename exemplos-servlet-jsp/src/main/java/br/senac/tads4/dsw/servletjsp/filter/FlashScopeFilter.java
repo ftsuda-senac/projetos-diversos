@@ -57,8 +57,8 @@ public class FlashScopeFilter implements Filter {
         //next request
         if (request instanceof HttpServletRequest) {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
-            Map<String, Object> flashParams = new HashMap();
-            Enumeration e = httpRequest.getAttributeNames();
+            Map<String, Object> flashParams = new HashMap<>();
+            Enumeration<String> e = httpRequest.getAttributeNames();
             while (e.hasMoreElements()) {
                 String paramName = (String) e.nextElement();
                 if (paramName.startsWith("flash.")) {

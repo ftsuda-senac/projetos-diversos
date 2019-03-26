@@ -23,7 +23,7 @@
 	  test="${not empty pageContext.request.parameterMap}">?${pageContext.request.queryString}</c:if>
 	</code></h2>
     --%>
-    <h3>URL chamada:<br/><code><span class="scheme">${pageContext.request.scheme}</span>://<span class="server-name">${pageContext.request.serverName}</span>:<span class="server-port">${pageContext.request.serverPort}</span><span class="context-path">${pageContext.request.contextPath}</span><span class="servlet-path"><c:choose><c:when test="${not empty requestScope['javax.servlet.forward.servlet_path']}">${requestScope['javax.servlet.forward.servlet_path']}</c:when><c:otherwise>${pageContext.request.servletPath}</c:otherwise></c:choose></span><c:if test="${not empty pageContext.request.queryString}">?<span class="query-string">${pageContext.request.queryString}</span></c:if></h3>
+    <h3>URL chamada:<br/><code><span class="scheme">${pageContext.request.scheme}</span>://<span class="server-name">${pageContext.request.serverName}</span>:<span class="server-port">${pageContext.request.serverPort}</span><span class="context-path">${pageContext.request.contextPath}</span><span class="servlet-path"><c:choose><c:when test="${not empty requestScope['javax.servlet.forward.servlet_path']}">${requestScope['javax.servlet.forward.servlet_path']}</c:when><c:otherwise>${pageContext.request.servletPath}</c:otherwise></c:choose></span><c:if test="${not empty pageContext.request.queryString}">?<span class="query-string">${pageContext.request.queryString}</span></c:if></code></h3>
       <table class="table">
 	<thead>
 	  <tr>
