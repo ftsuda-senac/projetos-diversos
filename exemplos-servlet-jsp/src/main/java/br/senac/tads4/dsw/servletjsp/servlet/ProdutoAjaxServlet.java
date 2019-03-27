@@ -31,9 +31,16 @@ public class ProdutoAjaxServlet extends HttpServlet {
         Produto p1 = new Produto(1L, "Bolo de chocolate",
                 "descrição do bolo de chocolate",
                 new BigDecimal(30.0), "http://lorempixel.com/g/300/300/");
-        Produto p2 = new Produto(1L, "Bolo de cenoura",
-                "descrição do bolo de cenoura", new BigDecimal(20.0), "http://lorempixel.com/g/300/300/");
-        List<Produto> lista = Arrays.asList(p1, p2);
+        Produto p2 = new Produto(2L, "Bolo de cenoura",
+                "descrição do bolo de cenoura",
+                new BigDecimal(20.0), "http://lorempixel.com/g/300/300/");
+        Produto p3 = new Produto(3L, "Torta de limão",
+                "descrição da torta de limão",
+                new BigDecimal(25.0), "http://lorempixel.com/g/300/300/");
+        Produto p4 = new Produto(4L, "Bolo floresta negra",
+                "descrição do bolo floresta negra",
+                new BigDecimal(40.0), "http://lorempixel.com/g/300/300/");
+        List<Produto> lista = Arrays.asList(p1, p2, p3, p4);
 
         // Preparar resposta
         response.setContentType("application/json");
