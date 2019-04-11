@@ -8,7 +8,7 @@
     <packaging>war</packaging>
 
     <name>exemplos-servlet-jsp</name>
-    <description>Exemplos de Servlet e JSPs</description>
+    <description>Exemplos diversos usando Servlet e JSP</description>
     
     <organization>
         <name>Senac TADS</name>

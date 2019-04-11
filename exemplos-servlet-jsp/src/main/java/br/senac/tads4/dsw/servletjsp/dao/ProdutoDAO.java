@@ -20,22 +20,13 @@ import java.sql.Statement;
 public class ProdutoDAO {
 
     public void executarSelectAll() {
-
         String sql = "SELECT ID, NOME, PRECO_VENDA FROM PRODUTO";
         PreparedStatement stmt = null;
         Connection conn = null;
         ResultSet resultados = null;
-
         try {
-            // 1) ABRIR CONEXÃO COM BD
-            // 1A) Declarar o driver JDBC de acordo com o Banco de dados usado
-            Class.forName("com.mysql.jdbc.Driver");
-
-            // 1B) Abrir a conexão
-            conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/produtobd",
-                    "USUARIO", // Usuário de conexão
-                    "SENHA"); // Senha
+            // 1) OBTER CONEXÃO COM BD
+            conn = ConnectionUtil.obterConexaoBD();
 
             // 2) EXECUTAR O COMANDO NO BANCO DE DADOS
             // NESTE CASO UM SELECT DEFINIDO NA VARIAVEL sql ACIMA
@@ -75,105 +66,76 @@ public class ProdutoDAO {
 
     // CÓDIGO ABAIXO SOMENTE PARA JAVA 7 OU SUPERIOR
     public void executarSelectAllJava7() {
-
         String sql = "SELECT ID, NOME, PRECO_VENDA FROM PRODUTO";
-        try {
-            // 1) ABRIR CONEXÃO COM BD
-            // 1A) Declarar o driver JDBC de acordo com o Banco de dados usado
-            Class.forName("com.mysql.jdbc.Driver");
-            // 1B) Abrir a conexão
-            try (Connection conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/produtobd",
-                    "USUARIO", // Usuário de conexão
-                    "SENHA"); // Senha;
+        // 1) OBTER CONEXÃO COM BD
+        try (Connection conn = ConnectionUtil.obterConexaoBD();
+                // EXECUTA O COMANDO NO BANCO DE DADOS
+                // NESTE CASO UM SELECT DEFINIDO NA VARIAVEL sql ACIMA
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet resultados = stmt.executeQuery()) {
 
-                    // EXECUTA O COMANDO NO BANCO DE DADOS
-                    // NESTE CASO UM SELECT DEFINIDO NA VARIAVEL sql ACIMA
-                    PreparedStatement stmt = conn.prepareStatement(sql);
-                    ResultSet resultados = stmt.executeQuery()) {
-
-                while (resultados.next()) {
-                    // TRATAR RESULTADOS
-                    long id = resultados.getLong("ID");
-                    String nome = resultados.getString("NOME");
-                }
-            } catch (SQLException ex) {
-                // TRATAR EXCEÇÃO
+            while (resultados.next()) {
+                // TRATAR RESULTADOS
+                long id = resultados.getLong("ID");
+                String nome = resultados.getString("NOME");
             }
-            // AO SAIR DESTE BLOCO, O FECHAMENTO DA CONEXÃO ESTÁ IMPLICITO
-            // RECURSO TRY-WITH-RESOURCES DO JAVA 7 OU SUPERIOR
+        } catch (SQLException ex) {
+            // TRATAR EXCEÇÃO
         } catch (ClassNotFoundException e) {
             // TRATAR EXCEÇÃO
         }
+        // AO SAIR DESTE BLOCO, O FECHAMENTO DA CONEXÃO ESTÁ IMPLICITO
+        // RECURSO TRY-WITH-RESOURCES DO JAVA 7 OU SUPERIOR
     }
 
     public void executarSelectPorId(long id) {
         String sql = "SELECT ID, NOME, PRECO_VENDA FROM PRODUTO WHERE ID = ?";
-        try {
-            // 1) ABRIR CONEXÃO COM BD
-            // 1A) Declarar o driver JDBC de acordo com o Banco de dados usado
-            Class.forName("com.mysql.jdbc.Driver");
-            // 1B) Abrir a conexão
-            try (Connection conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/produtobd",
-                    "USUARIO", // Usuário de conexão
-                    "SENHA"); // Senha;
-                    PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setLong(1, id);
-                try (ResultSet resultados = stmt.executeQuery()) {
-                    while (resultados.next()) {
-                        // TRATAR RESULTADOS
-                        long idRec = resultados.getLong("ID");
-                        String nome = resultados.getString("NOME");
-                    }
+        try (Connection conn = ConnectionUtil.obterConexaoBD();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            try (ResultSet resultados = stmt.executeQuery()) {
+                while (resultados.next()) {
+                    // TRATAR RESULTADOS
+                    long idRec = resultados.getLong("ID");
+                    String nome = resultados.getString("NOME");
                 }
-            } catch (SQLException ex) {
-                // TRATAR EXCEÇÃO
             }
+        } catch (SQLException ex) {
+            // TRATAR EXCEÇÃO
         } catch (ClassNotFoundException e) {
             // TRATAR EXCEÇÃO
         }
     }
 
-    public void incluir(String nome, BigDecimal precoVenda) throws ClassNotFoundException, SQLException {
-
+    public void incluirComTransacao(String nome, BigDecimal precoVenda) throws ClassNotFoundException, SQLException {
         String query = "INSERT INTO PRODUTO (NOME, PRECO_VENDA) VALUES (?, ?)";
-        try {
-            // 1) Declarar o driver JDBC de acordo com o Banco de dados usado
-            Class.forName("com.mysql.jdbc.Driver");
-            try (Connection conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/produtobd",
-                    "USUARIO", // Usuário de conexão
-                    "SENHA")) // Senha
-            {
-                // DESLIGAR O AUTO COMMIT
-                conn.setAutoCommit(false);
+        try (Connection conn = ConnectionUtil.obterConexaoBD()) {
+            // DESLIGAR O AUTO COMMIT
+            conn.setAutoCommit(false);
 
-                // ADICIONAR O Statement.RETURN_GENERATED_KEYS NA CHAMADA DO MÉTODO
-                try (PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-                    stmt.setString(1, nome);
-                    stmt.setBigDecimal(2, precoVenda);
-                    stmt.executeUpdate();
+            // ADICIONAR O Statement.RETURN_GENERATED_KEYS NA CHAMADA DO MÉTODO
+            try (PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setString(1, nome);
+                stmt.setBigDecimal(2, precoVenda);
+                stmt.executeUpdate();
 
-                    try (ResultSet chaves = stmt.getGeneratedKeys()) {
-                        if (chaves.next()) {
-                            long idNovo = chaves.getLong(1);
-                            // USAR O ID RECUPERADO PARA SALVAR INFORMACOES ASSOCIADAS
+                try (ResultSet chaves = stmt.getGeneratedKeys()) {
+                    if (chaves.next()) {
+                        long idNovo = chaves.getLong(1);
+                        // USAR O ID RECUPERADO PARA SALVAR INFORMACOES ASSOCIADAS
 
-                        }
                     }
-                    // EFETIVA TODAS AS OPERAÇÕES REALIZADAS
-                    conn.commit();
-                } catch (SQLException e) {
-                    // CASO OCORRA ERRO, DESFAZ TODAS AS OPERAÇÕES
-                    conn.rollback();
                 }
+                // O commit() EFETIVA TODAS AS OPERAÇÕES REALIZADAS NO BD
+                conn.commit();
             } catch (SQLException e) {
-                // TRATAR EXCEÇÃO
+                // CASO OCORRA ERRO, O rollback() DESFAZ TODAS AS OPERAÇÕES
+                conn.rollback();
             }
+        } catch (SQLException e) {
+            // TRATAR EXCEÇÃO
         } catch (ClassNotFoundException e) {
             // TRATAR EXCEÇÃO
         }
-
     }
 }
