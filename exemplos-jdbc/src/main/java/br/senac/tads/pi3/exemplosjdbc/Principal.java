@@ -20,7 +20,7 @@ public class Principal {
         dao.criarTabela();
         do {
             System.out.println("********** DIGITE UMA OPÇÃO **********");
-            System.out.println("(1) Incluir com statement");
+            System.out.println("(1) Listar");
             System.out.println("(2) Incluir com statement");
             System.out.println("(3) Incluir com prepared statement");
             System.out.println("(9) SAIR");
