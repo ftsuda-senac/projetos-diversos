@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+IDENTIFICAÇÃO: <COLOCAR NOME COMPLETO>
+TURMA: <A OU B>
+
+ATIVIDADE:
+Implementar a lógica necessária para carregar e apresentar informações de usuários na tela usando AJAX.
+As informações dos usuários são fornecidas pela API randomuser.me através da chamada indicada abaixo.
+
+https://randomuser.me/api/?seed=tads&page=1&results=12&nat=br&inc=name,gender,cell,email,picture,dob
+(para avaliar a resposta JSON da requisição acima, acessar a URL acima no navegador, copiar o JSON e 
+colar em um arquivo no Visual Studio Code. No canto inferior, mudar o tipo de plain text para JSON e 
+pressionar ALT + SHIFT + F para formatar)
+
+Devem ser apresentados na tela uma imagem do usuário, o nome completo, a idade, o e-mail e o telefone.
+As informações devem ser carregadas de 12 em 12 itens, e não podem ser repetidas (ou seja, a paginação 
+deve ser levada em conta - notar o parâmetro "page" na URL fornecida).
+
+A tela deve ser responsiva, considerando a apresentação de 1 item por linha para telas mobile e 
+3 itens por linha para telas medium.
+
+O código Javascript necessário pode ser feito usando somente o Javascript ou o jQuery.
+
+Exemplos no codepen.io que podem ajudar na resolução desta atividade:
+AJAX com JS puro: https://codepen.io/ftsuda-senac/pen/jJGwVg
+AJAX com jQuery: https://codepen.io/ftsuda-senac/pen/GeMEBP
+Telas responsivas: https://codepen.io/ftsuda-senac/pen/vPagRw
+
+Implementar a lógica neste arquivo HTML. Para o código funcionar corretamente o computador 
+tem que estar conectado na Internet.
+
+Para a entrega, subir somente o HTML alterado e renomeado para ajax-responsivo-<nome>.html
+(ex: ajax-responsivo-fernando-tsuda.html). Antes de entregar, colocar o nome completo na 
+parte IDENTIFICAÇÃO no começo do arquivo e indicar a turma a que pertence.
+-->
+<html>
+<head>
+    <title>TADS DSW 2019-2 - AJAX Responsivo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script>
+
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Informações do usuário</h1>
+        <div class="row" id="pessoas">
+
+        </div>
+        <button id="btnLoadMore" class="btn btn-lg btn-block btn-success">Carregar pessoas</button>
+    </div>
+</body>
+</html>

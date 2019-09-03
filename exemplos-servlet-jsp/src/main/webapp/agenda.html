@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+       <style>
+            .male {
+                /* background-color: #3598db; */
+            }
+            .female {
+                /* background-color: #ef727a; */
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script>
+            var currentPage = 1;
+            function loadInfo() {
+                $.getJSON("https://randomuser.me/api/", {
+                   seed: "tads",
+                   page: currentPage,
+                   results: 12,
+                   nat: "br",
+                   inc: "gender,name,cell,email,picture"
+                }, function (dataJSON) {
+                    let results = dataJSON.results;
+                    for (let i = 0; i < results.length; i++) {
+                        let genderClass = results[i].gender;
+                        let itemDom = "<div class=\"col-sm-6 col-md-4 text-center " + genderClass + "\">" +
+                                "<img src=\"" + results[i].picture.large + "\">" +
+                                "<h2>" + results[i].name.first + " " + results[i].name.last + "</h2>" +
+                                "<p>Celular: " + results[i].cell + "</p>" + 
+                                "<p>E-mail: " + results[i].email + "</p>" + 
+                                "</div>";
+                        $("#pessoas").append(itemDom);
+                    }
+                    currentPage++;
+                });
+            }
+            $(function() {
+                $("#btnLoadMore").click(function(ev) {
+                    loadInfo();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Agenda de contatos</h1>
+        <div class="container">
+            <div class="row" id="pessoas">
+                
+            </div>
+            <button id="btnLoadMore" class="btn btn-lg btn-block btn-success">Carregar pessoas</button>
+        </div>
+        
+    </body>
+</html>

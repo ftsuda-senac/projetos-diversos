@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>br.senac.tads.pi3</groupId>
-    <artifactId>exemplos-web</artifactId>
+    <artifactId>exemplos-web2</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>exemplos-web</name>
+    <name>exemplos-web2</name>
     
     <organization>
         <name>Senac TADS PI3</name>
