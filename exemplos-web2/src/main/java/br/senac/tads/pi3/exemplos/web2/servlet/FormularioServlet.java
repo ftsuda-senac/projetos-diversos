@@ -68,7 +68,7 @@ public class FormularioServlet extends HttpServlet {
         if (temErros) {
             // REAPRESENTA FORMULARIO INDICANDO OS ERROS
             RequestDispatcher dispatcher
-                    = request.getRequestDispatcher("formulario.jsp");
+                    = request.getRequestDispatcher("/WEB-INF/jsp/formulario.jsp");
             dispatcher.forward(request, response);
             return;
         }

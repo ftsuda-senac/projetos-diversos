@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Layout com grid system do Bootstrap</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<style>
+.cabecalho {
+	color: black;
+	background-color: red;
+	text-align: center;
+	line-height: 50px;
+}
+.menus, .aside {
+	width: 25%;
+	vertical-align: top;
+	border: 1px solid black;
+}
+.conteudo {
+	height: 300px;
+	background-color: #ccc;
+	vertical-align: top;
+}
+.rodape {
+	color: white;
+	background-color: black;
+}
+</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<header class="col-12 cabecalho">
+				<h1>Cabeçalho</h1>
+			</header>
+		</div>
+		<div class="row">
+			<nav class="col-3 menus">Menus</nav>
+			<main class="col-6 conteudo">Conteúdo</main>
+			<aside class="col-3 aside">Outras</aside>
+		</div>
+		<div class="row">
+			<footer class="col-12 rodape">Rodapé</footer>
+		</div>
+	</div>
+</body>
+</html>

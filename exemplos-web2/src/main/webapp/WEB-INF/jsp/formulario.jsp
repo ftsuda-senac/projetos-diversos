@@ -10,7 +10,7 @@
     <body>
         <h1>Produto - Inclusão</h1>
         <div>
-            <form action="formulario-servlet" method="post">
+            <form action="formulario" method="post">
                 <input type="hidden" name="escondido" value="xpto" />
                 <div>
                     <label>Nome</label>

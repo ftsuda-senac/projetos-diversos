@@ -53,7 +53,7 @@
                     <c:if test="${not empty prod.getCategorias()}">
                         <ul>
                             <c:forEach items="${prod.getCategorias()}" var="cat">
-                                <li><c:out value="${cat}" /></li>
+                                <li><c:out value="${cat.getNome()}" /></li>
                             </c:forEach>
                         </ul>
                     </c:if>
