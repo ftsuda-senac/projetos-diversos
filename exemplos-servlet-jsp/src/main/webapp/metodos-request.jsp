@@ -177,7 +177,7 @@
                     <ul>
                         <c:forEach items="${pageContext.request.headerNames}" var="headerName">
                             <li><c:out value="${headerName}" />: <c:out value="${pageContext.request.getHeader(headerName)}" /></li>
-                            </c:forEach>
+                        </c:forEach>
                     </ul>
                 </div>
             </div>

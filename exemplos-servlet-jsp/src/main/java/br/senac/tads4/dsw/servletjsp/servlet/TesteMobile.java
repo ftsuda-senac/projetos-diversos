@@ -25,22 +25,23 @@ public class TesteMobile extends HttpServlet {
             throws ServletException, IOException {
         
         String userAgent = request.getHeader("user-agent");
-        String mensagem = "Acesso via desktop";
-        if (userAgent.toLowerCase().contains("mobile")) {
-            mensagem = "Acesso via dispositivo movel";
+        String mensagem = "Acesso via dispositivo movel";
+        if (!userAgent.toLowerCase().contains("mobile")) {
+            mensagem = "Acesso via desktop";
         }
 
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet TesteMobile</title>");
+            out.println("<meta charset=\"utf-8\">");
+            out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>" + mensagem + "</h1>");
-            out.println("<p>" + userAgent + "</p>");
+            out.println("<p>User agent: " + userAgent + "</p>");
             out.println("</body>");
             out.println("</html>");
         }
