@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.senac.tads.pi3.exemplosweb;
+package br.senac.tads.servletjsp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,32 +17,31 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author fernando.tsuda
  */
-@WebServlet(name = "ExemploGet2Servlet", urlPatterns = {"/exemplo-get2"})
-public class ExemploGet2Servlet extends HttpServlet {
+@WebServlet(name = "TesteMobile", urlPatterns = {"/teste-mobile"})
+public class TesteMobile extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String valor1 = request.getParameter("val1");
-        String valor2 = request.getParameter("val2");
+        
+        String userAgent = request.getHeader("user-agent");
+        String mensagem = "Acesso via dispositivo movel";
+        if (!userAgent.toLowerCase().contains("mobile")) {
+            mensagem = "Acesso via desktop";
+        }
 
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<meta charset=\"UTF-8\">");
-            out.println("<title>Exemplo Servlet 2</title>");
+            out.println("<title>Servlet TesteMobile</title>");
+            out.println("<meta charset=\"utf-8\">");
+            out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Exemplo Servlet 2</h1>");
-            if ((valor1 != null && valor1.length() > 0) || (valor2 != null && valor2.length() > 0)) {
-                out.println("<p>val1 digitado: " + valor1 + "</p>");
-                out.println("<p>val2 digitado: " + valor2 + "</p>");
-            } else {
-                out.println("<h2>Digite <code>?val1=xyz&val2=xpto</code> após a URL</h2>");
-            }
+            out.println("<h1>" + mensagem + "</h1>");
+            out.println("<p>User agent: " + userAgent + "</p>");
             out.println("</body>");
             out.println("</html>");
         }

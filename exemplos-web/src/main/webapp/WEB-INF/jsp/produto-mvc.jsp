@@ -1,5 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,7 +7,7 @@
         <title>Cake Web</title>
     </head>
     <body>
-        <h1>Cake Web - MVC</h1>
+        <h1>Cake Web - MVC (JSP em /WEB-INF/jsp)</h1>
         <ul>
             <c:forEach items="${produtos}" var="prod">
             <li>

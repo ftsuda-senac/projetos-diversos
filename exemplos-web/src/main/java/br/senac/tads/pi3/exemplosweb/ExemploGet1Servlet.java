@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author fernando.tsuda
  */
-@WebServlet(name = "ExemploGet1Servlet", urlPatterns = {"/exemplo-get-1"})
+@WebServlet(name = "ExemploGet1Servlet", urlPatterns = {"/exemplo-get1"})
 public class ExemploGet1Servlet extends HttpServlet {
 
     @Override
@@ -28,6 +28,7 @@ public class ExemploGet1Servlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
+            out.println("<meta charset=\"UTF-8\">");
             out.println("<title>Exemplo Servlet 1</title>");            
             out.println("</head>");
             out.println("<body>");

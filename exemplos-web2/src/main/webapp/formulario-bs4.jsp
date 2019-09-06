@@ -1,4 +1,3 @@
-    
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -72,24 +71,24 @@
                                 <label class="col-sm-2 col-form-label">Categoria</label>
                                 <div class="col-sm-10">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="catA" value="1" />
-                                        <label class="form-check-label" for="catA">Categoria 1</label>
+                                        <input class="form-check-input" type="checkbox" id="cat1" value="1" />
+                                        <label class="form-check-label" for="cat1">Categoria 1</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="catB" value="2" />
-                                        <label class="form-check-label" for="catB">Categoria 2</label>
+                                        <input class="form-check-input" type="checkbox" id="cat2" value="2" />
+                                        <label class="form-check-label" for="cat2">Categoria 2</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="catC" value="3" />
-                                        <label class="form-check-label" for="catC">Categoria 3</label>
+                                        <input class="form-check-input" type="checkbox" id="cat3" value="3" />
+                                        <label class="form-check-label" for="cat3">Categoria 3</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="catC" value="4" />
-                                        <label class="form-check-label" for="catC">Categoria 4</label>
+                                        <input class="form-check-input" type="checkbox" id="cat4" value="4" />
+                                        <label class="form-check-label" for="cat4">Categoria 4</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="catC" value="5" />
-                                        <label class="form-check-label" for="catC">Categoria 5</label>
+                                        <input class="form-check-input" type="checkbox" id="cat5" value="5" />
+                                        <label class="form-check-label" for="cat5">Categoria 5</label>
                                     </div>
                                 </div>
                             </div>
