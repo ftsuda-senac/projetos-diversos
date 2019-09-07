@@ -1,7 +1,7 @@
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.List"%>
 <%@page import="java.math.BigDecimal"%>
-<%@page import="br.senac.tads4.dsw.servletjsp.modelo.Produto"%>
+<%@page import="br.senac.tads.servletjsp.modelo.Produto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
