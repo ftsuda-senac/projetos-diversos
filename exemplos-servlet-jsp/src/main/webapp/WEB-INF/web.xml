@@ -3,6 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+
+    <context-param>
+        <param-name>contextParam1</param-name>
+        <param-value>abcd no web.xml</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextParam2</param-name>
+        <param-value>xpto no web.xml</param-value>
+    </context-param>
+    <!-- CONFIGURAÇÃO DO DIRETÓRIO ONDE OS ARQUIVOS SERÃO SALVOS APÓS UPLOAD -->
+    <context-param>
+        <param-name>diretorioUpload</param-name>
+        <param-value>C:/uploads/</param-value>
+    </context-param>
+    
     <session-config>
         <session-timeout>
             30
@@ -24,4 +39,17 @@
         <error-code>404</error-code>
         <location>/nao-encontrado.jsp</location>
     </error-page>
+    
+    <env-entry>
+        <env-entry-name>envParam1</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>abcd no env-entry</env-entry-value>
+    </env-entry>
+    
+    <env-entry>
+        <env-entry-name>envParam2</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>xpto no env-entry</env-entry-value>
+    </env-entry>
+
 </web-app>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1>Exemplo de upload</h1>
+        <h2>Instruções para uso no Windows e servidor Tomcat:</h2>
+        <ul>
+            <li>
+                Criar o diretório <code>C:\uploads</code> onde os arquivos serão salvos após o upload.
+                <ul>
+                    <li>Se quiser alterar o diretório, alterar o valor no <code>@WebInitParam</code> no <code>UploadServlet</code></li>
+                </ul>
+            </li>
+            <li>
+                Configurar o Tomcat para criar uma raíz de contexto para acessar o conteúdo do diretório <code>C:\uploads</code> através da Web.
+                <ul>
+                    <li>
+                        Editar o arquivo server.xml do Tomcat: pelo Netbeans, na aba serviços acessar a opção "Servidores", escolher o Tomcat, clicar com o botão direito e selecionar opção "Editar server.xml".
+                        <div><img src="imagem1.png" alt="Acessar opção para configurar o server.xml" style="width: 500px"/></div>
+                    </li>
+                    <li>
+                        No arquivo, adicionar o trecho <code>&lt;Context docBase="C:/uploads" path="/teste-uploads" /&gt;</code> antes de fechar a tag <code>&lt;/Host&gt;</code> e salvar.
+                        <div><img src="imagem2.png" alt="Incluir o trecho de código no server.xml" style="width: 500px"/></div>
+                    </li>
+                </ul>
+            </li>
+            <li>Reiniciar o Tomcat, acessar o link <a href="upload">/upload</a> e testar.</li>
+        </ul>
+        <div>
+            Referências usadas:
+            <ul>
+                <li><a href="https://javaee.github.io/tutorial/servlets011.html#BABFGCHB" rel="nofollow" target="_blank">https://javaee.github.io/tutorial/servlets011.html#BABFGCHB</a></li>
+                <li><a href="https://stackoverflow.com/a/2424824" rel="nofollow" target="_blank">https://stackoverflow.com/a/2424824</a></li>
+                <li><a href="https://stackoverflow.com/a/18664715" rel="nofollow" target="_blank">https://stackoverflow.com/a/18664715</a></li>
+                <li><a href="https://www.moreofless.co.uk/static-content-web-pages-images-tomcat-outside-war/" rel="nofollow" target="_blank">https://www.moreofless.co.uk/static-content-web-pages-images-tomcat-outside-war/</a></li>
+            </ul>
+        </div>
+    </body>
+</html>

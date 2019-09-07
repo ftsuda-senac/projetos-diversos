@@ -15,8 +15,8 @@ import org.apache.commons.text.StringEscapeUtils;
 public class SystemPropertiesMain {
 
     /*
-	 * https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html
-	 * https://docs.oracle.com/javase/tutorial/essential/environment/env.html
+     * https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html
+     * https://docs.oracle.com/javase/tutorial/essential/environment/env.html
      */
     public static void main(String... args) {
         System.out.println("file.separator: " + System.getProperty("file.separator"));
