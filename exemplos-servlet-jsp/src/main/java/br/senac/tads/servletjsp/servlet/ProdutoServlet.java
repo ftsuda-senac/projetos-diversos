@@ -17,7 +17,7 @@ import br.senac.tads.servletjsp.modelo.Produto;
  *
  * @author fernando.tsuda
  */
-@WebServlet(name = "ProdutoServlet", urlPatterns = {"/exemplo-servlet"})
+@WebServlet(name = "ProdutoServlet", urlPatterns = {"/produto-servlet"})
 public class ProdutoServlet extends HttpServlet {
 
     @Override
@@ -26,16 +26,16 @@ public class ProdutoServlet extends HttpServlet {
 
         Produto p1 = new Produto(1L, "Bolo de chocolate",
                 "descrição do bolo de chocolate",
-                new BigDecimal(30.0), "http://lorempixel.com/g/300/300/");
+                new BigDecimal(30.0), "http://lorempixel.com/200/200/food/10/");
         Produto p2 = new Produto(2L, "Bolo de cenoura",
                 "descrição do bolo de cenoura",
-                new BigDecimal(20.0), "http://lorempixel.com/g/300/300/");
+                new BigDecimal(20.0), "http://lorempixel.com/200/200/food/10/");
         Produto p3 = new Produto(3L, "Torta de limão",
                 "descrição da torta de limão",
-                new BigDecimal(25.0), "http://lorempixel.com/g/300/300/");
+                new BigDecimal(25.0), "http://lorempixel.com/200/200/food/10/");
         Produto p4 = new Produto(4L, "Bolo floresta negra",
                 "descrição do bolo floresta negra",
-                new BigDecimal(40.0), "http://lorempixel.com/g/300/300/");
+                new BigDecimal(40.0), "http://lorempixel.com/200/200/food/10/");
         List<Produto> lista = Arrays.asList(p1, p2, p3, p4);
 
         response.setContentType("text/html");
@@ -46,12 +46,14 @@ public class ProdutoServlet extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet ProdutoServlet</title>");
+            out.println("<meta charset=\"UTF-8\">");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Cake Web - Servlet</h1>");
             out.println("<ul>");
             for (Produto p : lista) {
                 out.println("<li><div>");
+                out.println("<img src=\"" + p.getImagem() + "\" />");
                 out.println("<h3>" + p.getNome() + "</h3>");
                 out.println("<p>" + p.getDescricao() + "</p>");
                 out.println("<p>" + p.getPrecoVenda().toString() + "</p>");
