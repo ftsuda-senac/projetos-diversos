@@ -24,16 +24,17 @@ public class SessaoContadorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                HttpSession sessao = request.getSession();
+
+        HttpSession sessao = request.getSession();
         Integer contador = (Integer) sessao.getAttribute("contador");
         if (contador == null) {
             contador = 0;
         }
         contador++;
         sessao.setAttribute("contador", contador);
-        
+
         RequestDispatcher dispatcher
                 = request.getRequestDispatcher("/WEB-INF/jsp/sessao-contador.jsp");
         dispatcher.forward(request, response);
-    }    
+    }
 }

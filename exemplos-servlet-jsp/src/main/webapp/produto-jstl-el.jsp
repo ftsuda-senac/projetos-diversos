@@ -25,7 +25,8 @@
                 "descrição do bolo floresta negra",
                 new BigDecimal(40.0), "http://lorempixel.com/200/200/food/10/");
         List<Produto> lista = Arrays.asList(p1, p2, p3, p4);
-            request.setAttribute("listaProd", lista);
+        
+        request.setAttribute("listaProd", lista);
         %>
         <h1>Cake Web - JSP + Scriptlet + JSTL + EL</h1>
         <ul>
