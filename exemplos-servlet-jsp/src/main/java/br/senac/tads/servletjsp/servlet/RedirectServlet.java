@@ -16,19 +16,19 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author fernando.tsuda
  */
-@WebServlet(name = "RedirectServlet", urlPatterns = {"/redirect"})
+@WebServlet(name = "RedirectServlet", urlPatterns = { "/redirect" })
 public class RedirectServlet extends HttpServlet {
 
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-          throws ServletException, IOException {
-    response.sendRedirect(request.getContextPath() + "/produto-mvc");
-  }
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.sendRedirect(request.getContextPath() + "/produto-mvc");
+	}
 
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
-          throws ServletException, IOException {
-    response.sendRedirect(request.getContextPath() + "/produto-mvc");
-  }
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.sendRedirect(request.getContextPath() + "/produto-mvc");
+	}
 
 }

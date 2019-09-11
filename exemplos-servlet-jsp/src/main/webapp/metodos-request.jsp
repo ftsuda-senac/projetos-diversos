@@ -23,7 +23,7 @@
               test="${not empty pageContext.request.parameterMap}">?${pageContext.request.queryString}</c:if>
             </code></h2>
         --%>
-        <h3>URL chamada:<br/><code><span class="scheme">${pageContext.request.scheme}</span>://<span class="server-name">${pageContext.request.serverName}</span>:<span class="server-port">${pageContext.request.serverPort}</span><span class="context-path">${pageContext.request.contextPath}</span><span class="servlet-path"><c:choose><c:when test="${not empty requestScope['javax.servlet.forward.servlet_path']}">${requestScope['javax.servlet.forward.servlet_path']}</c:when><c:otherwise>${pageContext.request.servletPath}</c:otherwise></c:choose></span><c:if test="${not empty pageContext.request.queryString}">?<span class="query-string">${pageContext.request.queryString}</span></c:if></code></h3>
+        <h3>URL chamada:<br/><code><span class="scheme">${pageContext.request.scheme}</span>://<span class="server-name">${pageContext.request.serverName}</span>:<span class="server-port">${pageContext.request.serverPort}</span><span class="context-path">${pageContext.request.contextPath}</span><span class="servlet-path"><c:choose><c:when test="${not empty requestScope['javax.servlet.forward.servlet_path']}">${requestScope['javax.servlet.forward.servlet_path']}</c:when><c:otherwise>${pageContext.request.servletPath}</c:otherwise></c:choose></span><c:if test="${not empty pageContext.request.queryString}">?<span class="query-string"><c:out value="${pageContext.request.queryString}" /></span></c:if></code></h3>
                 <table class="table">
                     <thead>
                         <tr>
@@ -98,7 +98,7 @@
                     <th>query string</th>
                     <td><code>request.getQueryString()</code></td>
                     <td><code>${'${pageContext.request.queryString}'}</code></td>
-                    <td class="query-string">${pageContext.request.queryString}</td>
+                    <td class="query-string"><c:out value="${pageContext.request.queryString}" /></td>
                 </tr>
                 <tr>
                     <th>Parâmetros</th>
@@ -176,7 +176,7 @@
                     <h2>Headers enviados pelo navegador</h2>
                     <ul>
                         <c:forEach items="${pageContext.request.headerNames}" var="headerName">
-                            <li><c:out value="${headerName}" />: <c:out value="${pageContext.request.getHeader(headerName)}" /></li>
+                            <li><c:out value="${headerName}" />: <c:out value="${header[headerName]}" /></li>
                         </c:forEach>
                     </ul>
                 </div>
