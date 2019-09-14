@@ -161,7 +161,7 @@
             <hr />
             <div class="row">
                 <div class="col-sm-12">
-                    <p>Remote addr <code>${pageContext.request.remoteAddr}</code></p>
+                    <p>Remote addr: <code>${pageContext.request.remoteAddr}</code></p>
                     <p>Remote host: <code>${pageContext.request.remoteHost}</code></p>
                     <p>Remote port: <code>${pageContext.request.remotePort}</code></p>
                     <p>Local addr: <code>${pageContext.request.localAddr}</code></p>
