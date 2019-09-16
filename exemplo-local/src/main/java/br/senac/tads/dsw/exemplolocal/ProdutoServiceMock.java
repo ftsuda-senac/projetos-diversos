@@ -46,8 +46,7 @@ public class ProdutoServiceMock implements ProdutoService {
     @Override
     public Produto save(Produto produto) {
         if (produto.getId() == null) {
-            produto.setId(NEXT_ID);
-            NEXT_ID++;
+            produto.setId(++NEXT_ID);
         }
         MOCK_DATA.put(produto.getId(), produto);
         return produto;
