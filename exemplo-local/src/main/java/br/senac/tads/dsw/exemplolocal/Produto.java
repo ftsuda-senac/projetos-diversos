@@ -37,26 +37,18 @@ public class Produto implements Serializable {
 
     }
     
-    public Produto(long id, String nome, String descricao, BigDecimal precoCompra, BigDecimal precoVenda, String imagem) {
-        this(nome, descricao, precoCompra, precoVenda, imagem);
+    public Produto(long id, String nome, String descricao, BigDecimal precoCompra, BigDecimal precoVenda, int quantidade, String imagem) {
+        this(nome, descricao, precoCompra, precoVenda, quantidade, imagem);
         this.id = id;
     }
 
-    public Produto(String nome, String descricao, BigDecimal precoCompra, BigDecimal precoVenda, String imagem) {
+    public Produto(String nome, String descricao, BigDecimal precoCompra, BigDecimal precoVenda, int quantidade, String imagem) {
         this.nome = nome;
         this.descricao = descricao;
         this.precoCompra = precoCompra;
         this.precoVenda = precoVenda;
+        this.quantidade = quantidade;
         this.imagem = imagem;
-    }
-
-    public Produto(String nome, String descricao, BigDecimal preco, String imagem) {
-        this(nome, descricao, preco, preco, imagem);
-    }
-
-    public Produto(long id, String nome, String descricao, BigDecimal preco, String imagem) {
-        this(nome, descricao, preco, preco, imagem);
-        this.id = id;
     }
 
     public Long getId() {

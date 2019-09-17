@@ -5,6 +5,7 @@
  */
 package br.senac.tads.dsw.exemplolocal;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -15,13 +16,14 @@ public class ProdutoMain {
     
     public static void main(String... args) {
         ProdutoService service = new ProdutoServiceMock();
-        List<Produto> lista = service.findAll(0, 100);
+        List<Produto> lista = service.findAll(0, 120);
         for (Produto p : lista) {
             System.out.println("Dados produto ID " + p.getId());
             System.out.println("Nome: " + p.getNome());
             System.out.println("Descrição: " + p.getDescricao());
-            System.out.println("Preço compra: " + p.getPrecoCompra());
-            System.out.println("Preço venda: " + p.getPrecoVenda());
+            DecimalFormat df = new DecimalFormat("#,##0.00");
+            System.out.println("Preço compra: " + df.format(p.getPrecoCompra()));
+            System.out.println("Preço venda: " + df.format(p.getPrecoVenda()));
             System.out.println("Quantidade: " + p.getQuantidade());
             System.out.println("================================================");
         }
