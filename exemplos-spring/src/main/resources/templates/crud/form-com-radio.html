@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html data-layout-decorate="~{crud/modelo}">
+    <head>
+        <!--/*--> <!-- Evita que Thymeleaf faça parse deste trecho -->
+        <meta charset="UTF-8" />
+        <!--*/-->
+        <title>Item</title>
+    </head>
+    <body>
+        <div data-layout-fragment="page-content">
+            <main class="container" role="main">
+                <div class="row">
+                    <div class="col-12">
+                        <h1>Item</h1>
+                        <h2 data-th-if="${item.id == null}">Incluir novo</h2>
+                        <h2 data-th-if="${item.id != null}">Alterar</h2>
+                        <div>
+                            <form method="post" data-th-action="@{/crud-item/salvar}" data-th-object="${item}">
+                                <input type="hidden" data-th-if="*{id != null}" data-th-field="*{id}" />
+                                <div class="form-group row">
+                                    <label for="name" class="col-sm-2 col-form-label">Nome</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               data-th-field="*{nome}"
+                                               data-th-errorclass="is-invalid" />
+                                        <p class="invalid-feedback" data-th-if="${#fields.hasErrors('nome')}" data-th-errors="*{nome}">ERROR</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="platformCode" class="col-sm-2 col-form-label">Platform</label>
+                                    <div class="col-sm-10">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" data-th-field="*{platformCode}" data-th-value="10" />
+                                            <label class="form-check-label" data-th-for="${#ids.prev('platformCode')}">Android</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" data-th-field="*{platformCode}" data-th-value="11" disabled />
+                                            <label class="form-check-label" data-th-for="${#ids.prev('platformCode')}">iOS</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="version" class="col-sm-2 col-form-label">Version</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               data-th-field="*{version}"
+                                               data-th-errorclass="is-invalid" />
+                                        <p class="invalid-feedback" data-th-if="${#fields.hasErrors('version')}" data-th-errors="*{version}">ERROR</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="offset-sm-2 col-sm-10">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" data-th-field="*{trusted}" />
+                                            <label class="form-check-label" data-th-for="${#ids.prev('trusted')}">Trusted</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="ipAddressesStr" class="col-sm-2 col-form-label">Allowed IP addresses<br />(separate with ,)</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               data-th-field="*{ipAddressesStr}"
+                                               data-th-errorclass="is-invalid" />
+                                        <p class="invalid-feedback" data-th-if="${#fields.hasErrors('ipAddressesStr')}" data-th-errors="*{ipAddressesStr}">ERROR</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="publicKeyBase64" class="col-sm-2 col-form-label">Public key (hex)</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control code-field-small"
+                                               data-th-field="*{publicKeyHex}"
+                                               data-th-errorclass="is-invalid" />
+                                        <p id="privateKey">Private key: <span class="code-field-small"></span></p>
+                                        <p class="invalid-feedback" data-th-if="${#fields.hasErrors('publicKeyHex')}" data-th-errors="*{publicKeyHex}">ERROR</p>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" id="btnGenerateKeyPair" class="btn btn-default">Generate key pair</button>
+                                    </div>
+                                </div>
+                                <div class="text-center form-action-buttons">
+                                    <a data-th-href="@{/application}" class="btn btn-light"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>

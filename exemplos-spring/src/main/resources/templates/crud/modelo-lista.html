@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html data-layout-decorate="~{crud/modelo}">
+    <head>
+        <!--/*--> <!-- Evita que Thymeleaf faça parse deste trecho -->
+        <meta charset="UTF-8" />
+        <!--*/-->
+        <script>
+            function onShowModal(ev, typeModal) {
+                var origin = $(ev.relatedTarget);
+                var actionUrl = origin.data("actionUrl");
+                var nome = origin.data("itemNome");
+                $("#modal" + typeModal + " .modal-message .item-title").text(nome);
+                $("#frm" + typeModal).attr("action", actionUrl);
+            }
+
+            $(function () {
+                $("#modalDelete").on("show.bs.modal", function (ev) {
+                    onShowModal(ev, 'Delete');
+                });
+
+                $(".btnDelete").click(function (ev) {
+                    ev.preventDefault();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div data-layout-fragment="page-content">
+            <main class="container-fluid" role="main" data-layout-fragment="content">
+
+            </main>
+            <div>
+                <!--/* MODAL DELETE - INICIO */-->
+                <div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <header class="modal-header">
+                                <h5 class="modal-title">Confirmar remoção</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"><i class="fa fa-lg fa-window-close"></i></span>
+                                </button>
+                            </header>
+                            <div class="modal-body">
+                                <p class="modal-message">Confirma remoção do item '<span class="item-title"></span>'?</p>
+                            </div>
+                            <footer class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-lg fa-times"></i>&nbsp;<span>Não</span></button>
+                                <form action="#" method="post" id="frmDelete" style="display: inline-block;">
+                                    <button type="submit" class="btn btn-danger" form="frmDelete"><i class="fa fa-lg fa-trash"></i>&nbsp;<span>Sim</span></button>
+                                </form>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+                <!--/* MODAL DELETE - FIM */-->
+            </div>
+        </div>
+    </body>
+</html>

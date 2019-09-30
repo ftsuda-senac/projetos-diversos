@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html data-layout-decorate="~{crud/modelo}">
+    <head>
+        <!--/*--> <!-- Evita que Thymeleaf faça parse deste trecho -->
+        <meta charset="UTF-8" />
+        <!--*/-->
+        <title>Item</title>
+    </head>
+    <body>
+        <div data-layout-fragment="page-content">
+            <main class="container" role="main">
+                <div class="row">
+                    <div class="col-12">
+                        <h1>Item</h1>
+                        <h2 data-th-if="${item.id == null}">Incluir novo</h2>
+                        <h2 data-th-if="${item.id != null}">Alterar</h2>
+                        <div>
+                            <form method="post" data-th-action="@{/crud-item/salvar}" data-th-object="${item}">
+                                <input type="hidden" data-th-if="*{id != null}" data-th-field="*{id}" />
+                                <div class="form-group row">
+                                    <label for="nome" class="col-sm-2 col-form-label">Nome</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               data-th-field="*{nome}"
+                                               data-th-errorclass="is-invalid" />
+                                        <p class="invalid-feedback" data-th-if="${#fields.hasErrors('nome')}" data-th-errors="*{nome}">ERROR</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="corHex" class="col-sm-2 col-form-label">Cor HEX</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                               data-th-field="*{corHex}"
+                                               data-th-errorclass="is-invalid" />
+                                        <p class="invalid-feedback" data-th-if="${#fields.hasErrors('corHex')}" data-th-errors="*{corHex}">ERROR</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="valor" class="col-sm-2 col-form-label">Valor</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control"
+                                               data-th-field="*{valor}"
+                                               data-th-errorclass="is-invalid" />
+                                        <p class="invalid-feedback" data-th-if="${#fields.hasErrors('valor')}" data-th-errors="*{valor}">ERROR</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="dataHora" class="col-sm-2 col-form-label">Data e hora</label>
+                                    <div class="col-sm-10">
+                                        <input type="datetime-local" class="form-control"
+                                               data-th-field="*{dataHora}"
+                                               data-th-errorclass="is-invalid" />
+                                        <p class="invalid-feedback" data-th-if="${#fields.hasErrors('dataHora')}" data-th-errors="*{dataHora}">ERROR</p>
+                                    </div>
+                                </div>
+                                <fieldset class="form-group">
+                                    <div class="row">
+                                        <legend class="col-form-label col-sm-2 pt-0">Categorias</legend>
+                                        <div class="col-sm-10">
+                                            <div class="form-check form-check-inline" data-th-each="cat : ${categorias}">
+                                                <input class="form-check-input" type="checkbox" data-th-value="${cat.id}" data-th-field="*{categoriasIds}">
+                                                <label class="form-check-label" data-th-for="${#ids.prev('categoriasIds')}" data-th-text="${cat.nome}"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="text-center form-action-buttons">
+                                    <a data-th-href="@{/crud-item}" class="btn btn-light"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Cancelar</a>
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Salvar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>

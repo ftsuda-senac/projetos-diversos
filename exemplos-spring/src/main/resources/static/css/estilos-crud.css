@@ -1,0 +1,47 @@
+@CHARSET "UTF-8";
+
+/* http://sergiolopes.org/css-box-sizing-border-box/ */
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+html {
+    position: relative;
+    height: 100%;
+    overflow-y: scroll;
+}
+body {
+    margin-bottom: 70px;
+}
+
+/* Content */
+nav ~ div {
+    padding-top: 60px; /* Space for fixed navbar */
+}
+
+/* Navbar */
+.navbar-brand {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+}
+
+.title-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.code-field {
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+}
+
+.code-field-small {
+    font-size: 0.82rem;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+}
+
+.form-action-buttons > .btn {
+    min-width: 150px;
+}
