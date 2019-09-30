@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Formulário</title>
@@ -29,7 +30,7 @@
                             <li class="list-group-item">Valor: <span th:text="${item.valor}">99</span></li>
                         </ul>
                         <div class="card-body">
-                            <form method="post" th:action="@{/exemplo-sessao1}">
+                            <form method="post" th:action="@{/exemplo-sessao-errado}">
                                 <input type="hidden" name="itemId" th:value="${item.id}" />
                                 <button type="submit" class="btn btn-block" th:style="'color: #fff; background-color: ' + ${item.corHex}">Adicionar</button>
                             </form>
@@ -37,12 +38,12 @@
                     </div>
                 </div>
             <hr>
-            <div class="row" th:if="${#lists.isEmpty(session.itensSelecionados1)}">
+            <div class="row" th:if="${#lists.isEmpty(itensSelecionados)}">
                 <div class="col-12">
                     <h2>Nenhum item adicionado</h2>
                 </div>
             </div>
-            <div class="row" th:unless="${#lists.isEmpty(session.itensSelecionados1)}">
+            <div class="row" th:unless="${#lists.isEmpty(itensSelecionados)}">
                 <div class="col-12">
                     <table class="table table-striped table-sm table-responsive">
                         <thead class="thead-dark">
@@ -53,7 +54,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="sel : ${session.itensSelecionados1}">
+                            <tr th:each="sel : ${itensSelecionados}">
                                 <td th:text="${sel.item.id}"></td>
                                 <td th:text="${sel.item.nome}"></td>
                                 <td th:text="${sel.dataHoraInclusao}"></td>

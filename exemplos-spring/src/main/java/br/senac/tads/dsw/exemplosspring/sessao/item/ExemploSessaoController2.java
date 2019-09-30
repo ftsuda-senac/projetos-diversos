@@ -30,7 +30,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/exemplo-sessao2")
 public class ExemploSessaoController2 implements Serializable {
 
-    @Autowired
+	private static final long serialVersionUID = 1L;
+
+	@Autowired
     private ItemService itemService;
 
     private List<ItemSelecionado> itensSelecionados = new ArrayList<>();

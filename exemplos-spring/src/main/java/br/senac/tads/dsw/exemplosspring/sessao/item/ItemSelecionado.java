@@ -15,7 +15,9 @@ import java.time.LocalDateTime;
  */
 public class ItemSelecionado implements Serializable {
 
-    private Item item;
+	private static final long serialVersionUID = 1L;
+
+	private Item item;
 
     private LocalDateTime dataHoraInclusao;
     
