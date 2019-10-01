@@ -77,11 +77,24 @@ public class ExemploController {
         return resposta;
     }
 
+    @GetMapping("/ex5b/{apelido}/{numeroSorte}")
+    public ModelAndView exemplo5b(
+            @PathVariable("apelido") String apelido,
+            @PathVariable("numeroSorte") int numeroSorte) {
+        ModelAndView resposta = new ModelAndView("exemplo5b");
+        resposta.addObject("apelidoParam", apelido);
+        resposta.addObject("numeroSorteParam", numeroSorte);
+        return resposta;
+    }
+
     @GetMapping("/ex6")
     public ModelAndView exemplo6(
             @RequestHeader("user-agent") String userAgent) {
+        boolean mobile = userAgent.toLowerCase().contains("mobile");
+        
         ModelAndView resposta = new ModelAndView("exemplo6");
         resposta.addObject("ua", userAgent);
+        resposta.addObject("mobile", mobile);
         return resposta;
     }
 

@@ -32,6 +32,10 @@ public class ItemServiceMockImpl implements ItemService {
 
     }
 
+    /*
+    Inicializando mapItens no init() por causa do @Autowired do categoriaService,
+    que não está disponível no construtor
+    */
     @PostConstruct
     public void init() {
         mapItens = new ConcurrentHashMap<>();

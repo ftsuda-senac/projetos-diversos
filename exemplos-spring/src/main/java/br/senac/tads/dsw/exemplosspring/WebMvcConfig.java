@@ -5,10 +5,12 @@
  */
 package br.senac.tads.dsw.exemplosspring;
 
+import br.senac.tads.dsw.exemplosspring.formatter.WebDateFormatter;
 import java.util.Locale;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -44,8 +46,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     /**
-     * Configura as mensagens para serem usadas com Bean Validation
-     * Referência: https://www.baeldung.com/spring-custom-validation-message-source
+     * Configura as mensagens para serem usadas com Bean Validation Referência:
+     * https://www.baeldung.com/spring-custom-validation-message-source
      */
     @Bean(name = "messageSource")
     public ReloadableResourceBundleMessageSource messageSource() {
@@ -76,4 +78,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/teste-uploads/**")
                 .addResourceLocations("file:///C:/uploads/");
     }
+
+    /**
+     * Disponibiliza um bean responsável pela formatação da data
+     * @return 
+     */
+//    @Bean
+//    public WebDateFormatter dateFormatter() {
+//        return new WebDateFormatter();
+//    }
+//
+//    @Override
+//    public void addFormatters(FormatterRegistry registry) {
+//        registry.addFormatter(dateFormatter());
+//    }
 }
