@@ -49,7 +49,7 @@ public class ExemploSessaoController1 {
     }
 
     @GetMapping("/limpar")
-    public ModelAndView limparSessao(@ModelAttribute("itensSelecionados1") List<ItemSelecionado> itensSelecionados, RedirectAttributes redirAttr) {
+    public ModelAndView limparSelecionados(@ModelAttribute("itensSelecionados1") List<ItemSelecionado> itensSelecionados, RedirectAttributes redirAttr) {
         itensSelecionados.clear();
         redirAttr.addFlashAttribute("msg", "Itens removidos");
         return new ModelAndView("redirect:/exemplo-sessao1");

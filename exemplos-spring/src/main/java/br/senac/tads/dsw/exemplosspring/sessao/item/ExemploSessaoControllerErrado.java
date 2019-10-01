@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -27,8 +26,8 @@ public class ExemploSessaoControllerErrado implements Serializable {
 	private ItemService itemService;
 
 	// NÃO COLOCAR ATRIBUTO DE INSTÂNCIA NOS CONTROLLERS POIS PODE CAUSAR
-	// COMPORTAMENTO ERRADO DA APLICAÇÃO
-	// POIS O OBJETO PODE SER COMPARTILHADO ENTRE REQUISICOES DIFERENTES
+	// COMPORTAMENTO ERRADO DA APLICAÇÃO.
+	// O OBJETO CONTROLLER PODE SER COMPARTILHADO ENTRE REQUISICOES DIFERENTES.
 	private List<ItemSelecionado> itensSelecionados = new ArrayList<>();
 
 	@GetMapping
@@ -45,7 +44,7 @@ public class ExemploSessaoControllerErrado implements Serializable {
 	}
 
 	@GetMapping("/limpar")
-	public ModelAndView limparSessao(RedirectAttributes redirAttr) {
+	public ModelAndView limparSelecionados(RedirectAttributes redirAttr) {
 		itensSelecionados.clear();
 		redirAttr.addFlashAttribute("msg", "Itens removidos");
 		return new ModelAndView("redirect:/exemplo-sessao-errado");
@@ -54,10 +53,6 @@ public class ExemploSessaoControllerErrado implements Serializable {
 	@ModelAttribute("itensSelecionados")
 	public List<ItemSelecionado> getItensSelecionados() {
 		return itensSelecionados;
-	}
-
-	public void setItensSelecionados(List<ItemSelecionado> itensSelecionados) {
-    	this.itensSelecionados = itensSelecionados;
 	}
 
 	@ModelAttribute("titulo")

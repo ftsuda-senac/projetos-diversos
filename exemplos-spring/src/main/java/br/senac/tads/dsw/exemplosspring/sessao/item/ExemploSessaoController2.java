@@ -53,20 +53,19 @@ public class ExemploSessaoController2 implements Serializable {
     }
     
     @GetMapping("/limpar")
-    public ModelAndView limparSessao(RedirectAttributes redirAttr) {
+    public ModelAndView limparSelecionados(RedirectAttributes redirAttr) {
         itensSelecionados.clear();
         redirAttr.addFlashAttribute("msg", "Itens removidos");
         return new ModelAndView("redirect:/exemplo-sessao2");
     }
 
-    @ModelAttribute("itensSelecionados2")
     public List<ItemSelecionado> getItensSelecionados() {
         return itensSelecionados;
     }
 
     @ModelAttribute("titulo")
     public String getTitulo() {
-        return "Exemplo Sessao 2 - Uso do @Controller + @Scope(\"session\")";
+    	return "Exemplo Sessao 2 - Uso do @Controller com @Scope(\"session\")";
     }
    
 }

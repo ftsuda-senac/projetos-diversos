@@ -5,13 +5,17 @@
  */
 package br.senac.tads.dsw.exemplosspring.item;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ftsuda
  */
-public class Categoria {
+public class Categoria implements Serializable {
 
-    private Integer id;
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
 
     private String nome;
 

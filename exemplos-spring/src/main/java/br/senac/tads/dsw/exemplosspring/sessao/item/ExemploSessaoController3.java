@@ -48,7 +48,7 @@ public class ExemploSessaoController3 {
     }
 
     @GetMapping("/limpar")
-    public ModelAndView limparSessao(HttpServletRequest request, 
+    public ModelAndView limparSelecionados(HttpServletRequest request, 
     		RedirectAttributes redirAttr) {
     	HttpSession sessao = request.getSession();
     	if (sessao.getAttribute("itensSelecionados3") == null) {
