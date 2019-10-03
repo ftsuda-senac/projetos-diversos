@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html data-th-lang="${#locale.language}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+        <title data-layout-title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Exemplo CRUD</title>
+        <!-- <link rel="shortcut icon" data-th-href="@{/resources/img/favicon.png}" type="image/x-icon"> -->
+        <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" data-th-href="@{/css/estilos-crud.css}" />
+        <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div data-layout-fragment="page-body">
+            <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm bg-dark text-light title-bar">
+                <h5 class="my-0 mr-md-auto font-weight-normal"><a data-th-href="@{/home}" class="text-light">Exemplo CRUD</a>
+                </h5>
+                <nav class="my-2 my-md-0 mr-md-3">
+                    <span><a href="#">Usuário</a></span>
+                </nav>
+                <a class="btn btn-outline-warning" href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Sair</a>
+            </div>
+            <div data-layout-fragment="page-content" style="position: absolute; top: 80px; bottom: 0; left:0; right: 0;"></div>
+        </div>
+
+    </body>
+</html>

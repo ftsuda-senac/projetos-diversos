@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Exemplos Spring MVC</title>
+    </head>
+    <body>
+        <h1>Exemplo 5 do Spring MVC</h1>
+        <p>Apelido: <span th:text="${apelidoParam}">fulano</span></p>
+        <p>Genero: 
+            <span th:if="${generoParam == 1}">Masculino</span>
+            <span th:unless="${generoParam == 1}">Feminino</span>
+        </p>
+        <p>Data nascimento: <span th:text="${dtNascParam}">10/10/2000</span></p>
+    </body>
+</html>

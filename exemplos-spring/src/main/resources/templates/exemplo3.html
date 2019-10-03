@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Exemplos Spring MVC</title>
+    </head>
+    <body>
+        <h1>Exemplo 3 do Spring MVC</h1>
+        <ul th:each="mensagem : ${lista}">
+            <li th:text="${mensagem}">Item xxxx</li>
+        </ul>
+        <p th:if="${par}">Par</p>
+        <p th:unless="${par}">Impar</p>
+    </body>
+</html>

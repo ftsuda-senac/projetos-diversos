@@ -9,6 +9,17 @@
 
     <name>sorteio</name>
 
+    <organization>
+        <name>Senac TADS</name>
+    </organization>
+    
+    <developers>
+        <developer>
+            <id>ftsuda-senac</id>
+            <name>Fernando Tsuda</name>
+        </developer>
+    </developers>
+
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

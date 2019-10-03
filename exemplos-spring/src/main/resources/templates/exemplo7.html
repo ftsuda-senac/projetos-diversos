@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Exemplos Spring MVC</title>
+    </head>
+    <body>
+        <h1>Exemplo 7 do Spring MVC</h1>
+        <h2>Cabeçalhos da requisição</h2>
+        <ul th:each="cab : ${cabecalhos}">
+            <li><b th:text="${cab.key}"></b>: <span th:text="${cab.value}"></span></li>
+        </ul>
+    </body>
+</html>

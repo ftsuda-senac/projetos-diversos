@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Exemplo links dinâmicos</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script th:inline="javascript">
+            function mostrarAlert(caller) {
+                // Caller é o elemento <a> que está chamando esta função
+                var parentElement = caller.parentElement; // Pega o elemento <li> pai do <a>
+                var val1 = parentElement.querySelector(".val1").value; // Dentro do <li> procura elemento com class="val1"
+                var valItem = parentElement.querySelector(".valItem").value; // Dentro do <li> procura elemento com class="val2" (fixo)
+                var resultado = val1 * valItem;
+                
+                var id = caller.dataset.itemId; // Pega valor do data-item-id
+                var nome = caller.dataset.nome; // Pega valor do data-nome
+                alert("Nome do item " + id + ": " + nome + "\nResultado: " + val1 + " X " + valItem + " = " +  resultado);
+            }
+
+            function carregarAjax(caller) {
+                var urlBase = "[(@{/links/dinamico/ajax/})]";
+                var id = caller.dataset.itemId; // Pega valor do data-item-id
+                $.getJSON(urlBase + id, function(dataJSON) {
+                    var alertMsg = "Dados do item\nID: " + dataJSON.id + "\nNome: " + dataJSON.nome + "\nValor: " + dataJSON.valor + "\nData e hora: " + dataJSON.dataHora;
+                    if (dataJSON.categorias && dataJSON.categorias.length > 0) {
+                        alertMsg += "\nCategorias: "
+                        for (let i = 0; i < dataJSON.categorias.length; i++) {
+                            alertMsg += "\n\- " + dataJSON.categorias[i].nome;
+                        }
+                    } else {
+                    	alertMsg += "\nSem categorias";
+                    }
+                    alert(alertMsg);
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Exemplo links para Javascript</h1>
+        <ul th:each="item : ${itens}">
+            <label>Quantidade:</label><input type="text" class="val1" value="1" />
+            <input type="hidden" class="valItem" th:value="${item.valor}" /><span th:text="${item.valor}"></span>
+            <a href="#" onclick="mostrarAlert(this);" th:attr="data-item-id=${item.id},data-nome=${item.nome}">Calcular valor para <span th:text="${item.nome}"></span></a>
+            <a href="#" onclick="carregarAjax(this);" th:attr="data-item-id=${item.id}">Carregar informações do <span th:text="${item.nome}"></span></a>
+        </ul>
+        <p><a th:href="@{/links}">Voltar</a></p>
+    </body>
+</html>
