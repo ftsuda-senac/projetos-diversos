@@ -6,14 +6,13 @@
 package br.senac.tads.dsw.exemplosspring;
 
 import java.util.Locale;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.Ordered;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -79,23 +78,23 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:///C:/uploads/");
     }
 
-    /**
-     * Redireciona uma requisição de / para uma tela espeficicada<br>
-     * Ver http://zetcode.com/springboot/viewcontrollerregistry/
-     *
-     * @param registry
-     */
+//    /**
+//     * Redireciona uma requisição de / para uma tela espeficicada<br>
+//     * Ver http://zetcode.com/springboot/viewcontrollerregistry/
+//     *
+//     * @param registry
+//     */
 //    @Override
 //    public void addViewControllers(final ViewControllerRegistry registry) {
 //        registry.addViewController("/").setViewName("redirect:/home");
 //        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
 //    }
-
-    /**
-     * Disponibiliza um bean responsável pela formatação da data
-     *
-     * @return
-     */
+//
+//    /**
+//     * Disponibiliza um bean responsável pela formatação da data
+//     *
+//     * @return
+//     */
 //    @Bean
 //    public WebDateFormatter dateFormatter() {
 //        return new WebDateFormatter();

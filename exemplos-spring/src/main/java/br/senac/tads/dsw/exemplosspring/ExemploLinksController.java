@@ -5,12 +5,17 @@
  */
 package br.senac.tads.dsw.exemplosspring;
 
-import java.util.Arrays;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import br.senac.tads.dsw.exemplosspring.item.Item;
+import br.senac.tads.dsw.exemplosspring.item.ItemService;
 
 /**
  *
@@ -20,18 +25,35 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/links")
 public class ExemploLinksController {
 
-    @GetMapping
-    public ModelAndView abrirView() {
-        return new ModelAndView("links/exemplo-links");
-    }
+	@Autowired
+	private ItemService itemService;
 
-    @GetMapping("/dinamico")
-    public ModelAndView exemploDinamicos() {
-        return new ModelAndView("links/exemplo-links-dinamicos").addObject("itens", Arrays.asList(1, 2, 3, 4, 5, 6));
-    }
+	@GetMapping
+	public ModelAndView abrirView() {
+		return new ModelAndView("links/exemplo-links");
+	}
 
-    @GetMapping("/dinamico/{item}")
-    public ModelAndView exemploDinamico(@PathVariable("item") int item) {
-        return new ModelAndView("links/exemplo-links-dinamicos-item").addObject("item", item);
-    }
+	@GetMapping("/dinamico")
+	public ModelAndView exemploDinamicos() {
+		return new ModelAndView("links/exemplo-links-dinamicos").addObject("itens", itemService.findAll());
+	}
+
+	@GetMapping("/dinamico/{itemId}")
+	public ModelAndView exemploDinamico(@PathVariable("itemId") int itemId) {
+		return new ModelAndView("links/exemplo-links-dinamicos-item").addObject("item", itemService.findById(itemId));
+	}
+
+	
+	@GetMapping("/dinamico/ajax")
+	public ModelAndView exemploDinamicosAjax() {
+		return new ModelAndView("links/exemplo-links-dinamicos-ajax").addObject("itens", itemService.findAll());
+	}
+	
+	// Exemplo de @Controller + @ResponseBody para retornar JSON
+	// Atualmente é melhor usar @RestController
+	@RequestMapping(value = "/dinamico/ajax/{itemId}", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public Item exemploDinamicoAjax(@PathVariable("itemId") int itemId) {
+		return itemService.findById(itemId);
+	}
 }
