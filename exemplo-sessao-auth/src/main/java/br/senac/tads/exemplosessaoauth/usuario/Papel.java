@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.senac.tads.exemplosessaoauth.entidade;
+package br.senac.tads.exemplosessaoauth.usuario;
 
 import java.io.Serializable;
 
@@ -13,21 +13,23 @@ import java.io.Serializable;
  */
 public class Papel implements Serializable {
 
-    private String nome;
+	private static final long serialVersionUID = 1L;
 
-    public Papel() {
-    }
+	private String nome;
 
-    public Papel(String nome) {
-        this.nome = nome;
-    }
+	public Papel() {
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public Papel(String nome) {
+		this.nome = nome;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
 }

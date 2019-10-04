@@ -5,16 +5,18 @@
  */
 package br.senac.tads.exemplosessaoauth.servlet;
 
-import br.senac.tads.exemplosessaoauth.entidade.UsuarioSistema;
-import br.senac.tads.exemplosessaoauth.service.UsuarioSistemaService;
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import br.senac.tads.exemplosessaoauth.usuario.UsuarioSistema;
+import br.senac.tads.exemplosessaoauth.usuario.UsuarioSistemaService;
+import br.senac.tads.exemplosessaoauth.usuario.UsuarioSistemaServiceMockImpl;
 
 /**
  *
@@ -38,8 +40,8 @@ public class LoginServlet extends HttpServlet {
         String senhaAberta = request.getParameter("senha");
 
         // 1) Verificar se existe usuario com username fornecido
-        UsuarioSistemaService service = new UsuarioSistemaService();
-        UsuarioSistema usuario = service.buscarPorUsername(username);
+        UsuarioSistemaService service = new UsuarioSistemaServiceMockImpl();
+        UsuarioSistema usuario = service.findByUsername(username);
 
         if (usuario != null && usuario.validarSenha(senhaAberta)) {
             // 2) Se usuario nao for nulo e senha for valida, coloca usuario na 

@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Exemplo sessão</title>
+        <title>Exemplo sessão ERRADO</title>
         <style>
         	#itens {
         		display: grid;
@@ -37,7 +37,7 @@
 	        			</c:otherwise>
 	        		</c:choose>
 	        		<div>
-	        			<form method="post" action="${pageContext.request.contextPath}/exemplo-sessao">
+	        			<form method="post" action="${pageContext.request.contextPath}/exemplo-sessao-errado">
 	        				<input type="hidden" name="idItem" value="${item.id}" />
 	        				<button type="submit" style="background-color: ${item.corHex}; color: #fff">Adicionar</button>
 	        			</form>
@@ -48,7 +48,7 @@
         <hr />
         <section>
         	<c:choose>
-        		<c:when test="${sessionScope.itensSelecionados != null && !sessionScope.itensSelecionados.isEmpty()}">
+        		<c:when test="${itensSelecionados != null && !itensSelecionados.isEmpty()}">
         			<h2>Itens selecionados</h2>
         			<table>
         				<thead>
@@ -60,7 +60,7 @@
         					</tr>
         				</thead>
         				<tbody>
-        					<c:forEach items="${sessionScope.itensSelecionados}" var="itemSel" varStatus="stat">
+        					<c:forEach items="${itensSelecionados}" var="itemSel" varStatus="stat">
         						<tr>
         							<td><c:out value="${stat.count}" /></td>
         							<td><c:out value="${itemSel.item.id}" /></td>

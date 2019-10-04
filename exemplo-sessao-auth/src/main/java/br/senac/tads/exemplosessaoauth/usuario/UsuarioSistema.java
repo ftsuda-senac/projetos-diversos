@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.senac.tads.exemplosessaoauth.entidade;
+package br.senac.tads.exemplosessaoauth.usuario;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +15,9 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class UsuarioSistema implements Serializable {
 
-    private String username;
+	private static final long serialVersionUID = 1L;
+
+	private String username;
 
     private String nomeCompleto;
 
