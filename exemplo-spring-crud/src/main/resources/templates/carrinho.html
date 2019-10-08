@@ -1,0 +1,46 @@
+<!doctype html>
+<html data-layout-decorate="~{modelo}">
+    <head>
+        <title>Carrinho</title>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+
+        <main class="container" data-layout-fragment="conteudo">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Itens adicionados</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4">
+                    <h2 th:if="${#lists.isEmpty(@carrinhoSessaoController.itensSelecionados)}">Nenhum item adicionado</h2>
+                    <table class="table table-striped table-sm table-responsive" th:unless="${#lists.isEmpty(@carrinhoSessaoController.itensSelecionados)}">
+                        <thead class="thead-dark">
+                            <tr>
+                            	<th>#</th>
+                                <th>Item ID</th>
+                                <th>Nome</th>
+                                <th>Quantidade</th>
+                                <th>Data e hora de inclusão</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="sel,stat : ${@carrinhoSessaoController.itensSelecionados}">
+                            	<td th:text="${stat.count}"></td>
+                                <td th:text="${sel.item.id}"></td>
+                                <td th:text="${sel.item.nome}"></td>
+                                 <td th:text="${sel.quantidade}"></td>
+                                <td th:text="${sel.dataHoraInclusao}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                </div>
+                
+                
+            </div>
+        </main>
+
+    </body>
+</html>

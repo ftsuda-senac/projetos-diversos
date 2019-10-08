@@ -1,4 +1,4 @@
-package br.senac.tads.dsw.exemplospringcrud;
+package br.senac.tads.dsw.exemplospring.crud;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

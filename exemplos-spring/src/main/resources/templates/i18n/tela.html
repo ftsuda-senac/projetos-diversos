@@ -15,6 +15,7 @@
                 <div class="col-md-12">
                     <h1 th:text="#{app.name}"></h1>
                     <a href="?lang=pt-BR">Mudar para pt-BR</a> | <a href="?lang=en">Change to en</a>
+                    <hr>
                     <h2 th:text="#{titulo}">Título</h2>
                     <h3 th:text="#{saudacao}">Texto 1</h3>
                     <p  th:text="#{texto}">Texto 2</p>
@@ -24,8 +25,8 @@
             <div class="row">
                 <section class="col-md-12">
                     
-                    <h2 th:text="#{formulario.title}">Formulário</h2>
-                    <form method="post" th:action="@{/intl}" th:object="${info}" novalidate>
+                    <h2 th:text="#{form.title}">Formulário</h2>
+                    <form method="post" th:action="@{/i18n}" th:object="${info}" novalidate>
 
                         <div class="form-group row">
                             <label for="txtNome" class="col-sm-2 col-form-label" th:text="#{info.nome.label}">Nome</label>
@@ -59,10 +60,10 @@
 
                         <div class="row">
                             <div class="col-md-3 offset-md-3">
-                                <button type="submit" class="btn btn-block btn-success">Enviar</button>
+                                <button type="submit" class="btn btn-block btn-success" th:text="#{form.submit}">Enviar</button>
                             </div>
                             <div class="col-md-3">
-                                <a href="#" role="button" class="btn btn-block btn-outline-dark">Cancelar</a>
+                                <a href="#" role="button" class="btn btn-block btn-outline-dark" th:text="#{form.cancel}">Cancelar</a>
                             </div>
                         </div>
                     </form>

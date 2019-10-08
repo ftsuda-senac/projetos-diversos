@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author ftsuda
  */
 @Controller
-@RequestMapping("/intl")
+@RequestMapping("/i18n")
 public class InternacionalizacaoController {
 
     @GetMapping
@@ -33,7 +33,7 @@ public class InternacionalizacaoController {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("i18n/tela");
         }
-        return new ModelAndView("redirect:/intl");
+        return new ModelAndView("redirect:/i18n");
     }
 
 }
