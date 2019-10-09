@@ -27,6 +27,11 @@ public class InternacionalizacaoController {
     public ModelAndView mostrarTela() {
         return new ModelAndView("i18n/tela").addObject("info", new Info());
     }
+    
+    @GetMapping("/sem")
+    public ModelAndView mostrarTelaSem() {
+        return new ModelAndView("i18n/tela-sem-i18n").addObject("info", new Info());
+    }
 
     @PostMapping
     public ModelAndView salvar(@ModelAttribute @Valid Info info, BindingResult bindingResult, RedirectAttributes redirAttr) {

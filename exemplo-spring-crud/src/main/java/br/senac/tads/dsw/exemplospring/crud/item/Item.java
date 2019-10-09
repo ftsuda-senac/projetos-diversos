@@ -21,7 +21,9 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 public class Item implements Serializable {
 
-    private Integer id;
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
 
     @NotBlank(message = "Nome obrigatório")
     private String nome;

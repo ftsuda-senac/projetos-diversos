@@ -18,14 +18,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Info {
 
     @NotBlank(message = "{info.nome.blank}")
+    //@NotBlank(message = "O nome deve ser preenchido")
     private String nome;
 
     @NotBlank(message = "{info.email.blank}")
     @Email(message = "{info.email.invalid}")
+    //@NotBlank(message = "O e-mail deve ser preenchido")
+    //@Email(message = "O e-mail digitado é inválido")
     private String email;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past(message = "{info.dtNascimento.notpast}")
+    //@Past(message = "A data de nascimento não está no passado")
     private LocalDate dtNascimento;
 
     public String getNome() {

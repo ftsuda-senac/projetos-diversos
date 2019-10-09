@@ -68,4 +68,8 @@ public class ItemSelecionado implements Serializable {
 	public void setDataHoraInclusao(LocalDateTime dataHoraInclusao) {
 		this.dataHoraInclusao = dataHoraInclusao;
 	}
+
+	public int getSubtotal() {
+		return item.getValor() * quantidade;
+	}
 }

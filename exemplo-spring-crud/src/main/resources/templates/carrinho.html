@@ -1,46 +1,78 @@
 <!doctype html>
 <html data-layout-decorate="~{modelo}">
-    <head>
-        <title>Carrinho</title>
-        <meta charset="UTF-8" />
-    </head>
-    <body>
+<head>
+<title>Carrinho</title>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<main class="container" data-layout-fragment="conteudo">
+	<div class="row">
+		<div class="col-12">
+			<h1>Itens adicionados</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<h2 data-th-if="${#lists.isEmpty(@carrinhoSessaoController.itensSelecionados)}">Nenhum item adicionado</h2>
+			<table class="table table-striped table-sm w-100"
+				data-th-unless="${#lists.isEmpty(@carrinhoSessaoController.itensSelecionados)}">
+				<thead class="thead-dark">
+					<tr>
+						<th>#</th>
+						<th>Item ID</th>
+						<th>Nome</th>
+						<th>Data e hora de inclusão</th>
+						<th>Quantidade</th>
+						<th>Valor unitário</th>
+						<th>Subtotal</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-th-each="sel,stat : ${@carrinhoSessaoController.itensSelecionados}">
+						<td data-th-text="${stat.count}"></td>
+						<td data-th-text="${sel.item.id}"></td>
+						<td data-th-text="${sel.item.nome}"></td>
+						<td data-th-text="${sel.dataHoraInclusao}"></td>
+						<td>
+							<form data-th-action="@{/carrinho/{listIndex}/decrementar-qtd(listIndex=${stat.index})}" method="post" style="display: inline-block;">
+								<button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
+							</form>
+							<input type="number" data-th-value="${sel.quantidade}" />
+							<form data-th-action="@{/carrinho/{listIndex}/incrementar-qtd(listIndex=${stat.index})}" method="post" style="display: inline-block;">
+								<button type="submit" class="btn btn-sm btn-success"><i class="fa fa-plus"></i></button>
+							</form>
+						</td>
+						<td data-th-text="${sel.item.valor}"></td>
+						<td data-th-text="${sel.subtotal}"></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="5">&nbsp;</td>
+						<th>Total:</th>
+						<th data-th-text="${@carrinhoSessaoController.valorTotal}"></th>
+					</tr>
+					<tr>
+						<td colspan="5">&nbsp;</td>
+						<th>Frete:</th>
+						<th data-th-text="${@carrinhoSessaoController.valorFrete}"></th>
+					</tr>
+					<tr>
+						<td colspan="5">&nbsp;</td>
+						<th>Desconto:</th>
+						<th data-th-text="${@carrinhoSessaoController.valorDesconto}"></th>
+					</tr>
+					<tr>
+						<td colspan="5">&nbsp;</td>
+						<th>Valor final:</th>
+						<th data-th-text="${@carrinhoSessaoController.valorDesconto}"></th>
+					</tr>
+				</tfoot>
+			</table>
+			<a data-th-href="@{/itens}" role="button" class="btn btn-light">Voltar</a>
+		</div>
+	</div>
+	</main>
 
-        <main class="container" data-layout-fragment="conteudo">
-            <div class="row">
-                <div class="col-12">
-                    <h1>Itens adicionados</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-sm-6 col-md-4">
-                    <h2 th:if="${#lists.isEmpty(@carrinhoSessaoController.itensSelecionados)}">Nenhum item adicionado</h2>
-                    <table class="table table-striped table-sm table-responsive" th:unless="${#lists.isEmpty(@carrinhoSessaoController.itensSelecionados)}">
-                        <thead class="thead-dark">
-                            <tr>
-                            	<th>#</th>
-                                <th>Item ID</th>
-                                <th>Nome</th>
-                                <th>Quantidade</th>
-                                <th>Data e hora de inclusão</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="sel,stat : ${@carrinhoSessaoController.itensSelecionados}">
-                            	<td th:text="${stat.count}"></td>
-                                <td th:text="${sel.item.id}"></td>
-                                <td th:text="${sel.item.nome}"></td>
-                                 <td th:text="${sel.quantidade}"></td>
-                                <td th:text="${sel.dataHoraInclusao}"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                </div>
-                
-                
-            </div>
-        </main>
-
-    </body>
+</body>
 </html>

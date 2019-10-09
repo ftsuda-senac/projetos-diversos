@@ -51,7 +51,7 @@
                         <div class="form-group row">
                             <label for="txtDtNascimento" class="col-sm-2 col-form-label" th:text="#{info.dtNascimento.label}">Data de nascimento</label>
                             <div class="col-sm-10">
-                                <input type="date" name="dtNascimento" class="form-control" th:classappend="${#fields.hasErrors('dtNascimento')}? is-invalid" id="txtDtNascimento" th:placeholder="#{info.dtNascimento.placeholder}" th:field="*{dtNascimento}">
+                                <input type="date" name="dtNascimento" class="form-control" th:classappend="${#fields.hasErrors('dtNascimento')}? is-invalid" id="txtDtNascimento" th:field="*{dtNascimento}">
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('dtNascimento')}" th:errors="*{dtNascimento}">
                                     Digite uma data válida.
                                 </div>
