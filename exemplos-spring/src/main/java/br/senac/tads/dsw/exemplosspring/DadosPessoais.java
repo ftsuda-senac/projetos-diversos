@@ -32,7 +32,7 @@ public class DadosPessoais implements Serializable {
 
 	private BigDecimal peso;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) // ISO-8601
 	private LocalDate dtNascimento;
 
 	public Long getId() {

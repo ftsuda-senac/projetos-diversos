@@ -3,6 +3,11 @@
 <head>
 <title>Carrinho</title>
 <meta charset="UTF-8" />
+<script>
+function alterarQuantidade(el) {
+	el.parentNode.submit();
+}
+</script>
 </head>
 <body>
 	<main class="container" data-layout-fragment="conteudo">
@@ -22,7 +27,7 @@
 						<th>Item ID</th>
 						<th>Nome</th>
 						<th>Data e hora de inclusão</th>
-						<th>Quantidade</th>
+						<th style="width: 300px;">Quantidade</th>
 						<th>Valor unitário</th>
 						<th>Subtotal</th>
 					</tr>
@@ -34,38 +39,77 @@
 						<td data-th-text="${sel.item.nome}"></td>
 						<td data-th-text="${sel.dataHoraInclusao}"></td>
 						<td>
-							<form data-th-action="@{/carrinho/{listIndex}/decrementar-qtd(listIndex=${stat.index})}" method="post" style="display: inline-block;">
-								<button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
-							</form>
-							<input type="number" data-th-value="${sel.quantidade}" />
-							<form data-th-action="@{/carrinho/{listIndex}/incrementar-qtd(listIndex=${stat.index})}" method="post" style="display: inline-block;">
-								<button type="submit" class="btn btn-sm btn-success"><i class="fa fa-plus"></i></button>
-							</form>
+							<div class="row">
+								<div class="col-2 text-right">
+									<form data-th-action="@{/carrinho/{listIndex}/decrementar(listIndex=${stat.index})}" method="post" style="display: inline-block;">
+										<button type="submit" class="btn btn-sm btn-secondary"><i class="fa fa-minus"></i></button>
+									</form>
+								</div>
+								<div class="col-4">
+									<form data-th-action="@{/carrinho/{listIndex}/alterar(listIndex=${stat.index})}" method="post" style="display: inline-block;">
+										<input type="number" name="qtd" class="form-control form-control-sm" data-th-value="${sel.quantidade}" onchange="alterarQuantidade(this)" />
+									</form>
+								</div>
+								<div class="col-2 text-left">
+									<form data-th-action="@{/carrinho/{listIndex}/incrementar(listIndex=${stat.index})}" method="post" style="display: inline-block;">
+										<button type="submit" class="btn btn-sm btn-secondary"><i class="fa fa-plus"></i></button>
+									</form>
+								</div>
+								<div class="col-4 text-left">
+									<form data-th-action="@{/carrinho/{listIndex}/remover(listIndex=${stat.index})}" method="post" style="display: inline-block;">
+										<button type="submit" class="btn btn-sm btn-light"><i class="fa fa-trash"></i></button>
+									</form>
+								</div>
+							</div>
 						</td>
-						<td data-th-text="${sel.item.valor}"></td>
-						<td data-th-text="${sel.subtotal}"></td>
+						<td data-th-text="${#numbers.formatDecimal(sel.item.valor,1,'DEFAULT',2,'DEFAULT')}"></td>
+						<td data-th-text="${#numbers.formatDecimal(sel.subtotal,1,'DEFAULT',2,'DEFAULT')}"></td>
 					</tr>
 				</tbody>
 				<tfoot>
 					<tr>
 						<td colspan="5">&nbsp;</td>
 						<th>Total:</th>
-						<th data-th-text="${@carrinhoSessaoController.valorTotal}"></th>
+						<td data-th-text="${#numbers.formatDecimal(@carrinhoSessaoController.valorTotal,1,'DEFAULT',2,'DEFAULT')}"></td>
 					</tr>
 					<tr>
-						<td colspan="5">&nbsp;</td>
+						<td colspan="5">
+							<form data-th-action="@{/carrinho/frete}" method="post">
+								<div class="form-group row">
+		                            <label for="txtCep" class="col-sm-2 col-form-label col-form-label-sm">CEP</label>
+		                            <div class="col-sm-8">
+		                                <input type="text" name="cep" class="form-control form-control-sm" id="txtCep" placeholder="Formato 00000-000">
+		                            </div>
+		                            <div class="col-sm-2">
+		                            	<button type="submit" class="btn btn-sm btn-block btn-primary">Calcular frete</button>
+		                            </div>
+		                        </div>
+							</form>
+						</td>
 						<th>Frete:</th>
-						<th data-th-text="${@carrinhoSessaoController.valorFrete}"></th>
+						<td data-th-text="${#numbers.formatDecimal(@carrinhoSessaoController.valorFrete,1,'DEFAULT',2,'DEFAULT')}"></td>
 					</tr>
 					<tr>
-						<td colspan="5">&nbsp;</td>
-						<th>Desconto:</th>
-						<th data-th-text="${@carrinhoSessaoController.valorDesconto}"></th>
+						<td colspan="5">
+							<form data-th-action="@{/carrinho/cupom}" method="post">
+								<div class="form-group row">
+		                            <label for="txtCupom" class="col-sm-2 col-form-label col-form-label-sm">Cupom desconto</label>
+		                            <div class="col-sm-8">
+		                                <input type="text" name="cupom" class="form-control form-control-sm" id="txtCupom">
+		                            </div>
+		                            <div class="col-sm-2">
+		                            	<button type="submit" class="btn btn-sm btn-block btn-primary">Aplicar cupom</button>
+		                            </div>
+		                        </div>
+							</form>
+						</td>
+						<th>Desconto (-):</th>
+						<td data-th-text="${#numbers.formatDecimal(@carrinhoSessaoController.valorDesconto,1,'DEFAULT',2,'DEFAULT')}"></td>
 					</tr>
 					<tr>
 						<td colspan="5">&nbsp;</td>
 						<th>Valor final:</th>
-						<th data-th-text="${@carrinhoSessaoController.valorDesconto}"></th>
+						<td><b data-th-text="${#numbers.formatCurrency(@carrinhoSessaoController.valorFinal)}"></b></td>
 					</tr>
 				</tfoot>
 			</table>

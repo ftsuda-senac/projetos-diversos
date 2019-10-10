@@ -43,24 +43,71 @@ public class CarrinhoSessaoController {
 		return new ModelAndView("redirect:/carrinho");
 	}
 
-	@PostMapping("{listIndex}/incrementar-qtd")
+	@PostMapping("{listIndex}/alterar")
+	public ModelAndView alterarQtd(@PathVariable("listIndex") int listIndex, @RequestParam("qtd") int quantidade, RedirectAttributes redirAttr) {
+		ItemSelecionado sel = itensSelecionados.get(listIndex);
+		if (quantidade > 0) {
+			sel.setQuantidade(quantidade);
+			redirAttr.addFlashAttribute("msg", "Quantidade do item '" + sel.getItem().getNome() + "' alterada");
+		} else {
+			itensSelecionados.remove(listIndex);
+			redirAttr.addFlashAttribute("msg", "Item '" + sel.getItem().getNome() + "' removido");
+		}
+		return new ModelAndView("redirect:/carrinho");
+	}
+	
+	@PostMapping("{listIndex}/incrementar")
 	public ModelAndView incrementarQtd(@PathVariable("listIndex") int listIndex, RedirectAttributes redirAttr) {
 		ItemSelecionado sel = itensSelecionados.get(listIndex);
 		int quantidadeAtual = sel.getQuantidade();
 		quantidadeAtual++;
 		sel.setQuantidade(quantidadeAtual);
+		redirAttr.addFlashAttribute("msg", "Quantidade do item '" + sel.getItem().getNome() + "' incrementada");
 		return new ModelAndView("redirect:/carrinho");
 	}
 	
-	@PostMapping("{listIndex}/decrementar-qtd")
+	@PostMapping("{listIndex}/decrementar")
 	public ModelAndView decrementarQtd(@PathVariable("listIndex") int listIndex, RedirectAttributes redirAttr) {
 		ItemSelecionado sel = itensSelecionados.get(listIndex);
 		int quantidadeAtual = sel.getQuantidade();
 		quantidadeAtual--;
 		if (quantidadeAtual > 0) {
 			sel.setQuantidade(quantidadeAtual);
+			redirAttr.addFlashAttribute("msg", "Quantidade do item '" + sel.getItem().getNome() + "' decrementada");
 		} else {
 			itensSelecionados.remove(listIndex);
+			redirAttr.addFlashAttribute("msg", "Item '" + sel.getItem().getNome() + "' removido");
+		}
+		return new ModelAndView("redirect:/carrinho");
+	}
+
+	@PostMapping("{listIndex}/remover")
+	public ModelAndView remover(@PathVariable("listIndex") int listIndex, RedirectAttributes redirAttr) {
+		ItemSelecionado sel = itensSelecionados.remove(listIndex);
+		redirAttr.addFlashAttribute("msg", "Item '" + sel.getItem().getNome() + "' removido");
+		return new ModelAndView("redirect:/carrinho");
+	}
+
+	@PostMapping("/frete")
+	public ModelAndView calcularFrete(@RequestParam("cep") String cep) {
+		if ("00000-000".equals(cep)) {
+			valorFrete = 30;
+		} else if ("11111-111".equals(cep)) {
+			valorFrete = 20;
+		} else if ("22222-222".equals(cep)) {
+			valorFrete = 50;
+		} else if ("04696-000".equals(cep)) {
+			valorFrete = 0;
+		} else {
+			valorFrete = 25;
+		}
+		return new ModelAndView("redirect:/carrinho");
+	}
+
+	@PostMapping("/cupom")
+	public ModelAndView adicionarCupom(@RequestParam("cupom") String cupom) {
+		if ("TADS50".equals(cupom)) {
+			valorDesconto = 50;
 		}
 		return new ModelAndView("redirect:/carrinho");
 	}
@@ -98,6 +145,13 @@ public class CarrinhoSessaoController {
 		for (ItemSelecionado itemSel : itensSelecionados) {
 			valor += itemSel.getSubtotal();
 		}
+		return valor;
+	}
+	
+	public int getValorFinal() {
+		int valor = getValorTotal();
+		valor += valorFrete;
+		valor -= valorDesconto;
 		return valor;
 	}
 

@@ -35,7 +35,7 @@ public class Item implements Serializable {
     private int valor;
 
     @PastOrPresent(message = "Data e hora devem estar no passado")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) // ISO-8601
     private LocalDateTime dataHora;
 
     private Set<Categoria> categorias = new LinkedHashSet<>();
