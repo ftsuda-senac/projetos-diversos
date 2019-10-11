@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>br.senac.tads.dsw</groupId>
 	<artifactId>exemplos-spring-jpa</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>exemplos-spring-jpa</name>
 	<description>Demo project for Spring Boot</description>
 

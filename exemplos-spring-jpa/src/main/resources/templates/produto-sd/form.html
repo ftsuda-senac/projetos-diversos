@@ -93,25 +93,23 @@
                                 </div>
                         </div>
                     </fieldset>
-                    
+
                     <fieldset class="form-group">
                         <div class="row">
-                            <legend class="col-form-label col-sm-2 pt-0">Imagens</legend>
-                            <table class="table table-stripped">
-                            	<tbody>
-                            		<tr th:each="imagem, stat : ${produto.imagensList}">
-                            			<td>
-                            				<input type="hidden" th:field="*{imagensList[__${stat.index}__].id}" />
-                            				<input type="hidden" th:field="*{imagensList[__${stat.index}__].nomeArquivo}" />
-                            				<input type="hidden" th:field="*{imagensList[__${stat.index}__].legenda}" />
-                            				<img th:src="${imagem.urlImagem}" th:alt-title="${imagem.legenda}" />
-                            			</td>
-                            			<td th:text="${imagem.legenda}"></td>
-                            		</tr>
-                            	</tbody>
-                            </table>
-                         </div>
+                        	<div class="col-4" th:each="imagem, stat : ${produto.imagensList}">
+                        		<input type="hidden" th:field="*{imagensList[__${stat.index}__].id}" />
+                        		<input type="hidden" th:field="*{imagensList[__${stat.index}__].nomeArquivo}" />
+                        		<input type="hidden" th:field="*{imagensList[__${stat.index}__].legenda}" />
+                        		<div class="card">
+                        			<img th:src="${imagem.urlImagem}" th:alt-title="${imagem.legenda}" class="card-img-top" />
+  									<div class="card-body">
+  										<p class="card-text" th:text="${imagem.legenda}"></p>
+ 									</div>
+ 								</div>
+                        	</div>
+                       	</div>
                     </fieldset>
+
                     <div class="row">
                         <div class="col-md-3 offset-md-3">
                             <a th:href="@{/produto-sd}" role="button" class="btn btn-block btn-outline-dark">Cancelar</a>
