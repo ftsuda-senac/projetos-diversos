@@ -41,4 +41,13 @@ public class CategoriaServiceMockImpl implements CategoriaService {
         return mapItens.get(id);
     }
 
+	@Override
+	public Categoria save(Categoria cat) {
+		if (cat.getId() == null) {
+			cat.setId(++sequenciaId);
+		}
+		mapItens.put(cat.getId(), cat);
+		return cat;
+	}
+
 }

@@ -16,5 +16,7 @@ public interface CategoriaService {
     List<Categoria> findAll();
 
     Categoria findById(Integer id);
+    
+    Categoria save(Categoria cat);
 
 }
