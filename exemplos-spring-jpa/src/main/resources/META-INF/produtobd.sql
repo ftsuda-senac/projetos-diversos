@@ -1,3 +1,5 @@
+-- Ver https://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html
+-- para criar scripts nos locais e com nomes corretos
 CREATE TABLE PRODUTO (
   ID           BIGINT        NOT NULL AUTO_INCREMENT,
   NOME         VARCHAR(100)  NOT NULL,
