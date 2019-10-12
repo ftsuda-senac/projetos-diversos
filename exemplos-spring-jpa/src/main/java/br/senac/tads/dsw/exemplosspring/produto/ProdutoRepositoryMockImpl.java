@@ -35,7 +35,7 @@ public class ProdutoRepositoryMockImpl implements ProdutoRepository {
     @PostConstruct
     public void init() {
         mapItens = new ConcurrentHashMap<>();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 1; i < 6; i++) {
 
         	String nomeProduto = "Eletrônico " + i;
         	Produto p = new Produto(++sequenciaId, nomeProduto, "Descrição do produto " + nomeProduto, 
