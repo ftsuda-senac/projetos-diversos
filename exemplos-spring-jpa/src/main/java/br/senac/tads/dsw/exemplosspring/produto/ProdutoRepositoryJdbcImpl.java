@@ -117,11 +117,11 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
 						// RECUPERA IMAGENS
 						Set<ImagemProduto> imagens = new LinkedHashSet<>();
 						try (PreparedStatement stmtImagem = conn.prepareStatement(sqlImagensProduto)) {
-							stmt.setLong(1, p.getId());
-							try (ResultSet rsImagem = stmt.executeQuery()) {
+							stmtImagem.setLong(1, p.getId());
+							try (ResultSet rsImagem = stmtImagem.executeQuery()) {
 								while (rsImagem.next()) {
-									imagens.add(new ImagemProduto(rs.getLong("ID"), rs.getString("NOME_ARQUIVO"),
-											rs.getString("LEGENDA")));
+									imagens.add(new ImagemProduto(rsImagem.getLong("ID"), rsImagem.getString("NOME_ARQUIVO"),
+											rsImagem.getString("LEGENDA")));
 								}
 							}
 						}
@@ -136,9 +136,9 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
 						Set<Categoria> categorias = new LinkedHashSet<>();
 						try (PreparedStatement stmtCat = conn.prepareStatement(sqlProdutoCategoria)) {
 							stmtCat.setLong(1, p.getId());
-							try (ResultSet rsCat = stmt.executeQuery()) {
+							try (ResultSet rsCat = stmtCat.executeQuery()) {
 								while (rsCat.next()) {
-									categorias.add(mapCategorias.get(rs.getInt("ID_CATEGORIA")));
+									categorias.add(mapCategorias.get(rsCat.getInt("ID_CATEGORIA")));
 								}
 							}
 						}

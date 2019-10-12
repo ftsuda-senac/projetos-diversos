@@ -32,11 +32,11 @@ public class ImagemProduto implements Serializable {
 	private Long id;
 
     @NotBlank
-    @Size(max = 100)
+    @Size(max = 500)
     @Column
     private String nomeArquivo;
 
-    @Size(max = 500)
+    @Size(max = 1000)
     @Column
     private String legenda;
 
