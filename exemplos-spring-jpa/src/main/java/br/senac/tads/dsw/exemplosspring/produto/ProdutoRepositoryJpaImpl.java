@@ -14,6 +14,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
 
 	@PersistenceContext
