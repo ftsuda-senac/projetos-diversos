@@ -13,11 +13,21 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 
 @Entity
+@NamedEntityGraph(
+	    name = "graph.PedidoEnderecoItens",
+	    attributeNodes = { 
+	    		@NamedAttributeNode(value = "enderecoEntrega"),
+	    		@NamedAttributeNode(value = "itens", subgraph = "subgraph.PedidoItem") }, 
+	    subgraphs = {
+	        @NamedSubgraph(name = "subgraph.PedidoItem", attributeNodes = @NamedAttributeNode(value = "item")) } )
 public class Pedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;

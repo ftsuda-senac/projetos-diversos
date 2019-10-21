@@ -71,6 +71,39 @@ public class ExemplosSpringJpaApplication implements CommandLineRunner {
 		return p;
 	}
 
+	private void listarPedidos() {
+		List<Pedido> listaPedidos = pedidoRepository.findAll();
+		if (listaPedidos != null && !listaPedidos.isEmpty()) {
+			LOGGER.debug("Lista de pedidos realizados:");
+			for (Pedido ped : listaPedidos) {
+				LOGGER.debug("ID: {}", ped.getId());
+				LOGGER.debug("Código: {}", ped.getCodigo());
+				LOGGER.debug("Data e hora: {}", ped.getDataHoraFechamento());
+				if (ped.getEnderecoEntrega() != null) {
+					Endereco end = ped.getEnderecoEntrega();
+					LOGGER.debug("Endereco de entrega:");
+					if (end.getComplemento() != null) {
+						LOGGER.debug("{} - {}", end.getLogradouro(), end.getComplemento());
+					} else {
+						LOGGER.debug("{}", end.getLogradouro());
+					}
+					LOGGER.debug("{}", end.getBairro());
+					LOGGER.debug("{} - {}", end.getCidade(), end.getEstado());
+					LOGGER.debug("CEP: {}", end.getCep());
+				}
+				if (ped.getItens() != null && !ped.getItens().isEmpty()) {
+					LOGGER.debug("===== Itens do pedido =====");
+					for (PedidoItem pi : ped.getItens()) {
+						Item item = pi.getItem();
+						LOGGER.debug("{} - quantidade: {}, preço unitário: {}", item.getNome(), pi.getQuantidade(), item.getPreco());
+					}
+					LOGGER.debug("===========================\n");
+				}
+			}
+		}
+		
+	}
+
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -257,6 +290,23 @@ public class ExemplosSpringJpaApplication implements CommandLineRunner {
 		
 		Set<PedidoItem> ped3Itens = new LinkedHashSet<PedidoItem>(Arrays.asList(pi31, pi32));
 		piRepository.saveAll(ped3Itens);
+		
+		listarPedidos();
+
+		Pedido ped3b = new Pedido();
+		ped3b.setId(ped3.getId());
+		ped3b.setEnderecoEntrega(endereco1);
+		endereco1.setPedido(ped3b);
+		pedidoRepository.save(ped3b);
+		
+		PedidoItem pi31b = new PedidoItem(ped3b, item1, 1);
+		PedidoItem pi32b = new PedidoItem(ped3b, item2, 2);
+		PedidoItem pi33b = new PedidoItem(ped3b, item3, 4);
+		
+		Set<PedidoItem> ped3bItens = new LinkedHashSet<PedidoItem>(Arrays.asList(pi31b, pi32b, pi33b));
+		piRepository.saveAll(ped3bItens);
+		
+		listarPedidos();
 
 	}
 
