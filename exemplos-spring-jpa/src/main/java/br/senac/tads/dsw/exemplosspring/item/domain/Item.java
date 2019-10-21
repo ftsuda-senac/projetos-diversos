@@ -62,4 +62,23 @@ public class Item implements Serializable {
 		this.itens = itens;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Item [");
+		if (id != null) {
+			builder.append("id=").append(id).append(", ");
+		} else {
+			builder.append("id=NULL, ");
+		}
+		if (nome != null)
+			builder.append("nome=").append(nome).append(", ");
+		if (preco != null)
+			builder.append("preco=").append(preco).append(", ");
+		if (itens != null)
+			builder.append("itens=").append(itens);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

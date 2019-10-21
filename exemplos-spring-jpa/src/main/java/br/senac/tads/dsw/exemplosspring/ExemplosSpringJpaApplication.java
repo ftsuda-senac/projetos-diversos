@@ -8,6 +8,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,8 +19,8 @@ import br.senac.tads.dsw.exemplosspring.item.domain.Endereco;
 import br.senac.tads.dsw.exemplosspring.item.domain.Item;
 import br.senac.tads.dsw.exemplosspring.item.domain.Pedido;
 import br.senac.tads.dsw.exemplosspring.item.domain.PedidoItem;
-import br.senac.tads.dsw.exemplosspring.item.repository.EnderecoRepository;
 import br.senac.tads.dsw.exemplosspring.item.repository.ItemRepository;
+import br.senac.tads.dsw.exemplosspring.item.repository.PedidoItemRepository;
 import br.senac.tads.dsw.exemplosspring.item.repository.PedidoRepository;
 import br.senac.tads.dsw.exemplosspring.produto.Categoria;
 import br.senac.tads.dsw.exemplosspring.produto.CategoriaRepositorySpringData;
@@ -29,6 +31,8 @@ import br.senac.tads.dsw.exemplosspring.produto.ProdutoRepositorySpringData;
 @SpringBootApplication
 public class ExemplosSpringJpaApplication implements CommandLineRunner {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ExemplosSpringJpaApplication.class);
+	
 	@Autowired
 	private CategoriaRepositorySpringData categoriaRepository;
 
@@ -36,13 +40,13 @@ public class ExemplosSpringJpaApplication implements CommandLineRunner {
 	private ProdutoRepositorySpringData produtoRepository;
 
 	@Autowired
-	private EnderecoRepository enderecoRepository;
-
-	@Autowired
 	private ItemRepository itemRepository;
 
 	@Autowired
 	private PedidoRepository pedidoRepository;
+
+	@Autowired
+	private PedidoItemRepository piRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ExemplosSpringJpaApplication.class, args);
@@ -157,6 +161,44 @@ public class ExemplosSpringJpaApplication implements CommandLineRunner {
 		}
 		
 		// Pedidos, Itens e Endereco
+		
+		// Adiciona 6 itens
+		Item item1 = new Item();
+		item1.setNome("Item 1");
+		item1.setPreco(BigDecimal.valueOf(100.0));
+		itemRepository.save(item1);
+		LOGGER.debug(item1.toString());
+		
+		Item item2 = new Item();
+		item2.setNome("Item 2");
+		item2.setPreco(BigDecimal.valueOf(150.0));
+		itemRepository.save(item2);
+		LOGGER.debug(item2.toString());
+		
+		Item item3 = new Item();
+		item3.setNome("Item 3");
+		item3.setPreco(BigDecimal.valueOf(200.0));
+		itemRepository.save(item3);
+		LOGGER.debug(item3.toString());
+		
+		Item item4 = new Item();
+		item4.setNome("Item 4");
+		item4.setPreco(BigDecimal.valueOf(250.0));
+		itemRepository.save(item4);
+		LOGGER.debug(item4.toString());
+		
+		Item item5 = new Item();
+		item5.setNome("Item 5");
+		item5.setPreco(BigDecimal.valueOf(300.0));
+		itemRepository.save(item5);
+		LOGGER.debug(item5.toString());
+		
+		Item item6 = new Item();
+		item6.setNome("Item 6");
+		item6.setPreco(BigDecimal.valueOf(500.0));
+		itemRepository.save(item6);
+		LOGGER.debug(item6.toString());
+		
 		// Adiciona 2 endereços
 		Endereco endereco1 = new Endereco();
 		endereco1.setLogradouro("Avenida Engenheiro Eusébio Stevaux, 823");
@@ -172,60 +214,50 @@ public class ExemplosSpringJpaApplication implements CommandLineRunner {
 		endereco2.setEstado("SP");
 		endereco2.setCep("01310200");
 		
-		// Adiciona 6 itens
-		Item item1 = new Item();
-		item1.setNome("Item 1");
-		item1.setPreco(BigDecimal.valueOf(100.0));
-		itemRepository.save(item1);
+		// ================================
+		Pedido ped1 = new Pedido();
+		ped1.setEnderecoEntrega(endereco2);
+		endereco2.setPedido(ped1);
+		pedidoRepository.save(ped1);
 		
-		Item item2 = new Item();
-		item2.setNome("Item 2");
-		item2.setPreco(BigDecimal.valueOf(150.0));
-		itemRepository.save(item2);
+		PedidoItem pi11 = new PedidoItem(ped1, item1, 1);
+		PedidoItem pi12 = new PedidoItem(ped1, item3, 1);
+		PedidoItem pi13 = new PedidoItem(ped1, item5, 2);
 		
-		Item item3 = new Item();
-		item3.setNome("Item 3");
-		item3.setPreco(BigDecimal.valueOf(200.0));
-		itemRepository.save(item3);
+		Set<PedidoItem> ped1Itens = new LinkedHashSet<PedidoItem>(Arrays.asList(pi11, pi12, pi13));
+		ped1.setItens(ped1Itens);
+		item1.setItens(ped1Itens);
+		item3.setItens(ped1Itens);
+		item5.setItens(ped1Itens);
 		
-		Item item4 = new Item();
-		item4.setNome("Item 4");
-		item4.setPreco(BigDecimal.valueOf(250.0));
-		itemRepository.save(item4);
-		
-		Item item5 = new Item();
-		item5.setNome("Item 5");
-		item5.setPreco(BigDecimal.valueOf(300.0));
-		itemRepository.save(item5);
-		
-		Item item6 = new Item();
-		item6.setNome("Item 6");
-		item6.setPreco(BigDecimal.valueOf(500.0));
-		itemRepository.save(item6);
-		
-		Pedido ped = new Pedido();
-		ped.setCodigo("19-000001");
-		ped.setEnderecoEntrega(endereco2);
-		endereco2.setPedido(ped);
-		
-		PedidoItem pi1 = new PedidoItem();
-		pi1.setPedido(ped);
-		pi1.setItem(item1);
-		
-		PedidoItem pi2 = new PedidoItem();
-		pi2.setPedido(ped);
-		pi2.setItem(item3);
-		
-		PedidoItem pi3 = new PedidoItem();
-		pi3.setPedido(ped);
-		pi3.setItem(item5);
-		
-		Set<PedidoItem> pedItens = new LinkedHashSet<PedidoItem>(Arrays.asList(pi1, pi2, pi3));
-		ped.setItens(pedItens);
-		pedidoRepository.save(ped);
-		
+		piRepository.saveAll(ped1Itens);
 
+		// ================================
+		Pedido ped2 = new Pedido();
+		ped2.setEnderecoEntrega(endereco1);
+		endereco1.setPedido(ped2);
+		pedidoRepository.save(ped2);
 		
+		PedidoItem pi21 = new PedidoItem(ped2, item1, 6);
+		PedidoItem pi22 = new PedidoItem(ped2, item2, 2);
+		PedidoItem pi23 = new PedidoItem(ped2, item3, 1);
+		PedidoItem pi24 = new PedidoItem(ped2, item4, 1);
+		
+		Set<PedidoItem> ped2Itens = new LinkedHashSet<PedidoItem>(Arrays.asList(pi21, pi22, pi23, pi24));
+		piRepository.saveAll(ped2Itens);
+
+		// ================================
+		Pedido ped3 = new Pedido();
+		ped3.setEnderecoEntrega(endereco1);
+		endereco1.setPedido(ped3);
+		pedidoRepository.save(ped3);
+		
+		PedidoItem pi31 = new PedidoItem(ped3, item5, 2);
+		PedidoItem pi32 = new PedidoItem(ped3, item6, 2);
+		
+		Set<PedidoItem> ped3Itens = new LinkedHashSet<PedidoItem>(Arrays.asList(pi31, pi32));
+		piRepository.saveAll(ped3Itens);
+
 	}
 
 }

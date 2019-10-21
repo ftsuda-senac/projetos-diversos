@@ -32,7 +32,7 @@ public class Pedido implements Serializable {
 	@Column
 	private LocalDateTime dataHoraFechamento;
 
-	@OneToMany(mappedBy = "pedido", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
+	@OneToMany(mappedBy = "pedido", fetch = FetchType.LAZY)
 	private Set<PedidoItem> itens;
 
 	@OneToOne(mappedBy = "pedido", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })

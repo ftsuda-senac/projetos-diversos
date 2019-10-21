@@ -31,6 +31,16 @@ public class PedidoItem implements Serializable {
 	@MapsId("idItem")
 	@JoinColumn(name = "id_item", foreignKey = @ForeignKey(name = "fk_item"))
 	private Item item;
+	
+	public PedidoItem() {
+		
+	}
+	
+	public PedidoItem(Pedido pedido, Item item, int quantidade) {
+		setPedido(pedido);
+		setItem(item);
+		this.quantidade = quantidade;
+	}
 
 	public PedidoItemId getId() {
 		return id;
@@ -71,7 +81,5 @@ public class PedidoItem implements Serializable {
 		}
 		id.setIdItem(item.getId());
 	}
-	
-	
 
 }
