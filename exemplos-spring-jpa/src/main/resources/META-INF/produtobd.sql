@@ -42,13 +42,13 @@ INSERT INTO CATEGORIA (NOME) VALUES
 ('Categoria 4'),
 ('Categoria 5');
 
-INSERT INTO PRODUTO (NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DT_CADASTRO) VALUES
-('Eletrônico', 'Descrição do produto Eletrônico', 100.0, 200.0, 100, CURRENT_TIMESTAMP()),
-('Roupa', 'Descrição do produto Roupa', 40.0, 70.0, 200, CURRENT_TIMESTAMP()),
-('Viagem', 'Descrição do produto Viagem', 800.0, 1100.0, 20, CURRENT_TIMESTAMP()),
-('Esporte', 'Descrição do produto Esporte', 200.0, 300.0, 150, CURRENT_TIMESTAMP()),
-('Comida', 'Descrição do produto Comida', 15.0, 30.0, 500, CURRENT_TIMESTAMP()),
-('Diversão', 'Descrição do produto Diversão', 120.0, 350.0, 150, CURRENT_TIMESTAMP());
+INSERT INTO PRODUTO (NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DISPONIVEL, DT_CADASTRO) VALUES
+('Eletrônico', 'Descrição do produto Eletrônico', 100.0, 200.0, 100, TRUE, CURRENT_TIMESTAMP()),
+('Roupa', 'Descrição do produto Roupa', 40.0, 70.0, 200, TRUE, CURRENT_TIMESTAMP()),
+('Viagem', 'Descrição do produto Viagem', 800.0, 1100.0, 20, TRUE, CURRENT_TIMESTAMP()),
+('Esporte', 'Descrição do produto Esporte', 200.0, 300.0, 150, TRUE, CURRENT_TIMESTAMP()),
+('Comida', 'Descrição do produto Comida', 15.0, 30.0, 500, TRUE, CURRENT_TIMESTAMP()),
+('Diversão', 'Descrição do produto Diversão', 120.0, 350.0, 150, TRUE, CURRENT_TIMESTAMP());
 
 INSERT INTO PRODUTO_CATEGORIA (ID_PRODUTO, ID_CATEGORIA) VALUES
 (1, 1),

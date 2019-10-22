@@ -21,6 +21,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -36,6 +39,13 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Produto.findAll", query = "SELECT p FROM Produto p"),
     @NamedQuery(name = "Produto.findAllByCategorias_Id", query = "SELECT DISTINCT p FROM Produto p INNER JOIN p.categorias c WHERE c.id IN :idCat"),
     @NamedQuery(name = "Produto.findById", query = "SELECT p FROM Produto p LEFT JOIN FETCH p.categorias WHERE p.id = :idProd")
+})
+@NamedEntityGraphs({
+	@NamedEntityGraph(name = "graph.ProdutoCategoriasImagens", 
+			attributeNodes = { 
+					@NamedAttributeNode(value = "categorias"), 
+					@NamedAttributeNode(value = "imagens")
+			})
 })
 public class Produto implements Serializable {
 

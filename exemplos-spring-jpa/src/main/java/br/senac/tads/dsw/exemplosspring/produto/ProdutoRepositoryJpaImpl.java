@@ -84,9 +84,21 @@ public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
 		entityGraph.addAttributeNodes("categorias", "imagens");
 
 		Query jpqlQuery = em.createQuery("SELECT p FROM Produto p WHERE p.id = :idProd")
-				.setParameter("idProd", id).setHint("javax.persistence.loadgraph", entityGraph);
+				.setParameter("idProd", id)
+				.setHint("javax.persistence.loadgraph", entityGraph);
 		return (Produto) jpqlQuery.getSingleResult();
 	}
+
+	// https://thoughts-on-java.org/jpa-21-entity-graph-part-1-named-entity/
+	public Produto findByIdNamedEntityGraph(Long id) {
+		EntityGraph<?> namedEntityGraph = em.getEntityGraph("graph.ProdutoCategoriasImagens");
+		 
+		Query jpqlQuery = em.createNamedQuery("Produto.findById")
+				.setParameter("idProd", id)
+				.setHint("javax.persistence.loadgraph", namedEntityGraph);
+		return (Produto) jpqlQuery.getSingleResult();
+	}
+
 
 	@Override
 	@Transactional

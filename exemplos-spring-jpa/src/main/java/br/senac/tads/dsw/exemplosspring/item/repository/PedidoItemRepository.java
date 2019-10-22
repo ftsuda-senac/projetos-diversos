@@ -9,6 +9,6 @@ import br.senac.tads.dsw.exemplosspring.item.domain.PedidoItemId;
 @Repository
 public interface PedidoItemRepository extends JpaRepository<PedidoItem, PedidoItemId> {
 
-	void deleteByPedidoItemId_IdPedido(Long idPedido);
+	void deleteById_IdPedido(Long idPedido);
 
 }
