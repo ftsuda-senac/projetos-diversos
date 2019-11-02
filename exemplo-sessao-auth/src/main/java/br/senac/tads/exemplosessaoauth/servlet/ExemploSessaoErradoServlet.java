@@ -20,9 +20,14 @@ public class ExemploSessaoErradoServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private ItemService itemService = new ItemServiceMockImpl();
+	private ItemService itemService;
 
-	private List<ItemSelecionado> itensSelecionados = new ArrayList<>();
+	private List<ItemSelecionado> itensSelecionados;
+        
+        public ExemploSessaoErradoServlet() {
+            itemService = new ItemServiceMockImpl();
+            itensSelecionados = new ArrayList<>();
+        }
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

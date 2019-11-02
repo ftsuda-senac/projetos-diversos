@@ -25,41 +25,45 @@ import br.senac.tads.exemplosessaoauth.item.ItemServiceMockImpl;
  *
  * @author fernando.tsuda
  */
-@WebServlet(name = "ExemploSessaoServlet", urlPatterns = { "/exemplo-sessao" })
+@WebServlet(name = "ExemploSessaoServlet", urlPatterns = {"/exemplo-sessao"})
 public class ExemploSessaoServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private ItemService itemService = new ItemServiceMockImpl();
+    private ItemService itemService;
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.setAttribute("itens", itemService.findAll());
-		request.getRequestDispatcher("/WEB-INF/jsp/exemplo-sessao.jsp").forward(request, response);
-	}
+    public ExemploSessaoServlet() {
+        itemService = new ItemServiceMockImpl();
+    }
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		HttpSession sessao = request.getSession();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setAttribute("itens", itemService.findAll());
+        request.getRequestDispatcher("/WEB-INF/jsp/exemplo-sessao.jsp").forward(request, response);
+    }
 
-		// Verifica se já existe atributo itensSelecionados na sessao
-		// Se nao existir cria um novo
-		if (sessao.getAttribute("itensSelecionados") == null) {
-			sessao.setAttribute("itensSelecionados", new ArrayList<ItemSelecionado>());
-		}
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession sessao = request.getSession();
 
-		// Recupera a lista de itens selecionados da sessao
-		List<ItemSelecionado> itensSelecionados = (List<ItemSelecionado>) sessao.getAttribute("itensSelecionados");
+        // Verifica se já existe atributo itensSelecionados na sessao
+        // Se nao existir cria um novo
+        if (sessao.getAttribute("itensSelecionados") == null) {
+            sessao.setAttribute("itensSelecionados", new ArrayList<ItemSelecionado>());
+        }
 
-		// Procura pelo item selecionado a partir do ID.
-		String idStr = request.getParameter("idItem");
-		int id = Integer.parseInt(idStr);
-		Item item = itemService.findById(id);
-		itensSelecionados.add(new ItemSelecionado(item));
+        // Recupera a lista de itens selecionados da sessao
+        List<ItemSelecionado> itensSelecionados = (List<ItemSelecionado>) sessao.getAttribute("itensSelecionados");
 
-		// Reapresenta tela para escolher item
-		response.sendRedirect(request.getContextPath() + "/exemplo-sessao");
-	}
+        // Procura pelo item selecionado a partir do ID.
+        String idStr = request.getParameter("idItem");
+        int id = Integer.parseInt(idStr);
+        Item item = itemService.findById(id);
+        itensSelecionados.add(new ItemSelecionado(item));
+
+        // Reapresenta tela para escolher item
+        response.sendRedirect(request.getContextPath() + "/exemplo-sessao");
+    }
 }
