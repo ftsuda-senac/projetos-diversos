@@ -28,9 +28,12 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession sessao = request.getSession();
+        if (sessao.getAttribute("usuario") != null) {
+            response.sendRedirect(request.getContextPath() + "/home");
+        }
         request.getRequestDispatcher("/WEB-INF/jsp/login.jsp")
                 .forward(request, response);
-
     }
 
     @Override
@@ -48,7 +51,6 @@ public class LoginServlet extends HttpServlet {
             // sessao e redireciona para tela principal
             HttpSession sessao = request.getSession();
             sessao.setAttribute("usuario", usuario);
-
             response.sendRedirect("home");
         } else {
             // 3) Se usuario for nulo ou senha invalida, reapresenta tela de login
@@ -57,7 +59,6 @@ public class LoginServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/jsp/login.jsp")
                     .forward(request, response);
         }
-
     }
 
 }
