@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.senac.tads.exemplosessaoauth.servlet;
+package br.senac.tads.pi3.exemploauth.servlet;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -16,14 +16,14 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author fernando.tsuda
  */
-@WebServlet(name = "PeaoServlet", urlPatterns = {"/protegido/peao-page"})
-public class PeaoServlet extends HttpServlet {
+@WebServlet(name = "FodonServlet", urlPatterns = {"/protegido/fodon-page"})
+public class FodonServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("titulo", "Página do PEAO");
-        request.setAttribute("msg", "Usuário logado possui papel \"PEAO\"");
+        request.setAttribute("titulo", "Página do FODON");
+        request.setAttribute("msg", "Usuário logado possui papel \"FODON\"");
         request.getRequestDispatcher("/WEB-INF/jsp/resultado-protegido.jsp")
                 .forward(request, response);
     }

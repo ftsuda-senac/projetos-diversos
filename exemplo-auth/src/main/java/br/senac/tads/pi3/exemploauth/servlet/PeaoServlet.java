@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.senac.tads.exemplosessaoauth.servlet;
+package br.senac.tads.pi3.exemploauth.servlet;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

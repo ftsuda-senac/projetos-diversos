@@ -24,7 +24,7 @@ public class GodServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setAttribute("titulo", "Página do GOD");
         request.setAttribute("msg", "Usuário logado possui papel \"GOD\"");
-        request.getRequestDispatcher("/WEB-INF/jsp/resultado-autorizacao.jsp")
+        request.getRequestDispatcher("/WEB-INF/jsp/resultado-protegido.jsp")
                 .forward(request, response);
     }
 

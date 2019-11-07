@@ -24,7 +24,7 @@ public class FodonServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setAttribute("titulo", "Página do FODON");
         request.setAttribute("msg", "Usuário logado possui papel \"FODON\"");
-        request.getRequestDispatcher("/WEB-INF/jsp/resultado-autorizacao.jsp")
+        request.getRequestDispatcher("/WEB-INF/jsp/resultado-protegido.jsp")
                 .forward(request, response);
     }
 

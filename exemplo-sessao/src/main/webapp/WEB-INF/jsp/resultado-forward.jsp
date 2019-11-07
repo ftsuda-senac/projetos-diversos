@@ -7,9 +7,8 @@
         <title>Formulário</title>
     </head>
     <body>
-        <h1>Formulário com POST-REDIRECT-GET</h1>
-        <h2>Texto digitado: <c:out value="${sessionScope.textoDigitado}" /></h2>
-        <c:remove scope="session" var="textoDigitado" /> <%-- APAGAR O ATRIBUTO textoDigitado PARA SIMULAR ESCOPO FLASH --%>
+        <h1>Formulário com fluxo normal do FORWARD direto</h1>
+        <h2>Texto digitado: <c:out value="${textoDigitado}" /></h2>
         <p>Atualizar a página e ver o que acontece</p>
     </body>
 </html>
