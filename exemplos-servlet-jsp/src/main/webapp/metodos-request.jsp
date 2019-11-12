@@ -12,6 +12,7 @@
             .server-port { color: #f39c12 }
             .context-path { color: #c0392b}
             .servlet-path { color: #8e44ad }
+            .path-info { color: #888 }
             .query-string { color: #95a5a6 }
         </style>
     </head>
@@ -23,7 +24,7 @@
               test="${not empty pageContext.request.parameterMap}">?${pageContext.request.queryString}</c:if>
             </code></h2>
         --%>
-        <h3>URL chamada:<br/><code><span class="scheme">${pageContext.request.scheme}</span>://<span class="server-name">${pageContext.request.serverName}</span>:<span class="server-port">${pageContext.request.serverPort}</span><span class="context-path">${pageContext.request.contextPath}</span><span class="servlet-path"><c:choose><c:when test="${not empty requestScope['javax.servlet.forward.servlet_path']}">${requestScope['javax.servlet.forward.servlet_path']}</c:when><c:otherwise>${pageContext.request.servletPath}</c:otherwise></c:choose></span><c:if test="${not empty pageContext.request.queryString}">?<span class="query-string"><c:out value="${pageContext.request.queryString}" /></span></c:if></code></h3>
+        <h3>URL chamada:<br/><code><span class="scheme">${pageContext.request.scheme}</span>://<span class="server-name">${pageContext.request.serverName}</span>:<span class="server-port">${pageContext.request.serverPort}</span><span class="context-path">${pageContext.request.contextPath}</span><span class="servlet-path"><c:choose><c:when test="${not empty requestScope['javax.servlet.forward.servlet_path']}">${requestScope['javax.servlet.forward.servlet_path']}</c:when><c:otherwise>${pageContext.request.servletPath}</c:otherwise></c:choose></span><span class="path-info"><c:choose><c:when test="${not empty requestScope['javax.servlet.forward.path_info']}">${requestScope['javax.servlet.forward.path_info']}</c:when><c:otherwise>${pageContext.request.pathInfo}</c:otherwise></c:choose></span><c:if test="${not empty pageContext.request.queryString}">?<span class="query-string"><c:out value="${pageContext.request.queryString}" /></span></c:if></code></h3>
                 <table class="table">
                     <thead>
                         <tr>
@@ -81,6 +82,18 @@
                     <td><code>request.getAttribute("javax.servlet.forward.servlet_path")</code></td>
                     <td><code>${'${requestScope[\'javax.servlet.forward.servlet_path\']}'}</code></td>
                     <td class="servlet-path">${requestScope['javax.servlet.forward.servlet_path']}</td>
+                </tr>
+                <tr>
+                    <th>path info</th>
+                    <td><code>request.getPathInfo()</code></td>
+                    <td><code>${'${pageContext.request.pathInfo}'}</code></td>
+                    <td class="path-info">${pageContext.request.pathInfo}</td>
+                </tr>
+                <tr>
+                    <th>path info original<br />(após forward do Servlet para JSP)</th>
+                    <td><code>request.getAttribute("javax.servlet.forward.path_info")</code></td>
+                    <td><code>${'${requestScope[\'javax.servlet.forward.path_info\']}'}</code></td>
+                    <td class="path-info">${requestScope['javax.servlet.forward.path_info']}</td>
                 </tr>
                 <tr>
                     <th>request URI</th>
@@ -167,7 +180,6 @@
                     <p>Local addr: <code>${pageContext.request.localAddr}</code></p>
                     <p>Local name: <code>${pageContext.request.localName}</code></p>
                     <p>Local port: <code>${pageContext.request.localPort}</code></p>
-                    <p>Path info: <code>${pageContext.request.pathInfo}</code></p>
                 </div>
             </div>
 

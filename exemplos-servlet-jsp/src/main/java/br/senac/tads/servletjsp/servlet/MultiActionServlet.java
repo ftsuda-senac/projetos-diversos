@@ -6,8 +6,6 @@
 package br.senac.tads.servletjsp.servlet;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,21 +16,18 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author fernando.tsuda
  */
-@WebServlet(name = "MetodosRequestServlet", urlPatterns = {"/metodos-request-servlet/*"})
-public class MetodosRequestServlet extends HttpServlet {
+@WebServlet(name = "MultiActionServlet", urlPatterns = {"/multi-action/*"})
+public class MultiActionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/metodos-request.jsp");
-        dispatcher.forward(request, response);
-    }
+        String acao =  request.getPathInfo();
+        request.setAttribute("acao", acao);
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/metodos-request.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/multi-action.jsp")
+                .forward(request, response);
+
     }
 
 }
