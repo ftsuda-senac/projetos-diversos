@@ -139,6 +139,7 @@ public class ExemploDAO {
     public int salvarRecuperandoId(String valor) {
         String sql = "INSERT INTO exemplo (valor) VALUES (?)";
         int resultados = 0;
+        int idGerado = -1;
         try (Connection conn = obterConexao()) {
             // DESLIGAR O AUTO COMMIT
             conn.setAutoCommit(false);
@@ -150,7 +151,7 @@ public class ExemploDAO {
                 try (ResultSet chaves = stmt.getGeneratedKeys()) {
 
                     if (chaves.next()) {
-                        int idGerado = chaves.getInt(1);
+                        idGerado = chaves.getInt(1);
 
                         // USA O ID GERADO PARA DEMAIS OPERACOES
                     }
@@ -165,6 +166,6 @@ public class ExemploDAO {
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-        return resultados;
+        return idGerado;
     }
 }

@@ -23,6 +23,7 @@ public class Principal {
             System.out.println("(1) Listar");
             System.out.println("(2) Incluir com statement");
             System.out.println("(3) Incluir com prepared statement");
+            System.out.println("(4) Incluir com prepared statement e receber ID gerado");
             System.out.println("(9) SAIR");
             System.out.print("Opção: ");
 
@@ -43,6 +44,12 @@ public class Principal {
                         System.out.println("Digite o valor a ser incluido usando PreparedStatement: ");
                         valor = entrada.nextLine();
                         dao.salvarComPreparedStatement(valor);
+                        break;
+                    case 4:
+                        System.out.println("Digite o valor a ser incluido usando PreparedStatement: ");
+                        valor = entrada.nextLine();
+                        int idGerado = dao.salvarRecuperandoId(valor);
+                        System.out.println("ID gerado: " + idGerado);
                         break;
                     case 9:
                         System.exit(0);
