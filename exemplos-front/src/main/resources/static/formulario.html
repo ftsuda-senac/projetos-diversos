@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TODO supply a title</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* http://sergiolopes.org/css-box-sizing-border-box/ */
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+form > div,
+fieldset {
+	margin: 5px;
+}
+
+</style>
+</head>
+<body>
+	<h1>Exemplo formulário</h1>
+	<div>
+		<form action="#" method="post"
+			enctype="application/x-www-form-urlencoded">
+			<h2>Tipos input classicos</h2>
+			<input type="hidden" name="id" value="1234">
+			<div>
+				<label for="txttext">text</label> <input type="text" id="txttext"
+					name="text" placeholder="Placeholder do campo text" maxlength="50"
+					required>
+			</div>
+			<div>
+				<label for="txtpassword">password</label> <input type="password"
+					id="txtpassword" name="nome"
+					placeholder="Placeholder do campo password" maxlength="24" required>
+			</div>
+			<div>
+				<label for="txttextarea">textarea</label>
+				<textarea name="textarea" id="txttextarea" maxlength="300" rows="3"
+					column="80"></textarea>
+			</div>
+			<fieldset>
+				<legend>radio</legend>
+				<div>
+					<input type="radio" name="opcaorad" id="opcaorad1" checked>
+					<label for="opcaorad1">Opção 1</label>
+				</div>
+				<div>
+					<input type="radio" name="opcaorad" id="opcaorad2"> <label
+						for="opcaorad2">Opção 2</label>
+				</div>
+				<div>
+					<input type="radio" name="opcaorad" id="opcaorad3"> <label
+						for="opcaorad3">Opção 3</label>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>checkbox</legend>
+				<div>
+					<input type="checkbox" name="opcaochk" id="opcaochk1"> <label
+						for="opcaochk1">Opção 1</label>
+				</div>
+				<div>
+					<input type="checkbox" name="opcaochk" id="opcaochk2"> <label
+						for="opcaochk2">Opção 2</label>
+				</div>
+				<div>
+					<input type="checkbox" name="opcaochk" id="opcaochk3"> <label
+						for="opcaochk3">Opção 3</label>
+				</div>
+				<div>
+					<input type="checkbox" name="opcaochk" id="opcaochk4" checked>
+					<label for="opcaochk4">Opção 4</label>
+				</div>
+			</fieldset>
+			<div>
+				<label>select</label> <select name="opcoes">
+					<optgroup label="optgroup-a">
+						<option value="a1">Opção a1</option>
+						<option value="a2">Opção a2</option>
+						<option value="a3">Opção a3</option>
+					</optgroup>
+					<optgroup label="optgroup-b">
+						<option value="b1">Opção b1</option>
+						<option value="b2">Opção b2</option>
+						<option value="b3">Opção b3</option>
+					</optgroup>
+					<optgroup label="optgroup-c">
+						<option value="c1">Opção c1</option>
+						<option value="c2">Opção c2</option>
+						<option value="c3">Opção c3</option>
+					</optgroup>
+				</select>
+			</div>
+
+			<hr>
+			<h2>Tipos novos HTML5</h2>
+			<div>
+				<label>date</label> <input type="date">
+			</div>
+			<div>
+				<label>time</label> <input type="time">
+			</div>
+			<div>
+				<label>datetime</label> <input type="datetime">
+			</div>
+			<div>
+				<label>datetime-local</label> <input type="datetime-local">
+			</div>
+			<div>
+				<label>month</label> <input type="month">
+			</div>
+			<div>
+				<label>week</label> <input type="week">
+			</div>
+			<div>
+				<label>email</label> <input type="email">
+			</div>
+			<div>
+				<label>number</label> <input type="number">
+			</div>
+			<div>
+				<label>range</label> <input type="range" min="0" max="10">
+			</div>
+			<div>
+				<label>search</label> <input type="search">
+			</div>
+			<div>
+				<label>tel</label> <input type="tel">
+			</div>
+			<div>
+				<label>url</label> <input type="url">
+			</div>
+			<div>
+				<label>color</label> <input type="color">
+			</div>
+			<div>
+				<button type="reset">Reset</button>
+				<button type="submit">Enviar</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
