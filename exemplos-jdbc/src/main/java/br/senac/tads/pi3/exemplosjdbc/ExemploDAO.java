@@ -6,7 +6,6 @@
 package br.senac.tads.pi3.exemplosjdbc;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,26 +19,11 @@ import java.util.List;
  */
 public class ExemploDAO {
 
-    private Connection obterConexao() throws ClassNotFoundException, SQLException {
-        // 1) Declarar o driver JDBC de acordo com o Banco de dados usado
-        Class.forName("org.h2.Driver");
-
-        // 2) Abrir a conexão
-        // O arquivo do banco de dados está localizado no diretório C:\Users\<NOME_USUARIO>\exemplobd.mv
-        Connection conn = DriverManager.getConnection(
-                "jdbc:h2:file:~/exemplobd;LOCK_TIMEOUT=10000;COLLATION=PORTUGUESE_BRAZIL",
-                "sa",
-                "");
-        return conn;
-    }
-
     public void criarTabela() {
         String sql = "CREATE TABLE IF NOT EXISTS exemplo (id INT PRIMARY KEY auto_increment, valor VARCHAR(255))";
-        try (Connection conn = obterConexao(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionUtilH2.obterConexao(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
     }
@@ -51,7 +35,7 @@ public class ExemploDAO {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            conn = obterConexao();
+            conn = ConnectionUtilH2.obterConexao();
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -59,8 +43,6 @@ public class ExemploDAO {
                 resultados.add(valor);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         } finally {
             if (rs != null) {
@@ -92,7 +74,7 @@ public class ExemploDAO {
         String sql = "SELECT valor FROM exemplo";
         // CÓDIGO ABAIXO SOMENTE PARA JAVA 7 OU SUPERIOR
         List<String> resultados = new ArrayList<>();
-        try (Connection conn = obterConexao();
+        try (Connection conn = ConnectionUtilH2.obterConexao();
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
@@ -101,8 +83,6 @@ public class ExemploDAO {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
         }
         return resultados;
     }
@@ -110,12 +90,10 @@ public class ExemploDAO {
     public int salvarComStatement(String valor) {
         String sql = "INSERT INTO exemplo (valor) VALUES ('" + valor + "')";
         int resultados = 0;
-        try (Connection conn = obterConexao();
+        try (Connection conn = ConnectionUtilH2.obterConexao();
                 Statement stmt = conn.createStatement()) {
             resultados = stmt.executeUpdate(sql);
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
         return resultados;
@@ -124,13 +102,11 @@ public class ExemploDAO {
     public int salvarComPreparedStatement(String valor) {
         String sql = "INSERT INTO exemplo (valor) VALUES (?)";
         int resultados = 0;
-        try (Connection conn = obterConexao();
+        try (Connection conn = ConnectionUtilH2.obterConexao();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, valor);
             resultados = stmt.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
         return resultados;
@@ -140,7 +116,7 @@ public class ExemploDAO {
         String sql = "INSERT INTO exemplo (valor) VALUES (?)";
         int resultados = 0;
         int idGerado = -1;
-        try (Connection conn = obterConexao()) {
+        try (Connection conn = ConnectionUtilH2.obterConexao()) {
             // DESLIGAR O AUTO COMMIT
             conn.setAutoCommit(false);
 
@@ -157,13 +133,14 @@ public class ExemploDAO {
                     }
 
                 }
+                // EFETIVA TODAS AS OPERAÇÕES REALIZADAS
+                conn.commit();
+            } catch (Exception ex) {
+                // OCORREU ALGUM ERRO NA LÓGICA ACIMA - DESFAZ AS OPERAÇÕES ANTERIORES
+                ex.printStackTrace();
+                conn.rollback();
             }
-            // EFETIVA TODAS AS OPERAÇÕES REALIZADAS
-            conn.commit();
         } catch (SQLException ex) {
-            
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
         return idGerado;

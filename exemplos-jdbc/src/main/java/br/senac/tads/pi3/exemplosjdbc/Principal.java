@@ -18,6 +18,7 @@ public class Principal {
         Scanner entrada = new Scanner(System.in);
         ExemploDAO dao = new ExemploDAO();
         dao.criarTabela();
+        System.out.println("Para testar SQL Injection, digitar como valor: teste c'); delete from exemplo; --");
         do {
             System.out.println("********** DIGITE UMA OPÇÃO **********");
             System.out.println("(1) Listar");
