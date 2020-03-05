@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
@@ -17,15 +18,16 @@ public class CategoriaRepositoryJpaImpl implements CategoriaRepository {
 
 	@Override
 	public List<Categoria> findAll() {
-		Query jpqlQuery = em.createQuery("SELECT c FROM Categoria c");
+		TypedQuery<Categoria> jpqlQuery = em.createQuery("SELECT c FROM Categoria c", Categoria.class);
 		return jpqlQuery.getResultList();
 	}
 
 	@Override
 	public Categoria findById(Integer id) {
-		Query jpqlQuery = em.createQuery("SELECT c FROM Categoria c WHERE c.id = :idCat");
+		TypedQuery<Categoria> jpqlQuery = em.createQuery("SELECT c FROM Categoria c WHERE c.id = :idCat",
+				Categoria.class);
 		jpqlQuery.setParameter("idCat", id);
-		Categoria cat = (Categoria) jpqlQuery.getSingleResult();
+		Categoria cat = jpqlQuery.getSingleResult();
 		return cat;
 	}
 

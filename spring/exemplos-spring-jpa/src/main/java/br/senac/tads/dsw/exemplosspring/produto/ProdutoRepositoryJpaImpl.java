@@ -24,7 +24,8 @@ public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
 
 	@Override
 	public List<Produto> findAll(int offset, int quantidade) {
-		Query jpqlQuery = em.createNamedQuery("Produto.findAll").setFirstResult(offset)
+		TypedQuery<Produto> jpqlQuery = em.createNamedQuery("Produto.findAll", Produto.class)
+				.setFirstResult(offset)
 				.setMaxResults(quantidade);
 		return jpqlQuery.getResultList();
 	}
@@ -41,7 +42,8 @@ public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
 
 	@Override
 	public List<Produto> findByCategoria(List<Integer> idsCat, int offset, int quantidade) {
-		Query jpqlQuery = em.createNamedQuery("Produto.findAllByCategorias_Id").setParameter("idCat", idsCat);
+		TypedQuery<Produto> jpqlQuery = em.createNamedQuery("Produto.findAllByCategorias_Id", Produto.class)
+				.setParameter("idCat", idsCat);
 		return jpqlQuery.getResultList();
 	}
 	
@@ -59,11 +61,12 @@ public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
 
 	@Override
 	public Produto findById(Long id) {
-		Query jpqlQuery = em.createNamedQuery("Produto.findById").setParameter("idProd", id);
-		Produto p = (Produto) jpqlQuery.getSingleResult();
+		TypedQuery<Produto> jpqlQuery = em.createNamedQuery("Produto.findById", Produto.class)
+				.setParameter("idProd", id);
+		Produto p = jpqlQuery.getSingleResult();
 		return p;
 	}
-	
+
 	public Produto findByIdCriteria(Long id) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Produto> criteriaQuery = cb.createQuery(Produto.class);
