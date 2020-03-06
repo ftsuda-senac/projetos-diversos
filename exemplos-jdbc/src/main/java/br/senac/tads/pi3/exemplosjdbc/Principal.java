@@ -53,6 +53,7 @@ public class Principal {
                         System.out.println("ID gerado: " + idGerado);
                         break;
                     case 9:
+                    	entrada.close();
                         System.exit(0);
                     default:
                         System.out.println("OPÇÃO INVÁLIDA.");

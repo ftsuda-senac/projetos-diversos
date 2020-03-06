@@ -9,6 +9,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
+import org.h2.jdbcx.JdbcDataSource;
+
 /**
  * 
  * @author fernando.tsuda
@@ -37,5 +41,15 @@ public class ConnectionUtilH2 {
                 "sa",
                 "");
         return conn;
+    }
+    
+    public static DataSource retrieveDS() {
+    	 JdbcDataSource ds = new JdbcDataSource();
+    	 ds.setURL("jdbc:h2:file:~/exemplobd;LOCK_TIMEOUT=10000;COLLATION=PORTUGUESE_BRAZIL");
+    	 ds.setUser("sa");
+    	 ds.setPassword("");
+    	 return ds;
+//    	 Context ctx = new InitialContext();
+//    	 ctx.bind("jdbc/dsName", ds);
     }
 }

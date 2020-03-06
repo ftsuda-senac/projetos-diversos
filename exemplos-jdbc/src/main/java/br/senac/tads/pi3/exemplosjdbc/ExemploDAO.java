@@ -13,11 +13,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 /**
  *
  * @author fernando.tsuda
  */
 public class ExemploDAO {
+	
+	private DataSource datasource = ConnectionUtilH2.retrieveDS();
 
     public void criarTabela() {
         String sql = "CREATE TABLE IF NOT EXISTS exemplo (id INT PRIMARY KEY auto_increment, valor VARCHAR(255))";
@@ -35,7 +39,7 @@ public class ExemploDAO {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            conn = ConnectionUtilH2.obterConexao();
+            conn = datasource.getConnection();
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -74,7 +78,7 @@ public class ExemploDAO {
         String sql = "SELECT valor FROM exemplo";
         // CÓDIGO ABAIXO SOMENTE PARA JAVA 7 OU SUPERIOR
         List<String> resultados = new ArrayList<>();
-        try (Connection conn = ConnectionUtilH2.obterConexao();
+        try (Connection conn = datasource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
@@ -102,7 +106,7 @@ public class ExemploDAO {
     public int salvarComPreparedStatement(String valor) {
         String sql = "INSERT INTO exemplo (valor) VALUES (?)";
         int resultados = 0;
-        try (Connection conn = ConnectionUtilH2.obterConexao();
+        try (Connection conn = datasource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, valor);
             resultados = stmt.executeUpdate();
@@ -116,7 +120,7 @@ public class ExemploDAO {
         String sql = "INSERT INTO exemplo (valor) VALUES (?)";
         int resultados = 0;
         int idGerado = -1;
-        try (Connection conn = ConnectionUtilH2.obterConexao()) {
+        try (Connection conn = datasource.getConnection()) {
             // DESLIGAR O AUTO COMMIT
             conn.setAutoCommit(false);
 
