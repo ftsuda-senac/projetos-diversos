@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -21,6 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/formulario")
 public class FormularioController {
 
+	@Autowired
+	private DadosPessoaisService service;
+
     /**
      * Registra validadores e formatadores
      * @param binder 
@@ -31,7 +35,12 @@ public class FormularioController {
 //        binder.addCustomFormatter(new WebDateFormatter());
 //    }
 
-    @GetMapping
+	@GetMapping("/lista")
+	public ModelAndView listar() {
+		return new ModelAndView("lista").addObject("dados", service.findAll());
+	}
+
+    @GetMapping("/form")
     public ModelAndView abrirFormulario() {
         ModelAndView mv = new ModelAndView("formulario");
         DadosPessoais dados = new DadosPessoais();
@@ -47,6 +56,7 @@ public class FormularioController {
         dados.setAltura(BigDecimal.valueOf(1.72));
         dados.setDescricao("bla bla bla");
         dados.setInteresses(new String[]{"Tecnologia", "Viagens"});
+        
         mv.addObject("dadosPessoais", dados);
         return mv;
     }
@@ -55,6 +65,7 @@ public class FormularioController {
     public ModelAndView salvar(
             @ModelAttribute("dadosPessoais") DadosPessoais dadosRecebidos) {
         ModelAndView mv = new ModelAndView("resultado-formulario");
+        service.save(dadosRecebidos);
         mv.addObject("dados", dadosRecebidos);
         return mv;
     }
@@ -63,6 +74,7 @@ public class FormularioController {
     public ModelAndView salvarComPostRedirectGet(
             @ModelAttribute("dadosPessoais") DadosPessoais dadosRecebidos,
             RedirectAttributes redirAttr) {
+    	service.save(dadosRecebidos);
         ModelAndView mv = new ModelAndView("redirect:/formulario/resultado");
         redirAttr.addFlashAttribute("dados", dadosRecebidos);
         return mv;
@@ -76,6 +88,7 @@ public class FormularioController {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("formulario-final");
         }
+        service.save(dadosRecebidos);
         ModelAndView mv = new ModelAndView("redirect:/formulario/resultado");
         redirAttr.addFlashAttribute("dados", dadosRecebidos);
         return mv;
