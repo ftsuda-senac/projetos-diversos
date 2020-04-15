@@ -30,40 +30,37 @@ import br.senac.tads.dsw.exemplosspring.produto.CategoriaRepository;
 @Controller
 @RequestMapping("/categoria")
 public class CategoriaController {
-    
-    @Autowired
-    private CategoriaRepository repository;
 
-    @GetMapping
-    public ModelAndView listar() {
-        List<Categoria> resultados = repository.findAll();
-        return new ModelAndView("categoria/lista")
-                .addObject("categorias", resultados);
-    }
+	@Autowired
+	private CategoriaRepository repository;
 
-    @GetMapping("/novo")
-    public ModelAndView adicionarNovo() {
-        return new ModelAndView("categoria/form")
-                .addObject("categoria", new Categoria());
-    }
-    
+	@GetMapping
+	public ModelAndView listar() {
+		List<Categoria> resultados = repository.findAll();
+		return new ModelAndView("categoria/lista").addObject("categorias", resultados);
+	}
+
+	@GetMapping("/novo")
+	public ModelAndView adicionarNovo() {
+		return new ModelAndView("categoria/form").addObject("categoria", new Categoria());
+	}
+
 	@GetMapping("/{id}/editar")
 	public ModelAndView editar(@PathVariable("id") int id) {
 		Categoria cat = repository.findById(id);
 		return new ModelAndView("categoria/form").addObject("categoria", cat);
 	}
 
-    @PostMapping("/salvar")
-    public ModelAndView salvar(@ModelAttribute @Valid Categoria cat,
-    		BindingResult bindingResult,
-            RedirectAttributes redirAttr) {
-    	if (bindingResult.hasErrors()) {
-    		return new ModelAndView("categoria/form");
-    	}
-        repository.save(cat);
-        redirAttr.addFlashAttribute("msgSucesso", 
-                "Categoria " + cat.getNome() + " salva com sucesso");
-        return new ModelAndView("redirect:/categoria");
-    }
-    
+	@PostMapping("/salvar")
+	public ModelAndView salvar(@ModelAttribute("categoria") @Valid Categoria cat,
+			BindingResult bindingResult,
+			RedirectAttributes redirAttr) {
+		if (bindingResult.hasErrors()) {
+			return new ModelAndView("categoria/form");
+		}
+		repository.save(cat);
+		redirAttr.addFlashAttribute("msgSucesso", "Categoria " + cat.getNome() + " salva com sucesso");
+		return new ModelAndView("redirect:/categoria");
+	}
+
 }

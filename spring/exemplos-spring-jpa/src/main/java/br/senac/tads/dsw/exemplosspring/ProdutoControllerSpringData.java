@@ -42,100 +42,95 @@ import br.senac.tads.dsw.exemplosspring.produto.ProdutoRepositorySpringData;
 @Controller
 @RequestMapping("/produto-sd")
 public class ProdutoControllerSpringData {
-    
-    @Autowired
-    private ProdutoRepositorySpringData produtoRepository;
-    
-    @Autowired
-    private CategoriaRepositorySpringData categoriaRepository;
 
-    @GetMapping
-    public ModelAndView listar(
-            @RequestParam(name = "offset", defaultValue = "0") int offset,
-            @RequestParam(name = "qtd", defaultValue = "500") int qtd,
-            @RequestParam(name = "idsCat", required = false) List<Integer> idsCat) {
-        List<Produto> resultados;
-        if (idsCat != null && !idsCat.isEmpty()) {
-            // Busca pelos IDs das categorias informadas
-            resultados = produtoRepository.findByCategorias_IdIn(idsCat);
-        } else {
-            // Lista todos os produtos usando paginacao
-            resultados = produtoRepository.findAll();
-        }
-        return new ModelAndView("produto-sd/lista").addObject("produtos", resultados);
-    }
+	@Autowired
+	private ProdutoRepositorySpringData produtoRepository;
 
-    @GetMapping("/novo")
-    public ModelAndView adicionarNovo() {
-        return new ModelAndView("produto-sd/form")
-                .addObject("produto", new Produto());
-    }
+	@Autowired
+	private CategoriaRepositorySpringData categoriaRepository;
 
-    @GetMapping("/{id}/editar")
-    public ModelAndView editar(@PathVariable("id") long id) {
-        Optional<Produto> optProd = produtoRepository.findById(id);
-        if (optProd.isPresent()) {
-        	Produto prod = optProd.get();
-            if (prod.getCategorias() != null && !prod.getCategorias().isEmpty()) {
-                Set<Integer> idsCategorias = new HashSet<>();
-                for (Categoria cat : prod.getCategorias()) {
-                    idsCategorias.add(cat.getId());
-                }
-                prod.setIdsCategorias(idsCategorias);
-            }
-            if (prod.getImagens() != null && !prod.getImagens().isEmpty()) {
-            	prod.setImagensList(new ArrayList<>(prod.getImagens()));
-            }
-            return new ModelAndView("produto-sd/form")
-                    .addObject("produto", prod);
-        }
-    	ModelAndView notFound = new ModelAndView("redirect:/produto-sd");
-    	notFound.setStatus(HttpStatus.NOT_FOUND);
-    	return notFound;
-    }
+	@GetMapping
+	public ModelAndView listar(@RequestParam(name = "offset", defaultValue = "0") int offset,
+			@RequestParam(name = "qtd", defaultValue = "500") int qtd,
+			@RequestParam(name = "idsCat", required = false) List<Integer> idsCat) {
+		List<Produto> resultados;
+		if (idsCat != null && !idsCat.isEmpty()) {
+			// Busca pelos IDs das categorias informadas
+			resultados = produtoRepository.findByCategorias_IdIn(idsCat);
+		} else {
+			// Lista todos os produtos usando paginacao
+			resultados = produtoRepository.findAll();
+		}
+		return new ModelAndView("produto-sd/lista").addObject("produtos", resultados);
+	}
 
-    @PostMapping("/salvar")
-    public ModelAndView salvar(
-            @ModelAttribute @Valid Produto produto, 
-            BindingResult bindingResult, RedirectAttributes redirAttr) {
-        produto.setDtCadastro(LocalDateTime.now());
-        if (produto.getIdsCategorias() != null && !produto.getIdsCategorias().isEmpty()) {
-            Set<Categoria> categoriasSelecionadas = new HashSet<>();
-            for (Integer idCat : produto.getIdsCategorias()) {
+	@GetMapping("/novo")
+	public ModelAndView adicionarNovo() {
+		return new ModelAndView("produto-sd/form").addObject("produto", new Produto());
+	}
+
+	@GetMapping("/{id}/editar")
+	public ModelAndView editar(@PathVariable("id") long id) {
+		Optional<Produto> optProd = produtoRepository.findById(id);
+		if (optProd.isPresent()) {
+			Produto prod = optProd.get();
+			if (prod.getCategorias() != null && !prod.getCategorias().isEmpty()) {
+				Set<Integer> idsCategorias = new HashSet<>();
+				for (Categoria cat : prod.getCategorias()) {
+					idsCategorias.add(cat.getId());
+				}
+				prod.setIdsCategorias(idsCategorias);
+			}
+			if (prod.getImagens() != null && !prod.getImagens().isEmpty()) {
+				prod.setImagensList(new ArrayList<>(prod.getImagens()));
+			}
+			return new ModelAndView("produto-sd/form").addObject("produto", prod);
+		}
+		ModelAndView notFound = new ModelAndView("redirect:/produto-sd");
+		notFound.setStatus(HttpStatus.NOT_FOUND);
+		return notFound;
+	}
+
+	@PostMapping("/salvar")
+	public ModelAndView salvar(@ModelAttribute("produto") @Valid Produto produto,
+			BindingResult bindingResult,
+			RedirectAttributes redirAttr) {
+		produto.setDtCadastro(LocalDateTime.now());
+		if (produto.getIdsCategorias() != null && !produto.getIdsCategorias().isEmpty()) {
+			Set<Categoria> categoriasSelecionadas = new HashSet<>();
+			for (Integer idCat : produto.getIdsCategorias()) {
 				Optional<Categoria> optCat = categoriaRepository.findById(idCat);
 				if (optCat.isPresent()) {
 					Categoria cat = optCat.get();
 					categoriasSelecionadas.add(cat);
 					cat.setProdutos(new HashSet<>(Arrays.asList(produto)));
 				}
-            }
-            produto.setCategorias(categoriasSelecionadas);
-        }
-        if (produto.getImagensList() != null && !produto.getImagensList().isEmpty()) {
-        	Set<ImagemProduto> imagens = new LinkedHashSet<>();
-        	for (ImagemProduto img : produto.getImagensList()) {
-        		img.setProduto(produto);
-        		imagens.add(img);
-        	}
-        	produto.setImagens(imagens);
-        }
-        produtoRepository.save(produto);
-        redirAttr.addFlashAttribute("msgSucesso", 
-                "Produto " + produto.getNome() + " salvo com sucesso");
-        return new ModelAndView("redirect:/produto-sd");
-    }
+			}
+			produto.setCategorias(categoriasSelecionadas);
+		}
+		if (produto.getImagensList() != null && !produto.getImagensList().isEmpty()) {
+			Set<ImagemProduto> imagens = new LinkedHashSet<>();
+			for (ImagemProduto img : produto.getImagensList()) {
+				img.setProduto(produto);
+				imagens.add(img);
+			}
+			produto.setImagens(imagens);
+		}
+		produtoRepository.save(produto);
+		redirAttr.addFlashAttribute("msgSucesso", "Produto " + produto.getNome() + " salvo com sucesso");
+		return new ModelAndView("redirect:/produto-sd");
+	}
 
-    @PostMapping("/{id}/remover")
-    public ModelAndView remover(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        produtoRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("msgSucesso", 
-                "Produto ID " + id + " removido com sucesso");
-        return new ModelAndView("redirect:/produto-sd");
-    }
+	@PostMapping("/{id}/remover")
+	public ModelAndView remover(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+		produtoRepository.deleteById(id);
+		redirectAttributes.addFlashAttribute("msgSucesso", "Produto ID " + id + " removido com sucesso");
+		return new ModelAndView("redirect:/produto-sd");
+	}
 
-    @ModelAttribute("categorias")
-    public List<Categoria> getCategorias() {
-        return categoriaRepository.findAll();
-    }
+	@ModelAttribute("categorias")
+	public List<Categoria> getCategorias() {
+		return categoriaRepository.findAll();
+	}
 
 }

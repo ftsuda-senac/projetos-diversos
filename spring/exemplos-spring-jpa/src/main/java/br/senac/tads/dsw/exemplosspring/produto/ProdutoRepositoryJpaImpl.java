@@ -43,7 +43,7 @@ public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
 	@Override
 	public List<Produto> findByCategoria(List<Integer> idsCat, int offset, int quantidade) {
 		TypedQuery<Produto> jpqlQuery = em.createNamedQuery("Produto.findAllByCategorias_Id", Produto.class)
-				.setParameter("idCat", idsCat);
+				.setParameter("idsCat", idsCat);
 		return jpqlQuery.getResultList();
 	}
 	

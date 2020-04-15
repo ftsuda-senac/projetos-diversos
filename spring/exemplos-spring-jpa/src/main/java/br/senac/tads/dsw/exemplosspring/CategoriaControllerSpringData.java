@@ -32,47 +32,43 @@ import br.senac.tads.dsw.exemplosspring.produto.CategoriaRepositorySpringData;
 @Controller
 @RequestMapping("/categoria-sd")
 public class CategoriaControllerSpringData {
-    
-    @Autowired
-    private CategoriaRepositorySpringData repository;
 
-    @GetMapping
-    public ModelAndView listar() {
-        List<Categoria> resultados = repository.findAll();
-        return new ModelAndView("categoria-sd/lista")
-                .addObject("categorias", resultados);
-    }
+	@Autowired
+	private CategoriaRepositorySpringData repository;
 
-    @GetMapping("/novo")
-    public ModelAndView adicionarNovo() {
-        return new ModelAndView("categoria-sd/form")
-                .addObject("categoria", new Categoria());
-    }
-    
-    @GetMapping("/{id}/editar")
-    public ModelAndView editar(@PathVariable("id") int id) {
-    	Optional<Categoria> optCat = repository.findById(id);
-    	if (optCat.isPresent()) {
-        	Categoria cat = optCat.get();
-        	return new ModelAndView("categoria-sd/form")
-                    .addObject("categoria", cat);
-    	}
-    	ModelAndView notFound = new ModelAndView("redirect:/categoria-sd");
-    	notFound.setStatus(HttpStatus.NOT_FOUND);
-    	return notFound;
-    }
+	@GetMapping
+	public ModelAndView listar() {
+		List<Categoria> resultados = repository.findAll();
+		return new ModelAndView("categoria-sd/lista").addObject("categorias", resultados);
+	}
 
-    @PostMapping("/salvar")
-    public ModelAndView salvar(@ModelAttribute @Valid Categoria cat,
-    		BindingResult bindingResult,
-            RedirectAttributes redirAttr) {
-    	if (bindingResult.hasErrors()) {
-    		return new ModelAndView("categoria-sd/form");
-    	}
-        repository.save(cat);
-        redirAttr.addFlashAttribute("msgSucesso", 
-                "Categoria " + cat.getNome() + " salva com sucesso");
-        return new ModelAndView("redirect:/categoria-sd");
-    }
-    
+	@GetMapping("/novo")
+	public ModelAndView adicionarNovo() {
+		return new ModelAndView("categoria-sd/form").addObject("categoria", new Categoria());
+	}
+
+	@GetMapping("/{id}/editar")
+	public ModelAndView editar(@PathVariable("id") int id) {
+		Optional<Categoria> optCat = repository.findById(id);
+		if (optCat.isPresent()) {
+			Categoria cat = optCat.get();
+			return new ModelAndView("categoria-sd/form").addObject("categoria", cat);
+		}
+		ModelAndView notFound = new ModelAndView("redirect:/categoria-sd");
+		notFound.setStatus(HttpStatus.NOT_FOUND);
+		return notFound;
+	}
+
+	@PostMapping("/salvar")
+	public ModelAndView salvar(@ModelAttribute("categoria") @Valid Categoria cat,
+			BindingResult bindingResult,
+			RedirectAttributes redirAttr) {
+		if (bindingResult.hasErrors()) {
+			return new ModelAndView("categoria-sd/form");
+		}
+		repository.save(cat);
+		redirAttr.addFlashAttribute("msgSucesso", "Categoria " + cat.getNome() + " salva com sucesso");
+		return new ModelAndView("redirect:/categoria-sd");
+	}
+
 }
