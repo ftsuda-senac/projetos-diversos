@@ -63,7 +63,7 @@ public class FormularioController {
 
     @PostMapping("/salvar")
     public ModelAndView salvar(
-            @ModelAttribute("dadosPessoais") DadosPessoais dadosRecebidos) {
+            @ModelAttribute DadosPessoais dadosRecebidos) {
         ModelAndView mv = new ModelAndView("resultado-formulario");
         service.save(dadosRecebidos);
         mv.addObject("dados", dadosRecebidos);
@@ -72,7 +72,7 @@ public class FormularioController {
 
     @PostMapping("/salvar-prg")
     public ModelAndView salvarComPostRedirectGet(
-            @ModelAttribute("dadosPessoais") DadosPessoais dadosRecebidos,
+            @ModelAttribute DadosPessoais dadosRecebidos,
             RedirectAttributes redirAttr) {
     	service.save(dadosRecebidos);
         ModelAndView mv = new ModelAndView("redirect:/formulario/resultado");

@@ -51,7 +51,7 @@ public class ExemploSessaoController3 {
     public ModelAndView limparSelecionados(HttpServletRequest request, 
     		RedirectAttributes redirAttr) {
     	HttpSession sessao = request.getSession();
-    	if (sessao.getAttribute("itensSelecionados3") == null) {
+    	if (sessao.getAttribute("itensSelecionados3") != null) {
     		List<ItemSelecionado> itensSelecionados = (ArrayList<ItemSelecionado>) sessao.getAttribute("itensSelecionados3");
     		itensSelecionados.clear();
     	}
