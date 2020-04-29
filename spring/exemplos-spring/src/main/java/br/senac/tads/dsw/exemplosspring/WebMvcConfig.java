@@ -45,7 +45,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     /**
-     * Configura as mensagens para serem usadas com Bean Validation Referência:
+     * Configura as mensagens para serem usadas com Bean Validation<br>
+     * Referência:
      * https://www.baeldung.com/spring-custom-validation-message-source
      */
     @Bean(name = "messageSource")

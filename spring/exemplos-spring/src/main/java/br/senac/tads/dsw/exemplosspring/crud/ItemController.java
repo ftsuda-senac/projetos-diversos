@@ -57,7 +57,7 @@ public class ItemController {
     }
 
     @PostMapping("/salvar")
-    public ModelAndView salvar(@ModelAttribute @Valid Item item, BindingResult bindingResult, RedirectAttributes redirAttr) {
+    public ModelAndView salvar(@ModelAttribute("item") @Valid Item item, BindingResult bindingResult, RedirectAttributes redirAttr) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("crud/form");
         }
