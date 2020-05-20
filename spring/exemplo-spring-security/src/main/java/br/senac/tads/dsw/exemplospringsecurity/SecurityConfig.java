@@ -21,59 +21,59 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    public static PasswordEncoder plainPasswordEncoder() {
-        return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence cs) {
-                return cs.toString();
-            }
+	public static PasswordEncoder plainPasswordEncoder() {
+		return new PasswordEncoder() {
+			@Override
+			public String encode(CharSequence cs) {
+				return cs.toString();
+			}
 
-            @Override
-            public boolean matches(CharSequence cs, String hashSenha) {
-                return hashSenha != null && hashSenha.equals(cs.toString());
-            }
-        };
-    }
-    
-    public static PasswordEncoder bcryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+			@Override
+			public boolean matches(CharSequence cs, String hashSenha) {
+				return hashSenha != null && hashSenha.equals(cs.toString());
+			}
+		};
+	}
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return bcryptPasswordEncoder();
-    }
-    
-    
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-        .authorizeRequests()
-            .antMatchers("/css/**", "/img/**", "/js/**", "/font/**").permitAll()
-            .antMatchers("/protegido/peao/**").hasRole("PEAO")
-            .antMatchers("/protegido/fodon/**").hasRole("FODON")
-            .antMatchers("/protegido/god/**").hasRole("GOD")
-            .antMatchers("/**").authenticated()
-        .and()
-        	.formLogin()
-        		.loginPage("/login")
-        		.usernameParameter("username")
-        		.passwordParameter("senha")
-        		.defaultSuccessUrl("/home").permitAll()
-        .and()
-        	.logout()
-	            .logoutUrl("/logout")
-	            .logoutSuccessUrl("/login?logout")
-	            .invalidateHttpSession(true).deleteCookies("JSESSIONID")
-        .and()
-            .exceptionHandling()
-            	.accessDeniedPage("/erro/403");;
-    }
+	public static PasswordEncoder bcryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    
-    
-    
-    
-    
-    
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return bcryptPasswordEncoder();
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		// @formatter:off
+		http
+			.headers().cacheControl().disable() // Allow cache configuration
+				.frameOptions().sameOrigin() // Avoid x-frame-options problem opening H2 console
+			.and()
+				.csrf().disable()
+			.authorizeRequests()
+				.antMatchers("/css/**", "/img/**", "/js/**", "/font/**", "/", "/index.html").permitAll()
+				.antMatchers("/protegido/peao/**").hasRole("PEAO") // OU .hasAuthority("ROLE_PEAO")
+				.antMatchers("/protegido/fodon/**").hasRole("FODON")
+				.antMatchers("/protegido/god/**").hasRole("GOD")
+				.anyRequest().authenticated()
+			.and()
+				.formLogin()
+					.loginPage("/login")
+					.usernameParameter("username")
+					.passwordParameter("senha")
+					.defaultSuccessUrl("/home").permitAll()
+			.and()
+				.logout()
+					.logoutUrl("/logout")
+					.logoutSuccessUrl("/login?logout")
+					.invalidateHttpSession(true)
+					.deleteCookies("JSESSIONID")
+			.and()
+				.exceptionHandling()
+					.accessDeniedPage("/erro/403");
+		// @formatter:on
+	}
+
 }

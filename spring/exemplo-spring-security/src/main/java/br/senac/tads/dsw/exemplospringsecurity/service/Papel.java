@@ -8,7 +8,9 @@ import org.springframework.security.core.GrantedAuthority;
  */
 public class Papel implements GrantedAuthority {
 
-    private String nome;
+	private static final long serialVersionUID = 1L;
+
+	private String nome;
 
     public Papel() {
     }

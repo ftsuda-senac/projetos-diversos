@@ -13,6 +13,7 @@
             <h2>Informações do usuário</h2>
             <p>Nome completo: <span sec:authentication="principal.nomeCompleto"></span></p>
             <p sec:authentication="principal.hashSenha"></p>
+            <a th:href="@{/home}">Voltar para HOME</a>
         </div>
     </body>
 </html>

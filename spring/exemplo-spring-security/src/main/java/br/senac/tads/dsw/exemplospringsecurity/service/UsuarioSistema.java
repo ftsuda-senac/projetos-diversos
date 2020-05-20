@@ -1,9 +1,7 @@
 package br.senac.tads.dsw.exemplospringsecurity.service;
 
-import java.util.Collection;
 import java.util.List;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.senac.tads.dsw.exemplospringsecurity.SecurityConfig;
@@ -15,7 +13,9 @@ import br.senac.tads.dsw.exemplospringsecurity.SecurityConfig;
  */
 public class UsuarioSistema implements UserDetails {
 
-    private String username;
+	private static final long serialVersionUID = 1L;
+
+	private String username;
 
     private String nomeCompleto;
 

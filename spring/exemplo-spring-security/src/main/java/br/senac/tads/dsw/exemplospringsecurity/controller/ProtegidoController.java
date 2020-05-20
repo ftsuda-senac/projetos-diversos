@@ -33,7 +33,7 @@ public class ProtegidoController {
     }
 
     @GetMapping("/god")
-    public ModelAndView mostrargODPage() {
+    public ModelAndView mostrarGodPage() {
         return new ModelAndView("resultado")
                 .addObject("titulo", "Página do GOD")
                 .addObject("msg", "Usuário logado possui papel \"GOD\"");
