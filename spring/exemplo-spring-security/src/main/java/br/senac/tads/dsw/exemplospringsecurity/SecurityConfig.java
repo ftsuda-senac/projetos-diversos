@@ -47,13 +47,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
-		http
-			.headers().cacheControl().disable() // Allow cache configuration
+		http.headers()
+				.cacheControl().disable() // Allow cache configuration
 				.frameOptions().sameOrigin() // Avoid x-frame-options problem opening H2 console
-			.and()
-				.csrf().disable()
+			.and().csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/css/**", "/img/**", "/js/**", "/font/**", "/", "/index.html").permitAll()
+				.antMatchers("/css/**", "/img/**", "/js/**", "/font/**", "/", "/index.html", "/h2/**" ).permitAll()
 				.antMatchers("/protegido/peao/**").hasRole("PEAO") // OU .hasAuthority("ROLE_PEAO")
 				.antMatchers("/protegido/fodon/**").hasRole("FODON")
 				.antMatchers("/protegido/god/**").hasRole("GOD")
