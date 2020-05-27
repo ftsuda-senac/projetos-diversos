@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.senac.tads.dsw.exemplosspring;
+package br.senac.tads.dsw.exemplosspring.produto.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.senac.tads.dsw.exemplosspring.produto.Categoria;
-import br.senac.tads.dsw.exemplosspring.produto.CategoriaRepositorySpringData;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.Categoria;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio.CategoriaRepositorySpringData;
 
 /**
  *

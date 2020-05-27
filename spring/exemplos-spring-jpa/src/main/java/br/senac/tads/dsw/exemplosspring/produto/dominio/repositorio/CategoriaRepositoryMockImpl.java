@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.senac.tads.dsw.exemplosspring.produto;
+package br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.Categoria;
 
 /**
  *

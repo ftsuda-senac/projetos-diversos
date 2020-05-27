@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.senac.tads.dsw.exemplosspring;
+package br.senac.tads.dsw.exemplosspring.produto.controller;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,13 +11,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,25 +27,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.senac.tads.dsw.exemplosspring.produto.Categoria;
-import br.senac.tads.dsw.exemplosspring.produto.CategoriaRepositorySpringData;
-import br.senac.tads.dsw.exemplosspring.produto.ImagemProduto;
-import br.senac.tads.dsw.exemplosspring.produto.Produto;
-import br.senac.tads.dsw.exemplosspring.produto.ProdutoRepositorySpringData;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.Categoria;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.ImagemProduto;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.Produto;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio.CategoriaRepository;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio.ProdutoRepository;
 
 /**
  *
  * @author fernando.tsuda
  */
 @Controller
-@RequestMapping("/produto-sd")
-public class ProdutoControllerSpringData {
+@RequestMapping("/produto")
+public class ProdutoController {
 
 	@Autowired
-	private ProdutoRepositorySpringData produtoRepository;
+	private ProdutoRepository produtoRepository;
 
 	@Autowired
-	private CategoriaRepositorySpringData categoriaRepository;
+	private CategoriaRepository categoriaRepository;
 
 	@GetMapping
 	public ModelAndView listar(@RequestParam(name = "offset", defaultValue = "0") int offset,
@@ -56,39 +54,34 @@ public class ProdutoControllerSpringData {
 		List<Produto> resultados;
 		if (idsCat != null && !idsCat.isEmpty()) {
 			// Busca pelos IDs das categorias informadas
-			resultados = produtoRepository.findByCategorias_IdIn(idsCat);
+			resultados = produtoRepository.findByCategoria(idsCat, offset, qtd);
 		} else {
 			// Lista todos os produtos usando paginacao
-			resultados = produtoRepository.findAll();
+			resultados = produtoRepository.findAll(offset, qtd);
 		}
-		return new ModelAndView("produto-sd/lista").addObject("produtos", resultados);
+		return new ModelAndView("produto/lista").addObject("produtos", resultados);
 	}
 
 	@GetMapping("/novo")
 	public ModelAndView adicionarNovo() {
-		return new ModelAndView("produto-sd/form").addObject("produto", new Produto());
+		return new ModelAndView("produto/form").addObject("produto", new Produto());
 	}
 
 	@GetMapping("/{id}/editar")
 	public ModelAndView editar(@PathVariable("id") long id) {
-		Optional<Produto> optProd = produtoRepository.findById(id);
-		if (optProd.isPresent()) {
-			Produto prod = optProd.get();
-			if (prod.getCategorias() != null && !prod.getCategorias().isEmpty()) {
-				Set<Integer> idsCategorias = new HashSet<>();
-				for (Categoria cat : prod.getCategorias()) {
-					idsCategorias.add(cat.getId());
-				}
-				prod.setIdsCategorias(idsCategorias);
+
+		Produto prod = produtoRepository.findById(id);
+		if (prod.getCategorias() != null && !prod.getCategorias().isEmpty()) {
+			Set<Integer> idsCategorias = new HashSet<>();
+			for (Categoria cat : prod.getCategorias()) {
+				idsCategorias.add(cat.getId());
 			}
-			if (prod.getImagens() != null && !prod.getImagens().isEmpty()) {
-				prod.setImagensList(new ArrayList<>(prod.getImagens()));
-			}
-			return new ModelAndView("produto-sd/form").addObject("produto", prod);
+			prod.setIdsCategorias(idsCategorias);
 		}
-		ModelAndView notFound = new ModelAndView("redirect:/produto-sd");
-		notFound.setStatus(HttpStatus.NOT_FOUND);
-		return notFound;
+		if (prod.getImagens() != null && !prod.getImagens().isEmpty()) {
+			prod.setImagensList(new ArrayList<>(prod.getImagens()));
+		}
+		return new ModelAndView("produto/form").addObject("produto", prod);
 	}
 
 	@PostMapping("/salvar")
@@ -99,12 +92,9 @@ public class ProdutoControllerSpringData {
 		if (produto.getIdsCategorias() != null && !produto.getIdsCategorias().isEmpty()) {
 			Set<Categoria> categoriasSelecionadas = new HashSet<>();
 			for (Integer idCat : produto.getIdsCategorias()) {
-				Optional<Categoria> optCat = categoriaRepository.findById(idCat);
-				if (optCat.isPresent()) {
-					Categoria cat = optCat.get();
-					categoriasSelecionadas.add(cat);
-					cat.setProdutos(new HashSet<>(Arrays.asList(produto)));
-				}
+				Categoria cat = categoriaRepository.findById(idCat);
+				categoriasSelecionadas.add(cat);
+				cat.setProdutos(new HashSet<>(Arrays.asList(produto)));
 			}
 			produto.setCategorias(categoriasSelecionadas);
 		}
@@ -118,14 +108,14 @@ public class ProdutoControllerSpringData {
 		}
 		produtoRepository.save(produto);
 		redirAttr.addFlashAttribute("msgSucesso", "Produto " + produto.getNome() + " salvo com sucesso");
-		return new ModelAndView("redirect:/produto-sd");
+		return new ModelAndView("redirect:/produto");
 	}
 
 	@PostMapping("/{id}/remover")
 	public ModelAndView remover(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
 		produtoRepository.deleteById(id);
 		redirectAttributes.addFlashAttribute("msgSucesso", "Produto ID " + id + " removido com sucesso");
-		return new ModelAndView("redirect:/produto-sd");
+		return new ModelAndView("redirect:/produto");
 	}
 
 	@ModelAttribute("categorias")

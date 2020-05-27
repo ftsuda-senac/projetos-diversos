@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.senac.tads.dsw.exemplosspring.produto;
+package br.senac.tads.dsw.exemplosspring.produto.dominio.entidade;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -94,6 +94,7 @@ public class Produto implements Serializable {
     )
 	private Set<Categoria> categorias;
 
+    // "produto" é o atributo na classe ImagemProduto onde o @ManyToOne foi configurado
 	@OneToMany(mappedBy = "produto", fetch = FetchType.LAZY,
 			cascade = { CascadeType.PERSIST, CascadeType.MERGE }, 
 			orphanRemoval = true)

@@ -1,4 +1,4 @@
-package br.senac.tads.dsw.exemplosspring.produto;
+package br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +11,8 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.Categoria;
 
 public class CategoriaRepositoryJdbcImpl implements CategoriaRepository {
 

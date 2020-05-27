@@ -1,4 +1,4 @@
-package br.senac.tads.dsw.exemplosspring.item.domain;
+package br.senac.tads.dsw.exemplosspring.item.dominio.entidade;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

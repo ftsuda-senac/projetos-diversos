@@ -1,6 +1,8 @@
-package br.senac.tads.dsw.exemplosspring.produto;
+package br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio;
 
 import java.util.List;
+
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.Produto;
 
 public interface ProdutoRepository {
 

@@ -14,11 +14,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.senac.tads.dsw.exemplosspring.item.service.PedidoItemService;
-import br.senac.tads.dsw.exemplosspring.produto.Categoria;
-import br.senac.tads.dsw.exemplosspring.produto.CategoriaRepositorySpringData;
-import br.senac.tads.dsw.exemplosspring.produto.ImagemProduto;
-import br.senac.tads.dsw.exemplosspring.produto.Produto;
-import br.senac.tads.dsw.exemplosspring.produto.ProdutoRepositorySpringData;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.Categoria;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.ImagemProduto;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.Produto;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio.CategoriaRepositorySpringData;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio.ProdutoRepositorySpringData;
 
 @SpringBootApplication
 public class ExemplosSpringJpaApplication implements CommandLineRunner {

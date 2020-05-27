@@ -12,13 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.senac.tads.dsw.exemplosspring.item.domain.Endereco;
-import br.senac.tads.dsw.exemplosspring.item.domain.Item;
-import br.senac.tads.dsw.exemplosspring.item.domain.Pedido;
-import br.senac.tads.dsw.exemplosspring.item.domain.PedidoItem;
-import br.senac.tads.dsw.exemplosspring.item.repository.ItemRepository;
-import br.senac.tads.dsw.exemplosspring.item.repository.PedidoItemRepository;
-import br.senac.tads.dsw.exemplosspring.item.repository.PedidoRepository;
+import br.senac.tads.dsw.exemplosspring.item.dominio.entidade.Endereco;
+import br.senac.tads.dsw.exemplosspring.item.dominio.entidade.Item;
+import br.senac.tads.dsw.exemplosspring.item.dominio.entidade.Pedido;
+import br.senac.tads.dsw.exemplosspring.item.dominio.entidade.PedidoItem;
+import br.senac.tads.dsw.exemplosspring.item.dominio.repositorio.ItemRepository;
+import br.senac.tads.dsw.exemplosspring.item.dominio.repositorio.PedidoItemRepository;
+import br.senac.tads.dsw.exemplosspring.item.dominio.repositorio.PedidoRepository;
 
 @Service
 @Transactional

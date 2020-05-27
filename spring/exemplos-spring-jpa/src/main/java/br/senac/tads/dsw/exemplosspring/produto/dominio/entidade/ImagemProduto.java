@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.senac.tads.dsw.exemplosspring.produto;
+package br.senac.tads.dsw.exemplosspring.produto.dominio.entidade;
 
 import java.io.Serializable;
 

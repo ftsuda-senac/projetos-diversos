@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.senac.tads.dsw.exemplosspring.produto;
+package br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,6 +17,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.ImagemProduto;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.Produto;
 
 /**
  *

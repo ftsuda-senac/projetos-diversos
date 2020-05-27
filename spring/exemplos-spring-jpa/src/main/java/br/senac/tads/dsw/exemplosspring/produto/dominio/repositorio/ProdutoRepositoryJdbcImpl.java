@@ -1,4 +1,4 @@
-package br.senac.tads.dsw.exemplosspring.produto;
+package br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,6 +17,10 @@ import java.util.Set;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.Categoria;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.ImagemProduto;
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.Produto;
 
 public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
 

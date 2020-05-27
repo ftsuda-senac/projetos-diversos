@@ -1,4 +1,4 @@
-package br.senac.tads.dsw.exemplosspring.produto;
+package br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio;
 
 import java.util.List;
 
@@ -15,6 +15,8 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
+
+import br.senac.tads.dsw.exemplosspring.produto.dominio.entidade.Produto;
 
 @Repository
 public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
