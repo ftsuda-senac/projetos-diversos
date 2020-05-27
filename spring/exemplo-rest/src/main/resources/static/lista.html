@@ -43,6 +43,10 @@ code {
 }
 </style>
 <script>
+var paginaAtual = 0; // 0-indexed
+var ultimaPagina = 0;
+var qtd = 10;
+
 function montaLinhaTabela(itemJSON) {
     return  "<tr>" +
             "<td>" + itemJSON.id + "</td>" +
@@ -54,14 +58,82 @@ function montaLinhaTabela(itemJSON) {
             "</td>" +
             "</tr>";
 }
-$(function() {
+
+function ajustarPaginacao(dataJSON) {
+	paginaAtual = dataJSON.number;
+	ultimaPagina = dataJSON.totalPages - 1;
+	
+	document.getElementById("pageCurrentText").innerHTML = paginaAtual + 1;
+
+	let btnPageFirst = document.getElementById("pageFirst");
+	if (dataJSON.first) {
+		btnPageFirst.parentElement.classList.add("disabled");
+	} else {
+		btnPageFirst.parentElement.classList.remove("disabled");
+	}
+
+	let btnPagePrevious = document.getElementById("pagePrevious");
+	let previousVal = paginaAtual - 1;
+	if (previousVal < 0) {
+		btnPagePrevious.parentElement.style.display = 'none';
+	} else {
+		btnPagePrevious.parentElement.style.display = 'initial';
+		btnPagePrevious.innerHTML = previousVal + 1;
+	}
+	
+	let btnPageNext = document.getElementById("pageNext");
+	let nextVal = paginaAtual + 1;
+	if (nextVal > ultimaPagina) {
+		btnPageNext.parentElement.style.display = 'none';
+	} else {
+		btnPageNext.parentElement.style.display = 'initial';
+		btnPageNext.innerHTML = nextVal + 1;
+	}
+
+	let btnPageLast = document.getElementById("pageLast");
+	if (dataJSON.last) {
+		btnPageLast.parentElement.classList.add("disabled");
+	} else {
+		btnPageLast.parentElement.classList.remove("disabled");
+	}
+}
+
+function loadData(pagina, qtd) {
 	// TESTE DE CORS
-	$.getJSON("http://127.0.0.1:8080/rest/pessoas", function(dataJSON) {
+	$.getJSON("http://127.0.0.1:8080/rest/pessoas?pagina=" + pagina + "&qtd=" + qtd, function(dataJSON) {
 		$("#itensTabela").html("");
 		for (let itemJSON of dataJSON.content) {
 			$("#itensTabela").append(montaLinhaTabela(itemJSON));
 		}
-	})
+		ajustarPaginacao(dataJSON);
+	});
+}
+
+$(function() {
+	loadData(0, qtd);
+
+	document.getElementById("pageFirst").addEventListener("click", function(ev) {
+		ev.preventDefault();
+		loadData(0, qtd);
+	});
+	document.getElementById("pagePrevious").addEventListener("click", function(ev) {
+		ev.preventDefault();
+		let pagina = paginaAtual - 1;
+		if (pagina >= 0) {
+			loadData(pagina, qtd);
+		}
+	});
+	document.getElementById("pageNext").addEventListener("click", function(ev) {
+		ev.preventDefault();
+		let pagina = paginaAtual + 1;
+		if (pagina <= ultimaPagina) {
+			loadData(pagina, qtd);
+		}
+	});
+	document.getElementById("pageLast").addEventListener("click", function(ev) {
+		ev.preventDefault();
+		loadData(ultimaPagina, qtd);
+	});
 });
 </script>
 </head>
@@ -97,19 +169,19 @@ $(function() {
 						<nav aria-label="Paginação">
 							<ul class="pagination">
 								<li class="page-item">
-									<a class="page-link" href="/classic/pessoas">Primeiro</a>
+									<a class="page-link" href="#" id="pageFirst">Primeiro</a>
 								</li>
 								<li class="page-item">
-									<a class="page-link" href="/classic/pessoas?pagina=96">97</a>
+									<a class="page-link" href="#" id="pagePrevious">0</a>
 								</li>
 								<li class="page-item active">
-									<a class="page-link active" href="#"><span>98</span><span class="sr-only">(current)</span></a>
+									<a class="page-link active" href="#"><span id="pageCurrentText">0</span><span class="sr-only">(current)</span></a>
 								</li>
 								<li class="page-item">
-									<a class="page-link" href="/classic/pessoas?pagina=98">99</a>
+									<a class="page-link" href="#" id="pageNext">99</a>
 								</li>
 								<li class="page-item">
-									<a class="page-link" href="/classic/pessoas?pagina=100">Último</a>
+									<a class="page-link" href="#" id="pageLast">Último</a>
 								</li>
 							</ul>
 						</nav>

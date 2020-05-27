@@ -2,6 +2,7 @@ package br.senac.tads.dsw.exemplorest.controller;
 
 import java.net.URI;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
@@ -37,18 +38,26 @@ public class PessoaRestController {
 	}
 
 	@GetMapping
+	//@CrossOrigin(origins = "localhost:8080") // tentar acessar usando 127.0.0.1 no código Ajax/Javascript
 	public Page<Pessoa> listar(
 			@RequestParam(value = "pagina", defaultValue = "0") int pagina,
 			@RequestParam(value = "qtd", defaultValue = "10") int qtd) {
 		return pessoaRepository.findAll(PageRequest.of(pagina, qtd));
 	}
 
+	@GetMapping("/all")
+	public List<Pessoa> listarTodos() {
+		return pessoaRepository.findAll();
+	}
+
 	@GetMapping("/{id}")
+	//@CrossOrigin(origins = "*")
 	public Pessoa findById(@PathVariable("id") Integer id) {
 		return pessoaRepository.findById(id).get();
 	}
 
 	@PostMapping
+	//@CrossOrigin(origins = "*")
 	public ResponseEntity<?> salvar(@RequestBody Pessoa pessoa) {
 		Set<Interesse> interesses = new LinkedHashSet<>();
 		for (Integer id : pessoa.getInteressesId()) {
@@ -57,6 +66,8 @@ public class PessoaRestController {
 		pessoa.setInteresses(interesses);
 		pessoa = pessoaRepository.save(pessoa);
 		
+		// Prepara a URI que identifica a pessoa salva
+		// Essa informacão é retornada no cabeçalho "Location"
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(pessoa.getId()).toUri();
 		return ResponseEntity.created(location).build();

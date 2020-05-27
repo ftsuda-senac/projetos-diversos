@@ -64,6 +64,13 @@ $(function() {
 		ev.preventDefault();
 		let form = this;
 		let interessesId = [];
+		let interessesFields = document.querySelectorAll("input[name='interessesId']");
+		for (let field of interessesFields) {
+			if (field.checked) {
+				interessesId.push(Number(field.value));
+			}
+		}
+		/*
 		if ($("#interesse_1").is(":checked")) {
 			interessesId.push(Number($("#interesse_1").val()));
 		}
@@ -79,6 +86,7 @@ $(function() {
 		if ($("#interesse_5").is(":checked")) {
 			interessesId.push(Number($("#interesse_5").val()));
 		}
+		*/
 		
 		let pessoa = {
 			nome : form.nome.value,
@@ -91,12 +99,18 @@ $(function() {
 			type: "POST",
 			url: "/rest/pessoas",
 			data: JSON.stringify(pessoa),
-			success: function(data) {
-				console.log(data);
-				window.location.href = "lista.html";
-			},
 			contentType: "application/json",
 			dataType: "json"
+		}).done(function(data, textStatus, jqXHR) {
+			console.log("***** DONE CALLED");
+			let pessoaUri = jqXHR.getResponseHeader("Location");
+			alert(pessoaUri)
+			window.location.href = "lista.html";
+		}).always(function(jqXHR) {
+			console.log("***** ALWAYS CALLED");
+			let pessoaUri = jqXHR.getResponseHeader("Location");
+			alert(pessoaUri)
+			window.location.href = "lista.html";
 		});
 
 		/*
