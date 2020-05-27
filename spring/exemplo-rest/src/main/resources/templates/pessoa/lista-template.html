@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html layout:decorate="~{pessoa/modelo}">
+<head>
+<meta charset="UTF-8">
+<script>
+$(function() {
+	$('#modalDelete').on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget) // Button that triggered the modal
+		var actionUrl = button.data('actionUrl') // Extract info from data-* attributes
+		var itemId = button.data('itemId')
+		// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+		// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+		var modal = $(this)
+		modal.find('.modal-message').text('Confirma remoção do item ID ' + itemId + '?')
+		modal.find('.modal-footer form').attr('action', actionUrl)
+	})
+})
+</script>
+</head>
+<body>
+	<div layout:fragment="conteudo">
+		<h2>Pessoas</h2>
+		<div class="alert alert-danger" role="alert" th:if="${msgErro != null}" th:text="${msgErro}"></div>
+		<div class="alert alert-success" role="alert" th:if="${msgSucesso != null}" th:text="${msgSucesso}"></div>		
+		<table class="table table-striped">
+			<thead class="thead-dark">
+				<tr>
+					<th>ID</th>
+					<th>Nome</th>
+					<th>Data nascimento</th>
+					<th>AÇÕES</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="item : ${itens.content}">
+					<td th:text="${item.id}">1</td>
+					<td th:text="${item.nome}">Nome nome nome</td>
+					<td th:text="${item.dataNascimento}">99/99/9999</td>
+					<td>
+						<a href="#" class="btn btn-primary" th:href="@{/classic/pessoas/editar/{id}(id=${item.id})}">Editar</a>
+						<a href="#modalDelete" data-toggle="modal" class="btn btn-danger" th:attr="data-action-url=@{/classic/pessoas/remover/{id}(id=${item.id})}, data-item-id=${item.id}">Apagar</a>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="4" style="text-align: right">
+						<nav aria-label="Paginação">
+							<ul class="pagination">
+								<li class="page-item" th:classappend="${itens.first}? 'disabled'">
+									<a class="page-link" th:href="@{/classic/pessoas}">Primeiro</a>
+								</li>
+								<li class="page-item" th:if="${itens.number - 1 >= 0}">
+									<a class="page-link" th:href="@{/classic/pessoas?pagina={page}(page=${itens.number - 1})}" th:text="${itens.number}"></a>
+								</li>
+								<li class="page-item active">
+									<a class="page-link active" href="#"><span th:text="${itens.number + 1}"></span><span class="sr-only">(current)</span></a>
+								</li>
+								<li class="page-item" th:if="${itens.number + 1 < itens.totalPages}">
+									<a class="page-link" th:href="@{/classic/pessoas?pagina={page}(page=${itens.number + 1})}" th:text="${itens.number + 2}"></a>
+								</li>
+								<li class="page-item" th:classappend="${itens.last}? 'disabled'">
+									<a class="page-link" th:href="@{/classic/pessoas?pagina={page}(page=${itens.totalPages - 1})}">Último</a>
+								</li>
+							</ul>
+						</nav>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		<a href="#" class="btn btn-success" th:href="@{/classic/pessoas/novo}"><i class="fa fa-plus-circle"></i> Incluir novo</a>
+		<div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<header class="modal-header">
+						<h5>Confirmar remoção</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+							<span aria-hidden="true">X</span>
+						</button>
+					</header>
+					<div class="modal-body">
+						<p class="modal-message">Confirma remoção?</p>
+					</div>
+					<footer class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+						<form style="display: inline-block" method="post">
+							<button type="submit" class="btn btn-danger">Sim</button>
+						</form>
+					</footer>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

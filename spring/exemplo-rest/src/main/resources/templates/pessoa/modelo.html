@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html class="h-100">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/webjars/font-awesome/css/font-awesome.min.css}">
+<script th:src="@{/webjars/jquery/jquery.slim.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<style>
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+
+main>.container {
+	padding: 60px 15px 0;
+}
+
+.footer {
+	background-color: #f5f5f5;
+}
+
+.footer > .container {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+code {
+	font-size: 80%;
+}
+</style>
+</head>
+<body class="d-flex flex-column h-100">
+	<header>
+		<!-- Fixed navbar -->
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+			<a class="navbar-brand" href="#">Pessoas</a>
+		</nav>
+	</header>
+
+	<!-- Begin page content -->
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
+			<div class="row">
+				<div class="col-12" layout:fragment="conteudo">
+					<p>CONTEUDO SERÁ SUBSTITUIDO</p>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<footer class="footer mt-auto py-3">
+		<div class="container">
+			<span class="text-muted">&copy; Senac TADS 2020</span>
+		</div>
+	</footer>
+</body>
+</html>
