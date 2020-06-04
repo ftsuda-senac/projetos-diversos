@@ -9,8 +9,8 @@ const TableBody = props => {
         <td>{row.nome}</td>
         <td>{row.dataNascimento}</td>
         <td>
-          <Link to={"/edit/" + row.id} className="btn btn-primary"><i class="fa fa-pencil"></i></Link>
-          <a href="#" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+          <Link to={"/edit/" + row.id} className="btn btn-primary"><i className="fa fa-pencil"></i></Link>
+          <a href="#" className="btn btn-danger"><i className="fa fa-trash"></i></a>
         </td>
       </tr>
     )
@@ -53,9 +53,9 @@ class Lista extends React.Component {
     }
   }
 
-  loadData(page) {
+  loadData(pagina) {
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost:8080/rest/pessoas?pagina=" + page + "&qtd=" + this.state.qtd, true);
+    xhr.open("GET", "http://localhost:8080/rest/pessoas?pagina=" + pagina + "&qtd=" + this.state.qtd, true);
     const component = this;
     xhr.addEventListener("load", function() {
       if (xhr.status >= 200 && xhr.status < 400) {
@@ -77,6 +77,12 @@ class Lista extends React.Component {
   render() {
     return (
       <main role="main" className="flex-shrink-0">
+        {
+          this.props.location.state && this.props.location.state.msgSuccess &&
+          <div className="alert alert-success" role="alert">
+            {this.props.location.state.msgSuccess}
+          </div>
+        }
       <div className="container">
         <div className="row">
           <div className="col-12">
