@@ -10,8 +10,7 @@ class InteressesOptions extends React.Component {
 
   handleInputIntegerValueChange(event) {
     const target = event.target;
-    console.log("" + target.value + " CHECKED: " + target.checked)
-    if (!!target.checked) {
+    if (!!target.checked) { // Bang-bang -> Converte o valor em boolean
       this.props.onCheckOption(Number(target.value));
     } else {
       this.props.onUncheckOption(Number(target.value));
