@@ -54,7 +54,7 @@ function montaLinhaTabela(itemJSON) {
             "<td>" + itemJSON.dataNascimento + "</td>" +
             "<td>" + 
             "<a href=\"form.html?id=" + itemJSON.id + "\" class=\"btn btn-primary\"><i class=\"fa fa-pencil\"></i></a>" +
-            "<a href=\"#\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" data-nomeprod=\"" + itemJSON.nome + "\" data-actionurl=\"\"><i class=\"fa fa-trash\"></i></a>" +
+            "<a href=\"#\" class=\"btn btn-danger\" onclick=\"openModal\" data-nomeprod=\"" + itemJSON.nome + "\" data-actionurl=\"\"><i class=\"fa fa-trash\"></i></a>" +
             "</td>" +
             "</tr>";
 }
@@ -109,6 +109,11 @@ function loadData(pagina, qtd) {
 	});
 }
 
+function openModal(ev) {
+	ev.preventDefault();
+	$('#modalDelete').modal('show');
+}
+
 $(function() {
 	loadData(0, qtd);
 
@@ -134,6 +139,17 @@ $(function() {
 		ev.preventDefault();
 		loadData(ultimaPagina, qtd);
 	});
+
+	$('#modalDelete').on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget) // Button that triggered the modal
+		var actionUrl = button.data('actionUrl') // Extract info from data-* attributes
+		var itemId = button.data('itemId')
+		// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+		// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+		var modal = $(this)
+		modal.find('.modal-message').text('Confirma remoção do item ID ' + itemId + '?')
+		modal.find('.modal-footer form').attr('action', actionUrl)
+	})
 });
 </script>
 </head>
