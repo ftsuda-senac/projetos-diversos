@@ -51,6 +51,8 @@ class Lista extends React.Component {
       ultimaPagina: 0,
       qtd: 10
     }
+    // Aqui utilizamos o `bind` para que o `this` funcione dentro da nossa callback
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   loadData(pagina) {
@@ -68,6 +70,11 @@ class Lista extends React.Component {
       }
     });
     xhr.send();
+  }
+
+  handlePageClick(event, page) {
+    event.preventDefault();
+    this.loadData(page);
   }
 
   componentDidMount() {
@@ -103,12 +110,12 @@ class Lista extends React.Component {
                     <nav aria-label="Paginação">
                       <ul className="pagination">
                         <li className={"page-item " + (this.state.data.first ? "disabled" : "")}>
-                          <a className="page-link" href="#" >Primeiro</a>
+                          <a className="page-link" href="#" onClick={(ev) => this.handlePageClick(ev, 0)} >Primeiro</a>
                         </li>
                         {
-                          this.state.data.number - 1 > 0 &&
+                          this.state.data.number - 1 >= 0 &&
                           <li className="page-item">
-                            <a className="page-link" href="#">{this.state.data.number}</a>
+                            <a className="page-link" href="#" onClick={(ev) => this.handlePageClick(ev, this.state.paginaAtual - 1)}>{this.state.data.number}</a>
                           </li>
                         }
                         <li className="page-item active">
@@ -117,11 +124,11 @@ class Lista extends React.Component {
                         {
                           this.state.data.number + 1 < this.state.data.totalPages &&
                           <li className="page-item">
-                            <a className="page-link" href="#">{this.state.data.number + 2}</a>
+                            <a className="page-link" href="#" onClick={(ev) => this.handlePageClick(ev, this.state.paginaAtual + 1)}>{this.state.data.number + 2}</a>
                           </li>
                         }
                         <li className={"page-item " + (this.state.data.last ? "disabled" : "")}>
-                          <a className="page-link" href="#">Último</a>
+                          <a className="page-link" href="#"  onClick={(ev) => this.handlePageClick(ev, this.state.ultimaPagina)}>Último</a>
                         </li>
                       </ul>
                     </nav>
