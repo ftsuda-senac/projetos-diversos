@@ -31,8 +31,8 @@ class InteressesOptions extends React.Component {
       }
       return (
         <div className="form-check form-check-inline" key={row.id}>
-          <input className="form-check-input" type="checkbox" id={elementId}
-                name="interessesId" value={row.id}
+          <input className="form-check-input" type="checkbox" name="interessesId" 
+                id={elementId} value={row.id}
                 onChange={component.handleInputIntegerValueChange} checked={selecionado} />
           <label className="form-check-label" htmlFor={elementId}>{row.nome}</label>
         </div>
