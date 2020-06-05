@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 const TableBody = props => {
-  const rows = props.data.map(function(row, index) {
+  const rows = props.content.map(function (row, index) {
     return (
       <tr key={index}>
         <td>{row.id}</td>
@@ -10,7 +12,7 @@ const TableBody = props => {
         <td>{row.dataNascimento}</td>
         <td>
           <Link to={"/edit/" + row.id} className="btn btn-primary"><i className="fa fa-pencil"></i></Link>
-          <a href="#" className="btn btn-danger"><i className="fa fa-trash"></i></a>
+          <Button variant="danger" onClick={props.onDeleteClick}><i className="fa fa-trash"></i></Button>
         </td>
       </tr>
     )
@@ -44,22 +46,27 @@ class Lista extends React.Component {
         number: 0,
         totalPages: 99,
         first: true,
-        last: false,
-
+        last: false
       },
       paginaAtual: 0,
       ultimaPagina: 0,
-      qtd: 10
+      qtd: 10,
+      modalDelete: {
+        aberto: false,
+        itemId: 0
+      }
     }
     // Aqui utilizamos o `bind` para que o `this` funcione dentro da nossa callback
     this.handlePageClick = this.handlePageClick.bind(this);
+    this.handleModalOpen = this.handleModalOpen.bind(this);
+    this.handleModalClose = this.handleModalClose.bind(this);
   }
 
   loadData(pagina) {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "http://localhost:8080/rest/pessoas?pagina=" + pagina + "&qtd=" + this.state.qtd, true);
     const component = this;
-    xhr.addEventListener("load", function() {
+    xhr.addEventListener("load", function () {
       if (xhr.status >= 200 && xhr.status < 400) {
         let data = JSON.parse(xhr.responseText);
         component.setState({
@@ -72,13 +79,31 @@ class Lista extends React.Component {
     xhr.send();
   }
 
+  componentDidMount() {
+    this.loadData(this.state.paginaAtual);
+  }
+
   handlePageClick(event, page) {
     event.preventDefault();
     this.loadData(page);
   }
 
-  componentDidMount() {
-    this.loadData(this.state.paginaAtual);
+  handleModalOpen(id) {
+    this.setState({ 
+      modalDelete: {
+        aberto: true,
+        itemId: id
+      }
+    });
+  }
+
+  handleModalClose() {
+    this.setState({ 
+      modalDelete: {
+        aberto: false,
+        itemId: 0
+      }
+    });
   }
 
   render() {
@@ -90,78 +115,76 @@ class Lista extends React.Component {
             {this.props.location.state.msgSuccess}
           </div>
         }
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <h2>Pessoas - React App</h2>
-            <table className="table table-striped">
-              <thead className="thead-dark">
-                <tr>
-                  <th>ID</th>
-                  <th>Nome</th>
-                  <th>Data nascimento</th>
-                  <th>AÇÕES</th>
-                </tr>
-              </thead>
-              <TableBody data={this.state.data.content} />
-              <tfoot>
-                <tr>
-                  <td colSpan="4" style={{textAlign: 'right'}}>
-                    <nav aria-label="Paginação">
-                      <ul className="pagination">
-                        <li className={"page-item " + (this.state.data.first ? "disabled" : "")}>
-                          <a className="page-link" href="#" onClick={(ev) => this.handlePageClick(ev, 0)} >Primeiro</a>
-                        </li>
-                        {
-                          this.state.data.number - 1 >= 0 &&
-                          <li className="page-item">
-                            <a className="page-link" href="#" onClick={(ev) => this.handlePageClick(ev, this.state.paginaAtual - 1)}>{this.state.data.number}</a>
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <h2>Pessoas - React App</h2>
+              <table className="table table-striped">
+                <thead className="thead-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Data nascimento</th>
+                    <th>AÇÕES</th>
+                  </tr>
+                </thead>
+                <TableBody content={this.state.data.content} onDeleteClick={this.handleModalOpen} />
+                <tfoot>
+                  <tr>
+                    <td colSpan="4" style={{ textAlign: 'right' }}>
+                      <nav aria-label="Paginação">
+                        <ul className="pagination">
+                          <li className={"page-item " + (this.state.data.first ? "disabled" : "")}>
+                            <a className="page-link" href="#" onClick={(ev) => this.handlePageClick(ev, 0)} >Primeiro</a>
                           </li>
-                        }
-                        <li className="page-item active">
-                          <a className="page-link active" href="#">{this.state.data.number + 1}<span className="sr-only">(current)</span></a>
-                        </li>
-                        {
-                          this.state.data.number + 1 < this.state.data.totalPages &&
-                          <li className="page-item">
-                            <a className="page-link" href="#" onClick={(ev) => this.handlePageClick(ev, this.state.paginaAtual + 1)}>{this.state.data.number + 2}</a>
+                          {
+                            this.state.data.number - 1 >= 0 &&
+                            <li className="page-item">
+                              <a className="page-link" href="#" onClick={(ev) => this.handlePageClick(ev, this.state.paginaAtual - 1)}>{this.state.data.number}</a>
+                            </li>
+                          }
+                          <li className="page-item active">
+                            <a className="page-link active" href="#">{this.state.data.number + 1}<span className="sr-only">(current)</span></a>
                           </li>
-                        }
-                        <li className={"page-item " + (this.state.data.last ? "disabled" : "")}>
-                          <a className="page-link" href="#"  onClick={(ev) => this.handlePageClick(ev, this.state.ultimaPagina)}>Último</a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-            <Link to="/new" className="btn btn-success"><i className="fa fa-plus-circle"></i> Incluir novo</Link>
-            <div id="modalDelete" className="modal fade" tabIndex="-1" role="dialog">
-              <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                  <header className="modal-header">
-                    <h5>Confirmar remoção</h5>
-                    <button type="button" className="close" data-dismiss="modal" aria-label="Fechar">
-                      <span aria-hidden="true">X</span>
-                    </button>
-                  </header>
-                  <div className="modal-body">
-                    <p className="modal-message">Confirma remoção?</p>
-                  </div>
-                  <footer className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Não</button>
-                    <form style={{display: 'inline-block'}} method="post">
-                      <button type="submit" className="btn btn-danger">Sim</button>
-                    </form>
-                  </footer>
-                </div>
-              </div>
+                          {
+                            this.state.data.number + 1 < this.state.data.totalPages &&
+                            <li className="page-item">
+                              <a className="page-link" href="#" onClick={(ev) => this.handlePageClick(ev, this.state.paginaAtual + 1)}>{this.state.data.number + 2}</a>
+                            </li>
+                          }
+                          <li className={"page-item " + (this.state.data.last ? "disabled" : "")}>
+                            <a className="page-link" href="#" onClick={(ev) => this.handlePageClick(ev, this.state.ultimaPagina)}>Último</a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <Link to="/new" className="btn btn-success"><i className="fa fa-plus-circle"></i> Incluir novo</Link>
+
+              {/* https://react-bootstrap.github.io/components/modal/ */}
+              {/*
+              <Modal.Dialog>
+                <Modal.Header>
+                  <Modal.Title>Confirmar remoção</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                  <p>Confirma remoção?</p>
+                </Modal.Body>
+
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={this.handleModalClose}>Não</Button>
+                  <Button variant="danger">Sim</Button>
+                </Modal.Footer>
+              </Modal.Dialog>
+              */ }
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
     );
   }
 }
