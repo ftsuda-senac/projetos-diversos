@@ -1,0 +1,56 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Inclusão de pessoa</h2>
+            <form id="dadosForm" #form="ngForm" (ngSubmit)="onSubmit()" novalidate>
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Nome completo</label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" required id="nome" name="nome" [(ngModel)]="pessoa.nome">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Sexo</label>
+                    <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="sexoF" name="sexo"
+                                [value]="0" [(ngModel)]="pessoa.sexo" [checked]="pessoa.sexo === 0">
+                            <label class="form-check-label" for="sexoF">Feminino</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="sexoM" name="sexo"
+                                [value]="1" [(ngModel)]="pessoa.sexo" [checked]="pessoa.sexo === 1">
+                            <label class="form-check-label" for="sexoM">Masculino</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Data nascimento</label>
+                    <div class="col-10">
+                        <input type="date" class="form-control" required id="dataNascimento" name="dataNascimento" [(ngModel)]="pessoa.dataNascimento">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Interesses</label>
+                    <div class="col-sm-10" id="interesses">
+                        <div class="form-check form-check-inline" *ngFor="let interesse of interesses">
+                            <input class="form-check-input" type="checkbox" name="interessesId"
+                                [id]="'interesse_' + interesse.id"
+                                [value]="interesse.id"
+                                [(ngModel)]="interesse.selected"
+                                [checked]="interesse.selected">
+                            <label class="form-check-label" [attr.for]="'interesse_' + interesse.id">{{interesse.nome}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a routerLink="/" class="btn btn-light">Voltar</a>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+            <div>{{getInteressesString()}}</div>
+            <div>{{getPessoaString()}}</div>
+        </div>
+    </div>
+</div>
