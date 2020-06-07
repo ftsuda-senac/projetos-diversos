@@ -44,9 +44,9 @@ code {
 </style>
 <script>
 function buildInteresses(valores, valoresSelecionados) {
-	let element = "";
+	let element = '';
 	for (const valor of valores) {
-		const elementId = "interesse_" + valor.id;
+		const elementId = 'interesse_' + valor.id;
 		let selecionado = false;
 		if (valoresSelecionados) {
 			for (const valorSelecionado of valoresSelecionados) {
@@ -55,15 +55,15 @@ function buildInteresses(valores, valoresSelecionados) {
 				}
 			}
 		}
-		element += "<div class=\"form-check form-check-inline\">";
-		element += "<input class=\"form-check-input\" type=\"checkbox\" " +
-			"name=\"interessesId\" id=\"" + elementId + "\" value=\"" + valor.id + "\" ";
+		element += '<div class="form-check form-check-inline">';
+		element += '<input class="form-check-input" type="checkbox" ' +
+			'name="interessesId" id="' + elementId + '" value="' + valor.id + '" ';
 		if (selecionado) {
-			element += "checked ";
+			element += 'checked ';
 		}
-		element += ">";
-		element += "<label class=\"form-check-label\" for=\"" + elementId + "\">" + valor.nome + "</label>";
-		element += "</div>";
+		element += '>';
+		element += '<label class="form-check-label" for="' + elementId + '">' + valor.nome + '</label>';
+		element += '</div>';
 	}
 	return element;
 }
@@ -71,9 +71,9 @@ function buildInteresses(valores, valoresSelecionados) {
 var interesses = [];
 $(function() {
 
-	$.getJSON("/rest/interesses", function(dataJSON) {
+	$.getJSON('/rest/interesses', function(dataJSON) {
 		interesses = dataJSON;
-		let interessesEl = document.getElementById("interesses");
+		let interessesEl = document.getElementById('interesses');
 		interessesEl.innerHTML = buildInteresses(interesses);
 	});
 
@@ -81,44 +81,44 @@ $(function() {
 	/* Se informar ID na URL, carrega os dados */
 	/* https://stackoverflow.com/a/901144 */
 	let urlParams = new URLSearchParams(window.location.search);
-	if (urlParams.get("id") !== null) {
-		$.getJSON("/rest/pessoas/" + urlParams.get("id"), function(dataJSON) {
-			let form = document.getElementById("dadosForm");
+	if (urlParams.get('id') !== null) {
+		$.getJSON('/rest/pessoas/' + urlParams.get('id'), function(dataJSON) {
+			let form = document.getElementById('dadosForm');
 			form.id.value = dataJSON.id;
 			form.nome.value = dataJSON.nome;
 			form.sexo.value = dataJSON.sexo;
 			form.dataNascimento.value = dataJSON.dataNascimento;
 			for (let interesse of dataJSON.interesses) {
-				document.getElementById("interesse_" + interesse.id).checked = true
+				document.getElementById('interesse_' + interesse.id).checked = true
 			}
 		});
 	}
 	
-	$("#dadosForm").on("submit", function(ev) {
+	$('#dadosForm').on('submit', function(ev) {
 		ev.preventDefault();
 		let form = this;
 		let interessesId = [];
-		let interessesFields = document.querySelectorAll("input[name='interessesId']");
-		for (let field of interessesFields) {
-			if (field.checked) {
-				interessesId.push(Number(field.value));
+		const interessesOptions = document.querySelectorAll('input[name="interessesId"]');
+		for (let option of interessesOptions) {
+			if (option.checked) {
+				interessesId.push(Number(option.value));
 			}
 		}
 		/*
-		if ($("#interesse_1").is(":checked")) {
-			interessesId.push(Number($("#interesse_1").val()));
+		if ($('#interesse_1').is(':checked')) {
+			interessesId.push(Number($('#interesse_1').val()));
 		}
-		if ($("#interesse_2").is(":checked")) {
-			interessesId.push(Number($("#interesse_2").val()));
+		if ($('#interesse_2').is(':checked')) {
+			interessesId.push(Number($('#interesse_2').val()));
 		}
-		if ($("#interesse_3").is(":checked")) {
-			interessesId.push(Number($("#interesse_3").val()));
+		if ($('#interesse_3').is(':checked')) {
+			interessesId.push(Number($('#interesse_3').val()));
 		}
-		if ($("#interesse_4").is(":checked")) {
-			interessesId.push(Number($("#interesse_4").val()));
+		if ($('#interesse_4').is(':checked')) {
+			interessesId.push(Number($('#interesse_4').val()));
 		}
-		if ($("#interesse_5").is(":checked")) {
-			interessesId.push(Number($("#interesse_5").val()));
+		if ($('#interesse_5').is(':checked')) {
+			interessesId.push(Number($('#interesse_5').val()));
 		}
 		*/
 		
@@ -130,28 +130,28 @@ $(function() {
 		};
 		console.log(JSON.stringify(pessoa));
 		$.ajax({
-			type: "POST",
-			url: "/rest/pessoas",
+			type: 'POST',
+			url: '/rest/pessoas',
 			data: JSON.stringify(pessoa),
-			contentType: "application/json",
-			dataType: "json"
+			contentType: 'application/json',
+			dataType: 'json'
 		}).done(function(data, textStatus, jqXHR) {
-			console.log("***** DONE CALLED");
-			let pessoaUri = jqXHR.getResponseHeader("Location");
+			console.log('***** DONE CALLED');
+			let pessoaUri = jqXHR.getResponseHeader('Location');
 			alert(pessoaUri)
-			window.location.href = "lista.html";
+			window.location.href = 'lista.html';
 		}).always(function(jqXHR) {
-			console.log("***** ALWAYS CALLED");
-			let pessoaUri = jqXHR.getResponseHeader("Location");
+			console.log('***** ALWAYS CALLED');
+			let pessoaUri = jqXHR.getResponseHeader('Location');
 			alert(pessoaUri)
-			window.location.href = "lista.html";
+			window.location.href = 'lista.html';
 		});
 
 		/*
-		$.post("/rest/pessoas", JSON.stringify(pessoa), function(data) {
+		$.post('/rest/pessoas', JSON.stringify(pessoa), function(data) {
 			console.log(data);
-			window.location.href = "lista.html";
-		}, "json");
+			window.location.href = 'lista.html';
+		}, 'json');
 		*/
 		
 	});

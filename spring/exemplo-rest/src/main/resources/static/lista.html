@@ -48,31 +48,31 @@ var ultimaPagina = 0;
 var qtd = 10;
 
 function montaLinhaTabela(itemJSON) {
-    return  "<tr>" +
-            "<td>" + itemJSON.id + "</td>" +
-            "<td>" + itemJSON.nome + "</td>" +
-            "<td>" + itemJSON.dataNascimento + "</td>" +
-            "<td>" + 
-            "<a href=\"form.html?id=" + itemJSON.id + "\" class=\"btn btn-primary\"><i class=\"fa fa-pencil\"></i></a>" +
-            "<a href=\"#\" class=\"btn btn-danger\" onclick=\"openModal\" data-nomeprod=\"" + itemJSON.nome + "\" data-actionurl=\"\"><i class=\"fa fa-trash\"></i></a>" +
-            "</td>" +
-            "</tr>";
+    return  '<tr>' +
+            '<td>' + itemJSON.id + '</td>' +
+            '<td>' + itemJSON.nome + '</td>' +
+            '<td>' + itemJSON.dataNascimento + '</td>' +
+            '<td>' + 
+            '<a href="form.html?id=' + itemJSON.id + '" class="btn btn-primary"><i class="fa fa-pencil"></i></a>' +
+            '<button type="button" class="btn btn-danger" onclick="mostrarModal(' + itemJSON.id + ')"><i class="fa fa-trash"></i></button>' +
+            '</td>' +
+            '</tr>';
 }
 
 function ajustarPaginacao(dataJSON) {
 	paginaAtual = dataJSON.number;
 	ultimaPagina = dataJSON.totalPages - 1;
 	
-	document.getElementById("pageCurrentText").innerHTML = paginaAtual + 1;
+	document.getElementById('pageCurrentText').innerHTML = paginaAtual + 1;
 
-	let btnPageFirst = document.getElementById("pageFirst");
+	let btnPageFirst = document.getElementById('pageFirst');
 	if (dataJSON.first) {
-		btnPageFirst.parentElement.classList.add("disabled");
+		btnPageFirst.parentElement.classList.add('disabled');
 	} else {
-		btnPageFirst.parentElement.classList.remove("disabled");
+		btnPageFirst.parentElement.classList.remove('disabled');
 	}
 
-	let btnPagePrevious = document.getElementById("pagePrevious");
+	let btnPagePrevious = document.getElementById('pagePrevious');
 	let previousVal = paginaAtual - 1;
 	if (previousVal < 0) {
 		btnPagePrevious.parentElement.style.display = 'none';
@@ -81,7 +81,7 @@ function ajustarPaginacao(dataJSON) {
 		btnPagePrevious.innerHTML = previousVal + 1;
 	}
 	
-	let btnPageNext = document.getElementById("pageNext");
+	let btnPageNext = document.getElementById('pageNext');
 	let nextVal = paginaAtual + 1;
 	if (nextVal > ultimaPagina) {
 		btnPageNext.parentElement.style.display = 'none';
@@ -90,66 +90,72 @@ function ajustarPaginacao(dataJSON) {
 		btnPageNext.innerHTML = nextVal + 1;
 	}
 
-	let btnPageLast = document.getElementById("pageLast");
+	let btnPageLast = document.getElementById('pageLast');
 	if (dataJSON.last) {
-		btnPageLast.parentElement.classList.add("disabled");
+		btnPageLast.parentElement.classList.add('disabled');
 	} else {
-		btnPageLast.parentElement.classList.remove("disabled");
+		btnPageLast.parentElement.classList.remove('disabled');
 	}
 }
 
 function loadData(pagina, qtd) {
 	// TESTE DE CORS
-	$.getJSON("http://127.0.0.1:8080/rest/pessoas?pagina=" + pagina + "&qtd=" + qtd, function(dataJSON) {
-		$("#itensTabela").html("");
+	$.getJSON('http://127.0.0.1:8080/rest/pessoas?pagina=' + pagina + '&qtd=' + qtd, function(dataJSON) {
+		$('#itensTabela').html('');
 		for (let itemJSON of dataJSON.content) {
-			$("#itensTabela").append(montaLinhaTabela(itemJSON));
+			$('#itensTabela').append(montaLinhaTabela(itemJSON));
 		}
 		ajustarPaginacao(dataJSON);
 	});
 }
 
-function openModal(ev) {
-	ev.preventDefault();
+function mostrarModal(itemId) {
+	const $modal = $('#modalDelete');
+	$modal.find('input[name="id"]').val(itemId);
+	$modal.find('.modal-message').text('Confirma remoção do item ID ' + itemId + '?')
 	$('#modalDelete').modal('show');
 }
 
 $(function() {
 	loadData(0, qtd);
 
-	document.getElementById("pageFirst").addEventListener("click", function(ev) {
+	document.getElementById('pageFirst').addEventListener('click', function(ev) {
 		ev.preventDefault();
 		loadData(0, qtd);
 	});
-	document.getElementById("pagePrevious").addEventListener("click", function(ev) {
+	document.getElementById('pagePrevious').addEventListener('click', function(ev) {
 		ev.preventDefault();
 		let pagina = paginaAtual - 1;
 		if (pagina >= 0) {
 			loadData(pagina, qtd);
 		}
 	});
-	document.getElementById("pageNext").addEventListener("click", function(ev) {
+	document.getElementById('pageNext').addEventListener('click', function(ev) {
 		ev.preventDefault();
 		let pagina = paginaAtual + 1;
 		if (pagina <= ultimaPagina) {
 			loadData(pagina, qtd);
 		}
 	});
-	document.getElementById("pageLast").addEventListener("click", function(ev) {
+	document.getElementById('pageLast').addEventListener('click', function(ev) {
 		ev.preventDefault();
 		loadData(ultimaPagina, qtd);
 	});
 
-	$('#modalDelete').on('show.bs.modal', function (event) {
-		var button = $(event.relatedTarget) // Button that triggered the modal
-		var actionUrl = button.data('actionUrl') // Extract info from data-* attributes
-		var itemId = button.data('itemId')
-		// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-		// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-		var modal = $(this)
-		modal.find('.modal-message').text('Confirma remoção do item ID ' + itemId + '?')
-		modal.find('.modal-footer form').attr('action', actionUrl)
-	})
+	document.getElementById('frmDelete').addEventListener('submit', function(ev) {
+		ev.preventDefault();
+		const id = document.querySelector('#frmDelete input[name="id"]').value;
+		$.ajax({
+			type: 'DELETE',
+			url: '/rest/pessoas/' + id,
+		}).done(function(data, textStatus, jqXHR) {
+			console.log('***** DONE CALLED');
+			alert('Pessoa apagada')
+			loadData(paginaAtual, qtd);
+		}).always(function(jqXHR) {
+			$('#modalDelete').modal('hide');
+		});
+	});
 });
 </script>
 </head>
@@ -220,7 +226,8 @@ $(function() {
 					</div>
 					<footer class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
-						<form style="display: inline-block" method="post">
+						<form style="display: inline-block" id="frmDelete">
+							<input type="hidden" name="id" value="">
 							<button type="submit" class="btn btn-danger">Sim</button>
 						</form>
 					</footer>
