@@ -71,15 +71,7 @@ export class FormComponent implements OnInit {
     );
   }
 
-  getInteressesString() {
-    return JSON.stringify(this.interesses);
-  }
-  getPessoaString() {
-    return JSON.stringify(this.pessoa);
-  }
-
   onSubmit() {
-    //alert();
     let interessesId = [];
     for (const interesse of this.interesses) {
       if (interesse.selected) {
@@ -88,7 +80,7 @@ export class FormComponent implements OnInit {
     }
     this.pessoa.interessesId = interessesId;
     console.log('**** Dados enviados: ' + JSON.stringify(this.pessoa));
-    this.pessoaService.addNew(this.pessoa).subscribe(() => { });
+    this.pessoaService.addNew(this.pessoa).subscribe();
     this.router.navigate(['/']);
   }
 

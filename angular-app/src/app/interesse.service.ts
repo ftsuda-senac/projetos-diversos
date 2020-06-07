@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { PagedResult } from './pagedResult';
 import { Interesse } from './interesse';
 
 @Injectable({
@@ -14,9 +13,7 @@ export class InteresseService {
 
   constructor(
     private http: HttpClient
-  ) {
-
-  }
+  ) { }
 
   getInteresses() : Observable<Interesse[]> {
     return this.http.get<Interesse[]>(this.apiBaseUrl);
