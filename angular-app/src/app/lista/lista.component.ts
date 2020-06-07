@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { PessoaService } from '../pessoa.service';
 import { Pessoa } from '../pessoa'
+
+interface ModalInfo {
+  message: string;
+  itemId: number;
+}
 
 @Component({ // <-- Essa expressão chama-se "DECORATOR"
   selector: 'app-lista',
@@ -38,7 +44,14 @@ export class ListaComponent implements OnInit {
   first: boolean = true;
   last: boolean = true;
 
-  constructor(private pessoaService : PessoaService) { }
+  modal: ModalInfo = {
+    message: '',
+    itemId: -1
+  };
+
+  constructor(
+    private modalService: NgbModal,
+    private pessoaService : PessoaService) { }
 
   ngOnInit(): void {
     this.listar();
@@ -52,6 +65,18 @@ export class ListaComponent implements OnInit {
       this.first = resultado.first;
       this.last = resultado.last;
     });
+  }
+
+  abrirModalDelete(modalDelete: any, id: number) {
+    this.modal.message = 'Confirma remoção da pessoa ID ' + id + '?';
+    this.modal.itemId = id;
+    this.modalService.open(modalDelete);
+  }
+
+  deletePessoa() {
+    this.pessoaService.deleteById(this.modal.itemId).subscribe();
+    this.listar();
+    this.modalService.dismissAll();
   }
 
   hasPaginaAnterior(): boolean {

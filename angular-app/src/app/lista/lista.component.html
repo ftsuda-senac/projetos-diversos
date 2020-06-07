@@ -18,7 +18,7 @@
                         <td>{{pessoa.dataNascimento}}</td>
                         <td>
                             <button class="btn btn-primary" [routerLink]="['/editar', pessoa.id]"><i class="fa fa-pencil"></i></button>
-                            <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                            <button class="btn btn-danger" (click)="abrirModalDelete(modalDelete, pessoa.id)"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
                 </tbody>
@@ -51,27 +51,24 @@
                 </tfoot>
             </table>
             <a routerLink="/novo" class="btn btn-success"><i class="fa fa-plus-circle"></i> Incluir novo</a>
-            <div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <header class="modal-header">
-                            <h5>Confirmar remoção</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                                <span aria-hidden="true">X</span>
-                            </button>
-                        </header>
-                        <div class="modal-body">
-                            <p class="modal-message">Confirma remoção?</p>
-                        </div>
-                        <footer class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
-                            <form style="display: inline-block" method="post">
-                                <button type="submit" class="btn btn-danger">Sim</button>
-                            </form>
-                        </footer>
+
+            <ng-template #modalDelete let-modal>
+                <div class="modal-content">
+                    <header class="modal-header">
+                        <h5>Confirmar remoção</h5>
+                        <button type="button" class="close" aria-label="Fechar" (click)="modal.dismiss()">
+                            <span aria-hidden="true">X</span>
+                        </button>
+                    </header>
+                    <div class="modal-body">
+                        <p class="modal-message">{{modal.message}}</p>
                     </div>
+                    <footer class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Não</button>
+                        <button type="button" class="btn btn-danger" (click)="deletePessoa()">Sim</button>
+                    </footer>
                 </div>
-            </div>
+            </ng-template>
         </div>
     </div>
 </div>
