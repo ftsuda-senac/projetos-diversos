@@ -1,74 +1,77 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12">
-            <h2>Pessoas - Angular</h2>
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Data nascimento</th>
-                        <th>AÇÕES</th>
-                    </tr>
-                </thead>
-                <tbody id="itensTabela">
-                    <tr *ngFor="let pessoa of pessoas">
-                        <td>{{pessoa.id}}</td>
-                        <td>{{pessoa.nome}}</td>
-                        <td>{{pessoa.dataNascimento}}</td>
-                        <td>
-                            <button class="btn btn-primary" [routerLink]="['/editar', pessoa.id]"><i class="fa fa-pencil"></i></button>
-                            <button class="btn btn-danger" (click)="abrirModalDelete(modalDelete, pessoa.id)"><i class="fa fa-trash"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="4" style="text-align: right">
-                            <nav aria-label="Paginação">
-                                <ul class="pagination">
-                                    <li class="page-item" [ngClass]="{'disabled' : first}">
-                                        <a class="page-link" href="#" id="pageFirst" (click)="goPrimeiraPagina($event)">Primeiro</a>
-                                    </li>
-                                    <li class="page-item" *ngIf="hasPaginaAnterior()">
-                                        <a class="page-link" href="#" id="pagePrevious" (click)="goPaginaAnterior($event)">{{paginaAtual}}</a>
-                                    </li>
-                                    <li class="page-item active">
-                                        <a class="page-link active" href="#"><span
-                                                id="pageCurrentText">{{paginaAtual + 1}}</span><span
-                                                class="sr-only">(current)</span></a>
-                                    </li>
-                                    <li class="page-item" *ngIf="hasProximaPagina()">
-                                        <a class="page-link" href="#" id="pageNext" (click)="goProximaPagina($event)">{{paginaAtual + 2}}</a>
-                                    </li>
-                                    <li class="page-item" [ngClass]="{'disabled' : last}">
-                                        <a class="page-link" href="#" id="pageLast" (click)="goUltimaPagina($event)">Último</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-            <a routerLink="/novo" class="btn btn-success"><i class="fa fa-plus-circle"></i> Incluir novo</a>
+  <div class="row">
+    <div class="col-12">
+      <h2>Pessoas - Angular</h2>
+      <table class="table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Data nascimento</th>
+            <th>AÇÕES</th>
+          </tr>
+        </thead>
+        <tbody id="itensTabela">
+          <tr *ngFor="let pessoa of pessoas">
+            <td>{{pessoa.id}}</td>
+            <td>{{pessoa.nome}}</td>
+            <td>{{pessoa.dataNascimento}}</td>
+            <td>
+              <button class="btn btn-primary" [routerLink]="['/editar', pessoa.id]"><i
+                  class="fa fa-pencil"></i></button>
+              <button class="btn btn-danger" (click)="abrirModalDelete(modalDelete, pessoa.id)"><i
+                  class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4" style="text-align: right">
+              <nav aria-label="Paginação">
+                <ul class="pagination">
+                  <li class="page-item" [ngClass]="{'disabled' : first}">
+                    <a class="page-link" href="#" id="pageFirst" (click)="goPrimeiraPagina($event)">Primeiro</a>
+                  </li>
+                  <li class="page-item" *ngIf="hasPaginaAnterior()">
+                    <a class="page-link" href="#" id="pagePrevious"
+                      (click)="goPaginaAnterior($event)">{{paginaAtual}}</a>
+                  </li>
+                  <li class="page-item active">
+                    <a class="page-link active" href="#"><span id="pageCurrentText">{{paginaAtual + 1}}</span><span
+                        class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="page-item" *ngIf="hasProximaPagina()">
+                    <a class="page-link" href="#" id="pageNext"
+                      (click)="goProximaPagina($event)">{{paginaAtual + 2}}</a>
+                  </li>
+                  <li class="page-item" [ngClass]="{'disabled' : last}">
+                    <a class="page-link" href="#" id="pageLast" (click)="goUltimaPagina($event)">Último</a>
+                  </li>
+                </ul>
+              </nav>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <a routerLink="/novo" class="btn btn-success"><i class="fa fa-plus-circle"></i> Incluir novo</a>
 
-            <ng-template #modalDelete let-modal>
-                <div class="modal-content">
-                    <header class="modal-header">
-                        <h5>Confirmar remoção</h5>
-                        <button type="button" class="close" aria-label="Fechar" (click)="modal.dismiss()">
-                            <span aria-hidden="true">X</span>
-                        </button>
-                    </header>
-                    <div class="modal-body">
-                        <p class="modal-message">{{modal.message}}</p>
-                    </div>
-                    <footer class="modal-footer">
-                        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Não</button>
-                        <button type="button" class="btn btn-danger" (click)="deletePessoa()">Sim</button>
-                    </footer>
-                </div>
-            </ng-template>
+      <ng-template #modalDelete let-modal>
+        <div class="modal-content">
+          <header class="modal-header">
+            <h5>Confirmar remoção</h5>
+            <button type="button" class="close" aria-label="Fechar" (click)="modal.dismiss()">
+              <span aria-hidden="true">X</span>
+            </button>
+          </header>
+          <div class="modal-body">
+            <p class="modal-message">{{modalInfo.message}}</p>
+          </div>
+          <footer class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Não</button>
+            <button type="button" class="btn btn-danger" (click)="deletePessoa()">Sim</button>
+          </footer>
         </div>
+      </ng-template>
     </div>
+  </div>
 </div>

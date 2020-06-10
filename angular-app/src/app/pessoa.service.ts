@@ -18,9 +18,7 @@ export class PessoaService {
 
   constructor(
     private http: HttpClient
-  ) {
-
-  }
+  ) { }
 
   getPagedResult(pagina: number = 0, qtd: number = 10) : Observable<PagedResult<Pessoa>> {
     return this.http.get<PagedResult<Pessoa>>(this.apiBaseUrl + '?pagina=' + pagina + '&qtd=' + qtd);

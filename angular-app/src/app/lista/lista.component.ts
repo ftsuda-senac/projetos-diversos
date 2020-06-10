@@ -35,7 +35,7 @@ export class ListaComponent implements OnInit {
       nome: 'José dos Santos',
       sexo: 1,
       dataNascimento: new Date('2000-03-25'),
-      interessesId: [2, 5]
+      interessesId: [3, 4]
     }
   ];
   paginaAtual: number = 0;
@@ -44,7 +44,7 @@ export class ListaComponent implements OnInit {
   first: boolean = true;
   last: boolean = true;
 
-  modal: ModalInfo = {
+  modalInfo: ModalInfo = {
     message: '',
     itemId: -1
   };
@@ -65,18 +65,6 @@ export class ListaComponent implements OnInit {
       this.first = resultado.first;
       this.last = resultado.last;
     });
-  }
-
-  abrirModalDelete(modalDelete: any, id: number) {
-    this.modal.message = 'Confirma remoção da pessoa ID ' + id + '?';
-    this.modal.itemId = id;
-    this.modalService.open(modalDelete);
-  }
-
-  deletePessoa() {
-    this.pessoaService.deleteById(this.modal.itemId).subscribe();
-    this.listar();
-    this.modalService.dismissAll();
   }
 
   hasPaginaAnterior(): boolean {
@@ -113,6 +101,21 @@ export class ListaComponent implements OnInit {
     ev.preventDefault();
     this.paginaAtual = this.ultimaPagina;
     this.listar();
+  }
+
+  abrirModalDelete(modalDelete: any, id: number) {
+    this.modalInfo = {
+      message: 'Confirma remoção da pessoa ID ' + id + '?',
+      itemId: id
+    }
+    this.modalService.open(modalDelete);
+  }
+
+  deletePessoa() {
+    this.pessoaService.deleteById(this.modalInfo.itemId).subscribe(() => {
+      this.listar();
+      this.modalService.dismissAll();
+    });
   }
 
 }

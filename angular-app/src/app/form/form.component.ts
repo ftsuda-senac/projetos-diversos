@@ -31,17 +31,14 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getInteresses();
-    let id = -1;
+
     this.route.paramMap.subscribe(params => {
       if (params.get('id')) {
-        id = Number(params.get('id'));
+        this.id = Number(params.get('id'));
+        this.titulo = 'Editar pessoa';
+        this.getPessoaById(this.id);
       }
     });
-    if (id > 0) {
-      this.id = id;
-      this.titulo = 'Editar pessoa';
-      this.getPessoaById(this.id);
-    }
   }
 
   getPessoaById(id: number) {
@@ -51,7 +48,7 @@ export class FormComponent implements OnInit {
         for (let interesse of this.interesses) {
           for (let interesseSelecionado of this.pessoa.interessesId) {
             if (interesse.id === interesseSelecionado) {
-              interesse.selected = true;
+              interesse.selecionado = true;
               break;
             }
           }
@@ -65,7 +62,7 @@ export class FormComponent implements OnInit {
       .subscribe(interesses => {
         this.interesses = interesses;
         for (let interesse of this.interesses) {
-          interesse.selected = false;
+          interesse.selecionado = false;
         }
       }
     );
@@ -74,14 +71,15 @@ export class FormComponent implements OnInit {
   onSubmit() {
     let interessesId = [];
     for (const interesse of this.interesses) {
-      if (interesse.selected) {
+      if (interesse.selecionado) {
         interessesId.push(interesse.id);
       }
     }
     this.pessoa.interessesId = interessesId;
     console.log('**** Dados enviados: ' + JSON.stringify(this.pessoa));
-    this.pessoaService.addNew(this.pessoa).subscribe();
-    this.router.navigate(['/']);
+    this.pessoaService.addNew(this.pessoa).subscribe(() => {
+      this.router.navigate(['/']);
+    });
   }
 
 }
