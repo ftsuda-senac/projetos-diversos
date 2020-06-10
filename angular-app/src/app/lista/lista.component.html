@@ -55,6 +55,12 @@
       </table>
       <a routerLink="/novo" class="btn btn-success"><i class="fa fa-plus-circle"></i> Incluir novo</a>
 
+      <!-- 
+        Abaixo,
+        #modalDelete é um nome definido para ser usado no botão que abre o modal
+        let-modal é referência interna a palavra 'modal' usadas nos clicks abaixo
+        Por causa disso, modal fica reservado e não pode ser usado no Component (foi alterado para modalInfo)
+      -->
       <ng-template #modalDelete let-modal>
         <div class="modal-content">
           <header class="modal-header">
