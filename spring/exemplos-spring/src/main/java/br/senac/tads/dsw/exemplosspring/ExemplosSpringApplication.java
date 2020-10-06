@@ -22,7 +22,7 @@ public class ExemplosSpringApplication extends SpringBootServletInitializer
 	/**
 	 * Chamada do Spring Boot através da classe SpringBootServletInitializer usada
 	 * para executar o projeto em um servidor externo (Wildfly, JBoss, etc)<br>
-	 * Mantidoaqui como exemplo, não é necessário quando rodar com servidor
+	 * Mantido aqui como exemplo, pois não é necessário quando rodar com servidor
 	 * embedded<br>
 	 * Ver
 	 * https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto-traditional-deployment

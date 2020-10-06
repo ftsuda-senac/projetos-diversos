@@ -5,11 +5,9 @@
  */
 package br.senac.tads.dsw.exemplosspring.sessao.item;
 
-import br.senac.tads.dsw.exemplosspring.sessao.item.ItemSelecionado;
-import br.senac.tads.dsw.exemplosspring.item.ItemService;
-import br.senac.tads.dsw.exemplosspring.item.Item;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import br.senac.tads.dsw.exemplosspring.item.Item;
+import br.senac.tads.dsw.exemplosspring.item.ItemService;
 
 /**
  * Para remover atributos ver https://stackoverflow.com/questions/18209233/spring-mvc-how-to-remove-session-attribute
