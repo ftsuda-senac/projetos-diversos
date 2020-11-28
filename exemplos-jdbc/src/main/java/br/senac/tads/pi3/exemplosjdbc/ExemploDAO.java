@@ -22,10 +22,12 @@ import javax.sql.DataSource;
 public class ExemploDAO {
 	
 	private DataSource datasource = ConnectionUtilH2.retrieveDS();
+	
+	private ConnectionUtilH2 connectionUtil = new ConnectionUtilH2();
 
     public void criarTabela() {
         String sql = "CREATE TABLE IF NOT EXISTS exemplo (id INT PRIMARY KEY auto_increment, valor VARCHAR(255))";
-        try (Connection conn = ConnectionUtilH2.obterConexao(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = connectionUtil.obterConexao(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -94,7 +96,7 @@ public class ExemploDAO {
     public int salvarComStatement(String valor) {
         String sql = "INSERT INTO exemplo (valor) VALUES ('" + valor + "')";
         int resultados = 0;
-        try (Connection conn = ConnectionUtilH2.obterConexao();
+        try (Connection conn = connectionUtil.obterConexao();
                 Statement stmt = conn.createStatement()) {
             resultados = stmt.executeUpdate(sql);
         } catch (SQLException ex) {
@@ -132,7 +134,6 @@ public class ExemploDAO {
 
                     if (chaves.next()) {
                         idGerado = chaves.getInt(1);
-
                         // USA O ID GERADO PARA DEMAIS OPERACOES
                     }
 
