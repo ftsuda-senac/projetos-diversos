@@ -98,7 +98,7 @@ $(function() {
 		ev.preventDefault();
 		let form = this;
 		let interessesId = [];
-		const interessesOptions = document.querySelectorAll('input[name="interessesId"]');
+		const interessesOptions = document.querySelectorAll('input[name="interessesId"]:checked');
 		for (let option of interessesOptions) {
 			if (option.checked) {
 				interessesId.push(Number(option.value));

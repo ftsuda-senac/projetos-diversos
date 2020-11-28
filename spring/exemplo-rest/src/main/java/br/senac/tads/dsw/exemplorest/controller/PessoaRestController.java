@@ -3,12 +3,13 @@ package br.senac.tads.dsw.exemplorest.controller;
 import java.net.URI;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.senac.tads.dsw.exemplorest.dominio.Interesse;
@@ -39,7 +41,7 @@ public class PessoaRestController {
 	}
 
 	@GetMapping
-	//@CrossOrigin(origins = "localhost:8080") // tentar acessar usando 127.0.0.1 no código Ajax/Javascript
+	//@CrossOrigin(origins = "http://localhost:8080") // tentar acessar usando 127.0.0.1 no código Ajax/Javascript
 	public Page<Pessoa> listar(
 			@RequestParam(value = "pagina", defaultValue = "0") int pagina,
 			@RequestParam(value = "qtd", defaultValue = "10") int qtd) {
@@ -54,7 +56,11 @@ public class PessoaRestController {
 	@GetMapping("/{id}")
 	//@CrossOrigin(origins = "*")
 	public Pessoa findById(@PathVariable("id") Integer id) {
-		return pessoaRepository.findById(id).get();
+		Optional<Pessoa> optPessoa = pessoaRepository.findById(id);
+		if (optPessoa.isPresent()) {
+			return optPessoa.get();
+		}
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa ID " + id + " não encontrada");
 	}
 
 	@PostMapping
