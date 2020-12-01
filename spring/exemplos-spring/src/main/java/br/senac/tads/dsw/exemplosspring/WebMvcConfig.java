@@ -6,7 +6,8 @@
 package br.senac.tads.dsw.exemplosspring;
 
 import java.util.Locale;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -23,6 +24,9 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+
+    @Autowired
+    public MessageSource messageSource;
 
     @Bean(name = "localeResolver")
     public CookieLocaleResolver localeResolver() {
@@ -49,20 +53,21 @@ public class WebMvcConfig implements WebMvcConfigurer {
      * Referência:
      * https://www.baeldung.com/spring-custom-validation-message-source
      */
-    @Bean(name = "messageSource")
-    public ReloadableResourceBundleMessageSource messageSource() {
-        ReloadableResourceBundleMessageSource source
-                = new ReloadableResourceBundleMessageSource();
-        source.setBasename("classpath:i18n/mensagens");
-        source.setDefaultEncoding("UTF-8");
-        source.setCacheSeconds(0);
-        return source;
-    }
+//    @Bean(name = "messageSource")
+//    public ReloadableResourceBundleMessageSource messageSource() {
+//        ReloadableResourceBundleMessageSource source
+//                = new ReloadableResourceBundleMessageSource();
+//        source.setBasename("classpath:i18n/mensagens");
+//        source.setDefaultEncoding("UTF-8");
+//        source.setCacheSeconds(0);
+//        return source;
+//    }
 
     @Bean
     public LocalValidatorFactoryBean getValidator() {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
-        bean.setValidationMessageSource(messageSource());
+        // bean.setValidationMessageSource(messageSource());
+        bean.setValidationMessageSource(messageSource);
         return bean;
     }
 
