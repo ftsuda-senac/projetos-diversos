@@ -21,6 +21,7 @@ public class SystemPropertiesMain {
      */
     public static void main(String... args) {
         System.out.println("======== System properties ==========");
+        System.out.println("    Novos parâmetros podem ser adicionandos com a flag -Dparam=valor ao iniciar a aplicação");
         Properties systemProperties = System.getProperties();
         for (String key : systemProperties.stringPropertyNames()) {
             if ("line.separator".equals(key)) {
@@ -47,6 +48,10 @@ public class SystemPropertiesMain {
         */
 
         System.out.println(System.lineSeparator() + "======== Environment variables ==========");
+        System.out.println("    Variáveis de ambiente podem ser configuradas no sistema operacional");
+        System.out.println("    Windows => SET VARIAVEL=VALOR (para verificar: ECHO %VARIAVEL% ) - SEPARADOR: ;" );
+        System.out.println("    Linux => export VARIAVEL=VALOR (para verificar: echo $VARIAVEL ) - SEPARADOR: :");
+        
         Map<String, String> env = System.getenv();
         for (String envName : env.keySet()) {
             System.out.format("%s=%s%n", envName, env.get(envName));
