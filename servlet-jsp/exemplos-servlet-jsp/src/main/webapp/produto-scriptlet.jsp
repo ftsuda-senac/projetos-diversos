@@ -27,14 +27,16 @@
         %>
         <h1>Cake Web - JSP com Scriptlet</h1>
         <ul>
-            <% for (Produto p : lista) {%>
-            <li><div>
+            <% for (Produto p : lista) { %>
+            <li>
+                <div>
                     <img src="<%= p.getImagem() %>" />
                     <h3><%= p.getNome()%></h3>
                     <p><%= p.getDescricao()%></p>
                     <p><%= p.getPrecoVenda().toString()%></p>
-                    <% }%>
-                </div></li>
+                </div>
+            </li>
+            <% } %>
         </ul>
     </body>
 </html>
