@@ -1,11 +1,10 @@
 package br.senac.tads.dsw.exemplorest.controller;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
 import br.senac.tads.dsw.exemplorest.dominio.Pessoa;
 import br.senac.tads.dsw.exemplorest.dominio.PessoaRepository;
 
@@ -71,6 +69,7 @@ public class PessoaRestHateoasController {
 			Pessoa pessoa = optPessoa.get();
 			EntityModel<Pessoa> emp = EntityModel.of(pessoa);
 			emp.add(linkTo(methodOn(PessoaRestHateoasController.class).findById(pessoa.getId())).withSelfRel());
+			emp.add(linkTo(methodOn(PessoaRestHateoasController.class).update(pessoa.getId(), pessoa)).withRel("update"));
 			return emp;
 		}
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa ID " + id + " não encontrada");
