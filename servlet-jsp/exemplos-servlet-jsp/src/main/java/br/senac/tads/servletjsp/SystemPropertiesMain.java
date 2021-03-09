@@ -10,6 +10,7 @@ package br.senac.tads.servletjsp;
  * @author fernando.tsuda
  */
 import java.util.Map;
+import java.util.Properties;
 import org.apache.commons.text.StringEscapeUtils;
 
 public class SystemPropertiesMain {
@@ -19,6 +20,16 @@ public class SystemPropertiesMain {
      * https://docs.oracle.com/javase/tutorial/essential/environment/env.html
      */
     public static void main(String... args) {
+        System.out.println("======== System properties ==========");
+        Properties systemProperties = System.getProperties();
+        for (String key : systemProperties.stringPropertyNames()) {
+            if ("line.separator".equals(key)) {
+                System.out.println(key + ": " + StringEscapeUtils.escapeJava(System.getProperty(key)));
+            } else {
+                System.out.println(key + ": " + System.getProperty(key));
+            }
+        }
+        /*
         System.out.println("file.separator: " + System.getProperty("file.separator"));
         System.out.println("java.class.path: " + System.getProperty("java.class.path"));
         System.out.println("java.home: " + System.getProperty("java.home"));
@@ -33,7 +44,9 @@ public class SystemPropertiesMain {
         System.out.println("user.dir: " + System.getProperty("user.dir"));
         System.out.println("user.home: " + System.getProperty("user.home"));
         System.out.println("user.name: " + System.getProperty("user.name"));
+        */
 
+        System.out.println(System.lineSeparator() + "======== Environment variables ==========");
         Map<String, String> env = System.getenv();
         for (String envName : env.keySet()) {
             System.out.format("%s=%s%n", envName, env.get(envName));
