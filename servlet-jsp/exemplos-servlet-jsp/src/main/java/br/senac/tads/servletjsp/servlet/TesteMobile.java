@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this
+ * template file, choose Tools | Templates and open the template in the editor.
  */
 package br.senac.tads.servletjsp.servlet;
 
@@ -23,7 +22,7 @@ public class TesteMobile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String userAgent = request.getHeader("user-agent");
         String mensagem = "Acesso via dispositivo movel";
         if (!userAgent.toLowerCase().contains("mobile")) {
@@ -37,7 +36,8 @@ public class TesteMobile extends HttpServlet {
             out.println("<head>");
             out.println("<title>Servlet TesteMobile</title>");
             out.println("<meta charset=\"utf-8\">");
-            out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">");
+            out.println(
+                    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>" + mensagem + "</h1>");
