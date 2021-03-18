@@ -6,6 +6,18 @@
     </head>
     <body>
         <h1>Exemplo de upload</h1>
+        <h2>Conceitos</h2>
+        <ul>
+            <li>Lembrar que o upload em um sistema web é essencialmente o envio de um arquivo da sua máquina (através do navegador) para o servidor remoto.</li>
+            <li>Na tela HTML com o formulário de envio, lembrar de configurar na tag <code>&lt;form&gt;</code> o atributo <code>enctype="multipart/form-data"</code>
+            <li>O Servlet é o componente da aplicação no servidor que vai pegar o arquivo recebido pela rede e salvar em algum diretório no servidor. A lógica envolve basicamente:
+            <ol>
+            <li>Receber os bytes do arquivo q foi recebido da rede e</li>
+            <li>Copiá-los no diretório/arquivo de destino.</li>
+            </ol></li>
+            <li>Como o arquivo foi salvo no servidor, será necessário configurar uma URL para que o navegador possa acessá-lo através da web. Isso será feito através de uma configuração diretamente no Tomcat seguindo as instruções abaixo</li>
+        </ul>
+        <hr />
         <h2>Instruções para uso no Windows e servidor Tomcat:</h2>
         <ul>
             <li>
