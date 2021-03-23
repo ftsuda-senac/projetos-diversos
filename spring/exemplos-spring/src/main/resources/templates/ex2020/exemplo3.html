@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Exemplos Spring MVC</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Exemplo 3</h1>
+        <div>
+            <ul th:each="item : ${lista}">
+                <li>
+                    <h3 th:text="${item.nome}">Nome</h3>
+                    <p th:if="${item.destaque}" style="color: red">*</p>
+                    <p>Número: <span th:text="${item.numero}">123</span>
+                        (<span th:if="${item.par}">PAR</span><span th:unless="${item.par}">ÍMPAR</span>)
+                    </p>
+                    <p>Data: <span th:text="${item.data}">2000-01-01</span></p>
+                    <p>EXTRA teste ternário: <span th:text="${item.par ? 'PAR' : 'IMPAR'}"></span></p>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>

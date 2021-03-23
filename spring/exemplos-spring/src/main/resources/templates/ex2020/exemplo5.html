@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Exemplos Spring MVC</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Exemplo 5</h1>
+        <div>
+            <h3 th:text="${item.nome}">Nome</h3>
+            <p>Número: <span th:text="${item.numero}">123</span>
+                (<span th:if="${item.par}">PAR</span><span th:unless="${item.par}">ÍMPAR</span>)
+            </p>
+            <p>Data: <span th:text="${item.data}">2000-01-01</span></p>
+            <p>Apelido: <span th:text="${apelido}"></span></p>
+        </div>
+    </body>
+</html>
