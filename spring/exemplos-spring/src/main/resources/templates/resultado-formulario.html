@@ -13,22 +13,30 @@
     <body>
         <main class="container">
             <div class="row">
-                <section class="col-md-12">
+                <section class="col-md-12" th:if="${dados != null}">
+                    <h2>Dados preenchidos</h2>
                     <div>ID: <span th:text="${dados.id}"></span></div>
                     <div>Nome: <span th:text="${dados.nome}"></span></div>
                     <div>Descrição: <span th:text="${dados.descricao}"></span></div>
                     <div>E-mail: <span th:text="${dados.email}"></span></div>
+                    <div>Telefone: <span th:text="${dados.telefone}"></span></div>
+                    <div>Data nascimento: <span th:text="${dados.dtNascimento}"></span></div>
+                    <div>Idade: <span th:text="${dados.idade}"></span></div>
                     <div>Senha: <span th:text="${dados.senha}"></span></div>
+                    <div>Senha repetida: <span th:text="${dados.senhaRepetida}"></span></div>
                     <div>Número da sorte: <span th:text="${dados.numeroSorte}"></span></div>
                     <div>Altura: <span th:text="${dados.altura}"></span></div>
                     <div>Peso: <span th:text="${dados.peso}"></span></div>
-                    <div>Data nascimento: <span th:text="${dados.dtNascimento}"></span></div>
+                    <div>IMC: <span th:text="${dados.imc}"></span></div>
                     <div>Sexo: <span th:text="${dados.sexo == 1? 'Masculino' : 'Feminino'}"></span></div>
                     <div>Interesses:
                         <ul th:if="${dados.interesses != null}" th:each="interesse : ${dados.interesses}">
                             <li th:text="${interesse}"></li>
                         </ul>
                     </div>
+                </section>
+                <section class="col-md-12" th:unless="${dados != null}">
+                    <h4>Não há dados para serem exibidos</h4>
                 </section>
             </div>
         </main>

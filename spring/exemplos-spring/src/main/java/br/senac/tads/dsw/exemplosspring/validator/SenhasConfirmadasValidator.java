@@ -5,25 +5,20 @@
  */
 package br.senac.tads.dsw.exemplosspring.validator;
 
-import br.senac.tads.dsw.exemplosspring.DadosPessoais;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import br.senac.tads.dsw.exemplosspring.DadosPessoais;
 
 /**
  *
  * @author ftsuda
  */
-public class SenhasConfirmadasValidator implements ConstraintValidator<SenhasConfirmadas, Object> {
+public class SenhasConfirmadasValidator implements ConstraintValidator<SenhasConfirmadas, DadosPessoais> {
 
     @Override
-    public void initialize(final SenhasConfirmadas annotation) {
-
+    public boolean isValid(DadosPessoais item, ConstraintValidatorContext context) {
+        return item.getSenha().equals(item.getSenhaRepetida());
     }
 
-    @Override
-    public boolean isValid(final Object item, final ConstraintValidatorContext context) {
-        DadosPessoais dadosPessoais = (DadosPessoais) item;
-        return dadosPessoais.getSenha().equals(dadosPessoais.getSenhaRepetida());
-    }
 
 }

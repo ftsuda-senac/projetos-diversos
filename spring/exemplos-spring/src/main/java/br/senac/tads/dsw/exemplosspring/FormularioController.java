@@ -1,17 +1,12 @@
 package br.senac.tads.dsw.exemplosspring;
 
-import br.senac.tads.dsw.exemplosspring.formatter.WebDateFormatter;
-import br.senac.tads.dsw.exemplosspring.validator.SpringSenhasConfirmadasValidator;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,12 +36,21 @@ public class FormularioController {
 	}
 
     @GetMapping("/form")
+    public ModelAndView abrirFormularioVazio() {
+        ModelAndView mv = new ModelAndView("formulario-final");
+        mv.addObject("dadosPessoais", new DadosPessoais());
+        return mv;
+    }
+	
+    @GetMapping("/form-preenchido")
     public ModelAndView abrirFormulario() {
-        ModelAndView mv = new ModelAndView("formulario");
+        ModelAndView mv = new ModelAndView("formulario-final");
         DadosPessoais dados = new DadosPessoais();
         dados.setId(999L);
         dados.setNome("Zezinho Silveira");
+        dados.setDescricao("bla bla bla");
         dados.setEmail("zezinho@email.com");
+        dados.setTelefone("(11) 98711-9988");
         dados.setSenha("abcd1234");
         dados.setSenhaRepetida("abcd1234");
         dados.setDtNascimento(LocalDate.of(1998, 9, 30));
@@ -54,9 +58,7 @@ public class FormularioController {
         dados.setNumeroSorte(72);
         dados.setPeso(BigDecimal.valueOf(90.7));
         dados.setAltura(BigDecimal.valueOf(1.72));
-        dados.setDescricao("bla bla bla");
         dados.setInteresses(new String[]{"Tecnologia", "Viagens"});
-        
         mv.addObject("dadosPessoais", dados);
         return mv;
     }

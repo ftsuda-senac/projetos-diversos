@@ -14,14 +14,15 @@
         <main class="container">
             <div class="row">
                 <section class="col-md-12">
-                    <h1>Formulário</h1>
+                    <h1>Formulário com validação</h1>
                     <form method="post" th:action="@{/formulario/salvar-prg-validacao}" th:object="${dadosPessoais}" novalidate>
+
                         <input type="hidden" name="id" value="123" th:field="*{id}">
 
                         <div class="form-group row">
                             <label for="txtNome" class="col-sm-2 col-form-label">Nome</label>
                             <div class="col-sm-10">
-                                <input type="text" name="nome" class="form-control" th:classappend="${#fields.hasErrors('nome')}? is-invalid" id="txtNome" placeholder="Nome" th:field="*{nome}" required maxlength="100">
+                                <input type="text" name="nome" class="form-control" th:classappend="${#fields.hasErrors('nome')}? is-invalid" id="txtNome" placeholder="Nome completo" th:field="*{nome}" required maxlength="100" />
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">
                                     Digite um nome.
                                 </div>
@@ -38,25 +39,44 @@
                         <div class="form-group row">
                             <label for="txtEmail" class="col-sm-2 col-form-label">E-mail</label>
                             <div class="col-sm-10">
-                                <input type="email" name="email" class="form-control" th:classappend="${#fields.hasErrors('email')}? is-invalid" id="txtEmail" placeholder="E-mail" th:field="*{email}">
+                                <input type="email" name="email" class="form-control" th:classappend="${#fields.hasErrors('email')}? is-invalid" id="txtEmail" placeholder="E-mail" th:field="*{email}" />
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
                                     Digite um e-mail.
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="txtSenha" class="col-sm-2 col-form-label">Senha</label>
+                            <label for="txtTelefone" class="col-sm-2 col-form-label">Telefone</label>
                             <div class="col-sm-10">
-                                <input type="password" name="senha" class="form-control" th:classappend="${#fields.hasErrors('senha')}? is-invalid" id="txtSenha" placeholder="Senha" th:field="*{senha}">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">
-                                    Digite uma senha.
+                                <input type="text" name="telefone" class="form-control" id="txtTelefone" placeholder="(99) 99999-9999" th:field="*{telefone}" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="txtDtNascimento" class="col-sm-2 col-form-label">Data de nascimento</label>
+                            <div class="col-sm-10">
+                                <input type="date" name="dtNascimento" class="form-control" th:classappend="${#fields.hasErrors('dtNascimento')}? is-invalid" id="txtDtNascimento" placeholder="Data no formato yyyy-MM-dd" th:field="*{dtNascimento}" th:max="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('dtNascimento')}" th:errors="*{dtNascimento}">
+                                    Digite uma data válida.
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="txtRepetirSenha" class="col-sm-2 col-form-label">Repetir senha</label>
+                            <label for="txtSenha" class="col-sm-2 col-form-label">Senha</label>
                             <div class="col-sm-10">
-                                <input type="password" name="senha" class="form-control" id="txtRepetirSenha" placeholder="Repetir senha" th:field="*{senhaRepetida}">
+                                <input type="password" name="senha" class="form-control" th:classappend="${#fields.hasErrors('senha')}? is-invalid" id="txtSenha" placeholder="Senha" th:field="*{senha}" />
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">
+                                    Digite uma senha.
+                                </div>
+                                <div class="invalid-feedback" th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="txtSenhaRepetida" class="col-sm-2 col-form-label">Repetir senha</label>
+                            <div class="col-sm-10">
+                                <input type="password" name="senhaRepetida" class="form-control" id="txtSenhaRepetida" placeholder="Repetir senha" th:field="*{senhaRepetida}" />
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('senhaRepetida')}" th:errors="*{senhaRepetida}">
+                                    Digite uma senha.
+                                </div>
                             </div>
                         </div>
 
@@ -69,40 +89,28 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group row">
                             <label for="txtAltura" class="col-sm-2 col-form-label">Altura</label>
                             <div class="col-sm-10">
-                                <input type="number" name="altura" class="form-control" th:classappend="${#fields.hasErrors('altura')}? is-invalid" id="txtAltura" placeholder="Altura em metros com no máximo 2 casa decimais" min="0" max="9.99" step="0.01" th:field="*{altura}">
+                                <input type="number" name="altura" class="form-control" th:classappend="${#fields.hasErrors('altura')}? is-invalid" id="txtAltura" placeholder="Altura em metros com no máximo 2 casa decimais" min="0" max="3" step="0.01" th:field="*{altura}">
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('altura')}" th:errors="*{altura}">
                                     Digite uma altura válida.
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group row">
                             <label for="txtPeso" class="col-sm-2 col-form-label">Peso</label>
                             <div class="col-sm-10">
-                                <input type="number" name="peso" class="form-control" th:classappend="${#fields.hasErrors('peso')}? is-invalid" id="txtPeso" placeholder="Peso em Kg com no máximo 1 casa decimal" min="0" max="999.9" step="0.1" th:field="*{peso}">
+                                <input type="number" name="peso" class="form-control" th:classappend="${#fields.hasErrors('peso')}? is-invalid" id="txtPeso" placeholder="Peso em Kg com no máximo 1 casa decimal" min="0" max="500" step="0.1" th:field="*{peso}">
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('peso')}" th:errors="*{peso}">
                                     Digite um peso válido.
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="txtDtNascimento" class="col-sm-2 col-form-label">Data de nascimento</label>
-                            <div class="col-sm-10">
-                                <input type="date" name="dtNascimento" class="form-control" th:classappend="${#fields.hasErrors('dtNascimento')}? is-invalid" id="txtDtNascimento" placeholder="Data no formato yyyy-MM-dd" th:field="*{dtNascimento}" th:max="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('dtNascimento')}" th:errors="*{dtNascimento}">
-                                    Digite uma data válida.
-                                </div>
-                            </div>
-                        </div>
-
                         <fieldset class="form-group">
+                            <legend class="col-form-label col-sm-2 pt-0">Sexo</legend>
                             <div class="row">
-                                <legend class="col-form-label col-sm-2 pt-0">Sexo</legend>
                                 <div class="col-sm-10">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="sexo" id="optSexoF" value="0" checked th:field="*{sexo}">
@@ -121,8 +129,8 @@
                         </fieldset>
 
                         <fieldset class="form-group">
+                            <legend class="col-form-label col-sm-2 pt-0">Interesses</legend>
                             <div class="row">
-                                <legend class="col-form-label col-sm-2 pt-0">Interesses</legend>
                                 <div class="col-sm-10">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" th:classappend="${#fields.hasErrors('interesses')}? is-invalid" type="checkbox" name="interesses" id="interessesTecnologia" value="Tecnologia" th:field="*{interesses}">
@@ -147,9 +155,15 @@
                                         <label class="form-check-label" for="interessesInvestimentos">
                                             Investimentos
                                         </label>
-                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('interesses')}" th:errors="*{interesses}">Selecione pelo menos uma opção</div>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" th:classappend="${#fields.hasErrors('interesses')}? is-invalid" type="checkbox" name="interesses" id="interessesEsportes" value="Esportes" th:field="*{interesses}">
+                                        <label class="form-check-label" for="interessesEsportes">
+                                            Esportes
+                                        </label>
                                     </div>
                                 </div>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('interesses')}" th:errors="*{interesses}">Selecione pelo menos uma opção</div>
                             </div>
                         </fieldset>
                         <div class="row">
