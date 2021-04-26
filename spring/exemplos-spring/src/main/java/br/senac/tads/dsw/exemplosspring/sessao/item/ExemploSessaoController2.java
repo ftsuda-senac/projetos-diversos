@@ -1,13 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this
+ * template file, choose Tools | Templates and open the template in the editor.
  */
 package br.senac.tads.dsw.exemplosspring.sessao.item;
 
-import br.senac.tads.dsw.exemplosspring.sessao.item.ItemSelecionado;
-import br.senac.tads.dsw.exemplosspring.item.ItemService;
-import br.senac.tads.dsw.exemplosspring.item.Item;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import br.senac.tads.dsw.exemplosspring.item.Item;
+import br.senac.tads.dsw.exemplosspring.item.ItemService;
 
 /**
  *
@@ -30,28 +29,30 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/exemplo-sessao2")
 public class ExemploSessaoController2 implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Autowired
+    @Autowired
     private ItemService itemService;
 
     private List<ItemSelecionado> itensSelecionados = new ArrayList<>();
 
     @GetMapping
     public ModelAndView mostrarTela() {
-        return new ModelAndView("sessao-item/exemplo-sessao2").addObject("itens", itemService.findAll());
+        return new ModelAndView("sessao-item/exemplo-sessao2").addObject("itens",
+                itemService.findAll());
     }
 
     @PostMapping
     public ModelAndView adicionarItem(
             @ModelAttribute("itemId") Integer itemId,
+            @RequestHeader("user-agent") String userAgent,
             RedirectAttributes redirAttr) {
         Item item = itemService.findById(itemId);
-        itensSelecionados.add(new ItemSelecionado(item));
+        itensSelecionados.add(new ItemSelecionado(item, userAgent));
         redirAttr.addFlashAttribute("msg", "Item ID " + item.getId() + " adicionado com sucesso");
         return new ModelAndView("redirect:/exemplo-sessao2");
     }
-    
+
     @GetMapping("/limpar")
     public ModelAndView limparSelecionados(RedirectAttributes redirAttr) {
         itensSelecionados.clear();
@@ -65,7 +66,7 @@ public class ExemploSessaoController2 implements Serializable {
 
     @ModelAttribute("titulo")
     public String getTitulo() {
-    	return "Exemplo Sessao 2 - Uso do @Controller com @Scope(\"session\")";
+        return "Exemplo Sessao 2 - Uso do @Controller com @Scope(\"session\")";
     }
-   
+
 }
