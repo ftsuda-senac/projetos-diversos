@@ -19,21 +19,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author ftsuda
  */
 @Controller
-@RequestMapping("/i18n")
-public class InternacionalizacaoController {
+@RequestMapping("/sem-i18n")
+public class SemInternacionalizacaoController {
 
     @GetMapping
     public ModelAndView mostrarTela() {
-        return new ModelAndView("i18n/tela").addObject("info", new Info());
+        return new ModelAndView("i18n/tela-sem-i18n").addObject("info", new Info());
     }
 
     @PostMapping
     public ModelAndView salvar(@ModelAttribute("info") @Valid Info info,
             BindingResult bindingResult, RedirectAttributes redirAttr) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("i18n/tela");
+            return new ModelAndView("i18n/tela-sem-i18n");
         }
-        return new ModelAndView("redirect:/i18n");
+        return new ModelAndView("redirect:/sem-i18n");
     }
 
 }

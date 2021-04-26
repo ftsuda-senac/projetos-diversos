@@ -1,77 +1,74 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Formulário</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <main class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h1 th:text="${titulo}">Exemplo sessão - item</h1>
-                </div>
-            </div>
-            <div class="row" th:if="${msg != null}">
-                <div class="col-12 alert alert-success">
-                    <span data-th-text="${msg}">Mensagem sucesso</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-4" th:each="item : ${itens}">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${item.nome}">Item X</h5>
-                            <p class="card-text">Descrição do item</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">ID: <span th:text="${item.id}">1</span></li>
-                            <li class="list-group-item">Valor: <span
-                                    th:text="${item.valor}">99</span></li>
-                        </ul>
-                        <div class="card-body">
-                            <form method="post" th:action="@{/exemplo-sessao3}">
-                                <input type="hidden" name="itemId" th:value="${item.id}" />
-                                <button type="submit" class="btn btn-block"
-                                        th:style="'color: #fff; background-color: ' + ${item.corHex}">Adicionar</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="row" th:if="${#lists.isEmpty(session.itensSelecionados3)}">
-                <div class="col-12">
-                    <h2>Nenhum item adicionado</h2>
-                </div>
-            </div>
-            <div class="row"
-                 th:unless="${#lists.isEmpty(session.itensSelecionados3)}">
-                <div class="col-12">
-                    <table class="table table-striped table-sm table-responsive">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Item ID</th>
-                                <th>Nome</th>
-                                <th>Data e hora de inclusão</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="sel : ${session.itensSelecionados3}">
-                                <td th:text="${sel.item.id}"></td>
-                                <td th:text="${sel.item.nome}"></td>
-                                <td th:text="${sel.dataHoraInclusao}"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
-
-    </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Exemplo Sessão 3</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <main class="container">
+    <div class="row">
+      <div class="col-12">
+        <h1 th:text="${titulo}">Exemplo sessão - item</h1>
+      </div>
+    </div>
+    <div class="row" th:if="${msg != null}">
+      <div class="col-12 alert alert-success">
+        <span data-th-text="${msg}">Mensagem sucesso</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4" th:each="item : ${itens}">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title" th:text="${item.nome}">Item X</h5>
+            <p class="card-text">Descrição do item</p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">ID: <span th:text="${item.id}">1</span></li>
+            <li class="list-group-item">Valor: <span th:text="${item.valor}">99</span></li>
+          </ul>
+          <div class="card-body">
+            <form method="post" th:action="@{/exemplo-sessao3}">
+              <input type="hidden" name="itemId" th:value="${item.id}" />
+              <button type="submit" class="btn btn-block" th:style="'color: #fff; background-color: ' + ${item.corHex}">Adicionar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row" th:if="${#lists.isEmpty(session.itensSelecionados3)}">
+      <div class="col-12">
+        <h2>Nenhum item adicionado</h2>
+      </div>
+    </div>
+    <div class="row" th:unless="${#lists.isEmpty(session.itensSelecionados3)}">
+      <div class="col-12">
+        <table class="table table-striped table-sm table-responsive">
+          <thead class="thead-dark">
+            <tr>
+              <th>Item ID</th>
+              <th>Nome</th>
+              <th>Data e hora de inclusão</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="sel : ${session.itensSelecionados3}">
+              <td th:text="${sel.item.id}"></td>
+              <td th:text="${sel.item.nome}"></td>
+              <td th:text="${sel.dataHoraInclusao}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</body>
 </html>

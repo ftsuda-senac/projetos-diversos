@@ -1,10 +1,7 @@
-package br.senac.tads.dsw.exemplospringsecurity.service;
+package br.senac.tads.dsw.exemplospringsecurity.dominio;
 
 import java.util.List;
-
 import org.springframework.security.core.userdetails.UserDetails;
-
-import br.senac.tads.dsw.exemplospringsecurity.SecurityConfig;
 
 
 /**
@@ -13,9 +10,9 @@ import br.senac.tads.dsw.exemplospringsecurity.SecurityConfig;
  */
 public class UsuarioSistema implements UserDetails {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String username;
+    private String username;
 
     private String nomeCompleto;
 
@@ -23,20 +20,14 @@ public class UsuarioSistema implements UserDetails {
 
     private List<Papel> papeis;
 
-    public UsuarioSistema() {
-    }
+    public UsuarioSistema() {}
 
-    public UsuarioSistema(String username, String nomeCompleto,
-            String senhaAberta, List<Papel> papeis) {
+    public UsuarioSistema(String username, String nomeCompleto, String hashSenha,
+            List<Papel> papeis) {
         this.username = username;
         this.nomeCompleto = nomeCompleto;
-        setSenha(senhaAberta);
+        this.hashSenha = hashSenha;
         this.papeis = papeis;
-    }
-
-    public final void setSenha(String senhaAberta) {
-        this.hashSenha = SecurityConfig.bcryptPasswordEncoder()
-        		.encode(senhaAberta);
     }
 
     @Override
@@ -72,35 +63,35 @@ public class UsuarioSistema implements UserDetails {
         this.papeis = papeis;
     }
 
-	@Override
-	//public Collection<? extends GrantedAuthority> getAuthorities() {
-	public List<Papel> getAuthorities() {
-		return papeis;
-	}
+    @Override
+    // public Collection<? extends GrantedAuthority> getAuthorities() {
+    public List<Papel> getAuthorities() {
+        return papeis;
+    }
 
-	@Override
-	public String getPassword() {
-		return hashSenha;
-	}
+    @Override
+    public String getPassword() {
+        return hashSenha;
+    }
 
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
 }

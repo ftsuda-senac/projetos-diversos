@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this
+ * template file, choose Tools | Templates and open the template in the editor.
  */
 package br.senac.tads.dsw.exemplospringsecurity;
 
@@ -21,32 +20,32 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	public static PasswordEncoder plainPasswordEncoder() {
-		return new PasswordEncoder() {
-			@Override
-			public String encode(CharSequence cs) {
-				return cs.toString();
-			}
+    public static PasswordEncoder plainPasswordEncoder() {
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence cs) {
+                return cs.toString();
+            }
 
-			@Override
-			public boolean matches(CharSequence cs, String hashSenha) {
-				return hashSenha != null && hashSenha.equals(cs.toString());
-			}
-		};
-	}
+            @Override
+            public boolean matches(CharSequence cs, String hashSenha) {
+                return hashSenha != null && hashSenha.equals(cs.toString());
+            }
+        };
+    }
 
-	public static PasswordEncoder bcryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    public static PasswordEncoder bcryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return bcryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return bcryptPasswordEncoder();
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		// @formatter:off
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        // @formatter:off
 		http.headers()
 				.cacheControl().disable() // Allow cache configuration
 				.frameOptions().sameOrigin() // Avoid x-frame-options problem opening H2 console
@@ -73,6 +72,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.exceptionHandling()
 					.accessDeniedPage("/erro/403");
 		// @formatter:on
-	}
+    }
 
 }
