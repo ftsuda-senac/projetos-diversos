@@ -1,6 +1,5 @@
 package br.senac.tads.dsw.exemplosspring.sessao.item;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +16,14 @@ import br.senac.tads.dsw.exemplosspring.item.ItemService;
 
 @Controller
 @RequestMapping("/exemplo-sessao-errado")
-public class ExemploSessaoControllerErrado implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class ExemploSessaoControllerErrado {
 
     @Autowired
     private ItemService itemService;
 
     // NÃO COLOCAR ATRIBUTO DE INSTÂNCIA NOS CONTROLLERS POIS PODE CAUSAR
     // COMPORTAMENTO ERRADO DA APLICAÇÃO.
-    // O OBJETO CONTROLLER PODE SER COMPARTILHADO ENTRE REQUISICOES DIFERENTES.
+    // O OBJETO CONTROLLER PODE SER COMPARTILHADO ENTRE REQUISICOES DE DIFERENTES USUÁRIOS
     private List<ItemSelecionado> itensSelecionados = new ArrayList<>();
 
     @GetMapping

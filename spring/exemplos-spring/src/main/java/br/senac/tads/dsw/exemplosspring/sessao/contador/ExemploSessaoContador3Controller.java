@@ -5,8 +5,8 @@
  */
 package br.senac.tads.dsw.exemplosspring.sessao.contador;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.io.Serializable;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,33 +19,30 @@ import org.springframework.web.servlet.ModelAndView;
  * @author ftsuda
  */
 @Controller
+@Scope("session")
 @RequestMapping("/sessao-contador3")
-public class ExemploSessaoContador3Controller {
+public class ExemploSessaoContador3Controller implements Serializable {
 
-    @GetMapping("/limpar")
-    public ModelAndView limparSessao(HttpServletRequest request) {
-        HttpSession sessao = request.getSession();
-        sessao.removeAttribute("contador3");
-        return new ModelAndView("sessao-contador/exemplo3");
-    }
+    private static final long serialVersionUID = 1L;
+
+    private Contador contador = new Contador();
 
     @GetMapping("/{apelido}")
-    public ModelAndView somar(@PathVariable("apelido") String nome,
-            HttpServletRequest request) {
-
-        HttpSession sessao = request.getSession();
-        if (sessao.getAttribute("contador3") == null) {
-            sessao.setAttribute("contador3", new Contador());
-        }
-        Contador contador = (Contador) sessao.getAttribute("contador3");
+    public ModelAndView somar(@PathVariable("apelido") String nome) {
         contador.adicionar(nome);
-        sessao.setAttribute("contador3", contador);
-
         return new ModelAndView("sessao-contador/exemplo3");
     }
 
     @ModelAttribute("titulo")
     public String getTitulo() {
-        return "Exemplo Sessao 3 - Uso do HttpServletRequest + HttpSession nativo";
+        return "Exemplo Sessao 3 - Uso do @Controller + @Scope(\"session\")";
+    }
+
+    public Contador getContador() {
+        return contador;
+    }
+
+    public void setContador(Contador contador) {
+        this.contador = contador;
     }
 }

@@ -7,7 +7,7 @@
     </head>
     <body>
         <h1 th:text="${titulo}">Exemplo sessão - contador</h1>
-        <ul th:each="item : ${@exemploSessao2Controller.contador.dados}">
+        <ul th:each="item : ${session.contador2.dados}">
             <li><b th:text="${item.key}"></b> - <span th:text="${item.value}"></span></li>
         </ul>
     </body>

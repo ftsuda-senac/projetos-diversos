@@ -44,12 +44,12 @@
       </div>
     </div>
     <hr>
-    <div class="row" th:if="${#lists.isEmpty(@exemploSessaoController2.itensSelecionados)}">
+    <div class="row" th:if="${#lists.isEmpty(session.itensSelecionados2)}">
       <div class="col-12">
         <h2>Nenhum item adicionado</h2>
       </div>
     </div>
-    <div class="row" th:unless="${#lists.isEmpty(@exemploSessaoController2.itensSelecionados)}">
+    <div class="row" th:unless="${#lists.isEmpty(session.itensSelecionados2)}">
       <div class="col-12">
         <p><code>jsessionid: <span th:text="${#session.id}"></span></code></p>
         <table class="table table-striped table-sm table-responsive">
@@ -62,7 +62,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr th:each="sel : ${@exemploSessaoController2.itensSelecionados}">
+            <tr th:each="sel : ${session.itensSelecionados2}">
               <td th:text="${sel.item.id}"></td>
               <td th:text="${sel.item.nome}"></td>
               <td th:text="${sel.dataHoraInclusao}"></td>

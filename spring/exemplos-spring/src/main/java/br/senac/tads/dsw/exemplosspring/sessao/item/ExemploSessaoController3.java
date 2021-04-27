@@ -1,26 +1,40 @@
+/*
+ * To change this license header, choose License Headers in Project Properties. To change this
+ * template file, choose Tools | Templates and open the template in the editor.
+ */
 package br.senac.tads.dsw.exemplosspring.sessao.item;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.senac.tads.dsw.exemplosspring.item.Item;
 import br.senac.tads.dsw.exemplosspring.item.ItemService;
 
+/**
+ *
+ * @author ftsuda
+ */
 @Controller
+@Scope("session")
 @RequestMapping("/exemplo-sessao3")
-public class ExemploSessaoController3 {
+public class ExemploSessaoController3 implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Autowired
-    private ItemService itemService;
+    private transient ItemService itemService;
+
+    private List<ItemSelecionado> itensSelecionados = new ArrayList<>();
 
     @GetMapping
     public ModelAndView mostrarTela() {
@@ -31,36 +45,28 @@ public class ExemploSessaoController3 {
     @PostMapping
     public ModelAndView adicionarItem(
             @ModelAttribute("itemId") Integer itemId,
-            HttpServletRequest servletRequest,
+            @RequestHeader("user-agent") String userAgent,
             RedirectAttributes redirAttr) {
         Item item = itemService.findById(itemId);
-
-        HttpSession sessao = servletRequest.getSession();
-        if (sessao.getAttribute("itensSelecionados3") == null) {
-            sessao.setAttribute("itensSelecionados3", new ArrayList<ItemSelecionado>());
-        }
-        List<ItemSelecionado> itensSelecionados =
-                (ArrayList<ItemSelecionado>) sessao.getAttribute("itensSelecionados3");
-        itensSelecionados.add(new ItemSelecionado(item, servletRequest.getHeader("user-agent")));
+        itensSelecionados.add(new ItemSelecionado(item, userAgent));
         redirAttr.addFlashAttribute("msg", "Item ID " + item.getId() + " adicionado com sucesso");
         return new ModelAndView("redirect:/exemplo-sessao3");
     }
 
     @GetMapping("/limpar")
-    public ModelAndView limparSelecionados(HttpServletRequest servletRequest,
-            RedirectAttributes redirAttr) {
-        HttpSession sessao = servletRequest.getSession();
-        if (sessao.getAttribute("itensSelecionados3") != null) {
-            List<ItemSelecionado> itensSelecionados =
-                    (ArrayList<ItemSelecionado>) sessao.getAttribute("itensSelecionados3");
-            itensSelecionados.clear();
-        }
+    public ModelAndView limparSelecionados(RedirectAttributes redirAttr) {
+        itensSelecionados.clear();
         redirAttr.addFlashAttribute("msg", "Itens removidos");
         return new ModelAndView("redirect:/exemplo-sessao3");
     }
 
+    public List<ItemSelecionado> getItensSelecionados() {
+        return itensSelecionados;
+    }
+
     @ModelAttribute("titulo")
     public String getTitulo() {
-        return "Exemplo Sessao 3 - Uso do HttpSession do HttpServletRequest";
+        return "Exemplo Sessao 3 - Uso do @Controller com @Scope(\"session\")";
     }
+
 }
