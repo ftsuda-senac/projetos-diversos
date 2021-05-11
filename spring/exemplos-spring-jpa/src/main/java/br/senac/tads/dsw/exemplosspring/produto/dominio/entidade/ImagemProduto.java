@@ -1,12 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this
+ * template file, choose Tools | Templates and open the template in the editor.
  */
 package br.senac.tads.dsw.exemplosspring.produto.dominio.entidade;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,11 +23,11 @@ import javax.validation.constraints.Size;
 @Entity
 public class ImagemProduto implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    private Long id;
 
     @NotBlank
     @Size(max = 500)
@@ -92,16 +90,17 @@ public class ImagemProduto implements Serializable {
     }
 
     public String getUrlImagem() {
-    	if (nomeArquivo.startsWith("http")) {
-    		return nomeArquivo;
-    	}
+        if (nomeArquivo.startsWith("http")) {
+            return nomeArquivo;
+        }
         // MOCK
         return "http://lorempixel.com/400/200/sports/";
     }
 
     @Override
     public String toString() {
-        return "ImagemProduto{" + "id=" + id + ", legenda=" + legenda + ", nomeArquivo=" + nomeArquivo + '}';
+        return "ImagemProduto{" + "id=" + id + ", legenda=" + legenda + ", nomeArquivo="
+                + nomeArquivo + '}';
     }
 
 }

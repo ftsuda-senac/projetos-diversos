@@ -21,79 +21,77 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 
 @Entity
-@NamedEntityGraph(
-	    name = "graph.PedidoEnderecoItens",
-	    attributeNodes = { 
-	    		@NamedAttributeNode(value = "enderecoEntrega"),
-	    		@NamedAttributeNode(value = "itens", subgraph = "subgraph.PedidoItem") }, 
-	    subgraphs = {
-	        @NamedSubgraph(name = "subgraph.PedidoItem", attributeNodes = @NamedAttributeNode(value = "item")) } )
+@NamedEntityGraph(name = "graph.PedidoEnderecoItens",
+        attributeNodes = {@NamedAttributeNode(value = "enderecoEntrega"),
+                @NamedAttributeNode(value = "itens", subgraph = "subgraph.PedidoItem")},
+        subgraphs = {@NamedSubgraph(name = "subgraph.PedidoItem",
+                attributeNodes = @NamedAttributeNode(value = "item"))})
 public class Pedido implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column
-	private String codigo;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column
-	private LocalDateTime dataHoraFechamento;
+    @Column
+    private String codigo;
 
-	@OneToMany(mappedBy = "pedido", fetch = FetchType.LAZY)
-	private Set<PedidoItem> itens;
+    @Column
+    private LocalDateTime dataHoraFechamento;
 
-	@OneToOne(mappedBy = "pedido", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
-	private Endereco enderecoEntrega;
+    @OneToMany(mappedBy = "pedido", fetch = FetchType.LAZY)
+    private Set<PedidoItem> itens;
 
-	public Long getId() {
-		return id;
-	}
+    @OneToOne(mappedBy = "pedido", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    private Endereco enderecoEntrega;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getCodigo() {
-		return codigo;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
+    public String getCodigo() {
+        return codigo;
+    }
 
-	public LocalDateTime getDataHoraFechamento() {
-		return dataHoraFechamento;
-	}
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
 
-	public void setDataHoraFechamento(LocalDateTime dataHoraFechamento) {
-		this.dataHoraFechamento = dataHoraFechamento;
-	}
+    public LocalDateTime getDataHoraFechamento() {
+        return dataHoraFechamento;
+    }
 
-	public Set<PedidoItem> getItens() {
-		return itens;
-	}
+    public void setDataHoraFechamento(LocalDateTime dataHoraFechamento) {
+        this.dataHoraFechamento = dataHoraFechamento;
+    }
 
-	public void setItens(Set<PedidoItem> itens) {
-		this.itens = itens;
-	}
+    public Set<PedidoItem> getItens() {
+        return itens;
+    }
 
-	public Endereco getEnderecoEntrega() {
-		return enderecoEntrega;
-	}
+    public void setItens(Set<PedidoItem> itens) {
+        this.itens = itens;
+    }
 
-	public void setEnderecoEntrega(Endereco enderecoEntrega) {
-		this.enderecoEntrega = enderecoEntrega;
-	}
+    public Endereco getEnderecoEntrega() {
+        return enderecoEntrega;
+    }
 
-	@PrePersist
-	public void prePersist() {
-		this.dataHoraFechamento = LocalDateTime.now();
-		// Gera um código baseado no timestamp;
-		this.codigo = dataHoraFechamento.format(DateTimeFormatter.ofPattern("yyMM")) + "-"
-				+ dataHoraFechamento.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-	}
+    public void setEnderecoEntrega(Endereco enderecoEntrega) {
+        this.enderecoEntrega = enderecoEntrega;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.dataHoraFechamento = LocalDateTime.now();
+        // Gera um código baseado no timestamp;
+        this.codigo = dataHoraFechamento.format(DateTimeFormatter.ofPattern("yyMM")) + "-"
+                + dataHoraFechamento.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    }
 
 }

@@ -14,72 +14,72 @@ import javax.persistence.MapsId;
 @Entity
 public class PedidoItem implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private PedidoItemId id;
+    @EmbeddedId
+    private PedidoItemId id;
 
-	@Column
-	private int quantidade;
+    @Column
+    private int quantidade;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("idPedido")
-	@JoinColumn(name = "id_pedido", foreignKey = @ForeignKey(name = "fk_pedido"))
-	private Pedido pedido;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("idPedido")
+    @JoinColumn(name = "id_pedido", foreignKey = @ForeignKey(name = "fk_pedido"))
+    private Pedido pedido;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("idItem")
-	@JoinColumn(name = "id_item", foreignKey = @ForeignKey(name = "fk_item"))
-	private Item item;
-	
-	public PedidoItem() {
-		
-	}
-	
-	public PedidoItem(Pedido pedido, Item item, int quantidade) {
-		setPedido(pedido);
-		setItem(item);
-		this.quantidade = quantidade;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("idItem")
+    @JoinColumn(name = "id_item", foreignKey = @ForeignKey(name = "fk_item"))
+    private Item item;
 
-	public PedidoItemId getId() {
-		return id;
-	}
+    public PedidoItem() {
 
-	public void setId(PedidoItemId id) {
-		this.id = id;
-	}
+    }
 
-	public int getQuantidade() {
-		return quantidade;
-	}
+    public PedidoItem(Pedido pedido, Item item, int quantidade) {
+        setPedido(pedido);
+        setItem(item);
+        this.quantidade = quantidade;
+    }
 
-	public void setQuantidade(int quantidade) {
-		this.quantidade = quantidade;
-	}
+    public PedidoItemId getId() {
+        return id;
+    }
 
-	public Pedido getPedido() {
-		return pedido;
-	}
+    public void setId(PedidoItemId id) {
+        this.id = id;
+    }
 
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
-		if (id == null) {
-			id = new PedidoItemId();
-		}
-		id.setIdPedido(pedido.getId());
-	}
+    public int getQuantidade() {
+        return quantidade;
+    }
 
-	public Item getItem() {
-		return item;
-	}
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
 
-	public void setItem(Item item) {
-		this.item = item;
-		if (id == null) {
-			id = new PedidoItemId();
-		}
-		id.setIdItem(item.getId());
-	}
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+        if (id == null) {
+            id = new PedidoItemId();
+        }
+        id.setIdPedido(pedido.getId());
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+        if (id == null) {
+            id = new PedidoItemId();
+        }
+        id.setIdItem(item.getId());
+    }
 
 }

@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this
+ * template file, choose Tools | Templates and open the template in the editor.
  */
 package br.senac.tads.dsw.exemplosspring.produto.dominio.entidade;
 
@@ -10,7 +9,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,225 +33,222 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@NamedQueries({
-    @NamedQuery(name = "Produto.findAll", query = "SELECT p FROM Produto p"),
-    @NamedQuery(name = "Produto.findAllByCategorias_Id", query = "SELECT DISTINCT p FROM Produto p INNER JOIN p.categorias c WHERE c.id IN :idsCat"),
-    @NamedQuery(name = "Produto.findByIdSemFetch", query = "SELECT p FROM Produto p WHERE p.id = :idProd"),
-    @NamedQuery(name = "Produto.findById", query = "SELECT p FROM Produto p LEFT JOIN FETCH p.categorias LEFT JOIN FETCH p.imagens im WHERE p.id = :idProd")
-})
+@NamedQueries({@
+        NamedQuery(name = "Produto.findAll", query = "SELECT p FROM Produto p"),
+        @NamedQuery(name = "Produto.findAllByCategorias_Id", query = "SELECT DISTINCT p FROM Produto p INNER JOIN p.categorias c WHERE c.id IN :idsCat"),
+        @NamedQuery(name = "Produto.findById", query = "SELECT p FROM Produto p WHERE p.id = :idProd"),
+        @NamedQuery(name = "Produto.findByIdComFetch", query = "SELECT p FROM Produto p LEFT JOIN FETCH p.categorias LEFT JOIN FETCH p.imagens WHERE p.id = :idProd")})
 @NamedEntityGraphs({
-	@NamedEntityGraph(name = "graph.ProdutoCategoriasImagens", 
-			attributeNodes = { 
-					@NamedAttributeNode(value = "categorias"), 
-					@NamedAttributeNode(value = "imagens")
-			})
+    @NamedEntityGraph(name = "graph.ProdutoCategoriasImagens", attributeNodes = {
+        @NamedAttributeNode(value = "categorias"),
+        @NamedAttributeNode(value = "imagens")
+    })
 })
 public class Produto implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    private Long id;
 
-	@NotBlank
-	@Size(min = 1, max = 100)
-	@Column
-	private String nome;
+    @NotBlank
+    @Size(min = 1, max = 100)
+    @Column
+    private String nome;
 
-	@Size(max = 1000)
-	@Column
-	private String descricao;
+    @Size(max = 1000)
+    @Column
+    private String descricao;
 
-	@NotNull
-	@Digits(integer = 9, fraction =  2)
-	@Column
-	private BigDecimal precoCompra;
+    @NotNull
+    @Digits(integer = 9, fraction = 2)
+    @Column
+    private BigDecimal precoCompra;
 
-	@NotNull
-	@Digits(integer = 9, fraction =  2)
-	@Column
-	private BigDecimal precoVenda;
+    @NotNull
+    @Digits(integer = 9, fraction = 2)
+    @Column
+    private BigDecimal precoVenda;
 
-	@NotNull
-	@Min(0)
-	@Column
-	private int quantidade;
+    @NotNull
+    @Min(0)
+    @Column
+    private int quantidade;
 
-	@Column
-	private boolean disponivel;
+    @Column
+    private boolean disponivel;
 
-	@Column(nullable = false)
-	private LocalDateTime dtCadastro;
+    @Column(nullable = false)
+    private LocalDateTime dtCadastro;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "PRODUTO_CATEGORIA",
-            joinColumns = @JoinColumn(name = "ID_PRODUTO"),
-            inverseJoinColumns = @JoinColumn(name = "ID_CATEGORIA")
-    )
-	private Set<Categoria> categorias;
+    @JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "ID_PRODUTO"),
+            inverseJoinColumns = @JoinColumn(name = "ID_CATEGORIA"))
+    private Set<Categoria> categorias;
 
     // "produto" é o atributo na classe ImagemProduto onde o @ManyToOne foi configurado
-	@OneToMany(mappedBy = "produto", fetch = FetchType.LAZY,
-			cascade = { CascadeType.PERSIST, CascadeType.MERGE }, 
-			orphanRemoval = true)
-	private Set<ImagemProduto> imagens;
+    @OneToMany(mappedBy = "produto", fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private Set<ImagemProduto> imagens;
 
-	private transient Set<Integer> idsCategorias;
-	
-	// Usando lista como apoio para receber dados do form (Set gera erro)
-	// https://stackoverflow.com/a/28505620
-	private transient List<ImagemProduto> imagensList;
+    private transient Set<Integer> idsCategorias;
 
-	@Transient
-	private String observacoes;
+    // Usando lista como apoio para receber dados do form (Set gera erro)
+    // https://stackoverflow.com/a/28505620
+    private transient List<ImagemProduto> imagensList;
 
-	public Produto() {
+    @Transient
+    private String observacoes;
 
-	}
+    public Produto() {
 
-	public Produto(String nome, String descricao, BigDecimal precoCompra, BigDecimal precoVenda,
-			int quantidade, boolean disponivel, LocalDateTime dtCadastro) {
-		this.nome = nome;
-		this.descricao = descricao;
-		this.precoCompra = precoCompra;
-		this.precoVenda = precoVenda;
-		this.quantidade = quantidade;
-		this.disponivel = disponivel;
-		this.dtCadastro = dtCadastro;
-	}
-	public Produto(Long id, String nome, String descricao, BigDecimal precoCompra, BigDecimal precoVenda,
-			int quantidade, boolean disponivel, LocalDateTime dtCadastro) {
-		this(nome, descricao, precoCompra, precoVenda, quantidade, disponivel, dtCadastro);
-		this.id = id;
-	}
+    }
 
-	public Produto(String nome, String descricao, BigDecimal precoCompra, BigDecimal precoVenda,
-			int quantidade, boolean disponivel, LocalDateTime dtCadastro, Set<ImagemProduto> imagens,
-			Set<Categoria> categorias) {
-		this(nome, descricao, precoCompra, precoVenda, quantidade, disponivel, dtCadastro);
-		this.imagens = imagens;
-		this.categorias = categorias;
-	}
-	
-	public Produto(Long id, String nome, String descricao, BigDecimal precoCompra, BigDecimal precoVenda,
-			int quantidade, boolean disponivel, LocalDateTime dtCadastro, Set<ImagemProduto> imagens,
-			Set<Categoria> categorias) {
-		this(nome, descricao, precoCompra, precoVenda, quantidade, disponivel, dtCadastro, imagens, categorias);
-		this.id = id;
-	}
+    public Produto(String nome, String descricao, BigDecimal precoCompra, BigDecimal precoVenda,
+            int quantidade, boolean disponivel, LocalDateTime dtCadastro) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.precoCompra = precoCompra;
+        this.precoVenda = precoVenda;
+        this.quantidade = quantidade;
+        this.disponivel = disponivel;
+        this.dtCadastro = dtCadastro;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Produto(Long id, String nome, String descricao, BigDecimal precoCompra,
+            BigDecimal precoVenda, int quantidade, boolean disponivel, LocalDateTime dtCadastro) {
+        this(nome, descricao, precoCompra, precoVenda, quantidade, disponivel, dtCadastro);
+        this.id = id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Produto(String nome, String descricao, BigDecimal precoCompra, BigDecimal precoVenda,
+            int quantidade, boolean disponivel, LocalDateTime dtCadastro,
+            Set<ImagemProduto> imagens, Set<Categoria> categorias) {
+        this(nome, descricao, precoCompra, precoVenda, quantidade, disponivel, dtCadastro);
+        this.imagens = imagens;
+        this.categorias = categorias;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public Produto(Long id, String nome, String descricao, BigDecimal precoCompra,
+            BigDecimal precoVenda, int quantidade, boolean disponivel, LocalDateTime dtCadastro,
+            Set<ImagemProduto> imagens, Set<Categoria> categorias) {
+        this(nome, descricao, precoCompra, precoVenda, quantidade, disponivel, dtCadastro, imagens,
+                categorias);
+        this.id = id;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getDescricao() {
-		return descricao;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public BigDecimal getPrecoCompra() {
-		return precoCompra;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public void setPrecoCompra(BigDecimal precoCompra) {
-		this.precoCompra = precoCompra;
-	}
+    public String getDescricao() {
+        return descricao;
+    }
 
-	public BigDecimal getPrecoVenda() {
-		return precoVenda;
-	}
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
-	public void setPrecoVenda(BigDecimal precoVenda) {
-		this.precoVenda = precoVenda;
-	}
+    public BigDecimal getPrecoCompra() {
+        return precoCompra;
+    }
 
-	public int getQuantidade() {
-		return quantidade;
-	}
+    public void setPrecoCompra(BigDecimal precoCompra) {
+        this.precoCompra = precoCompra;
+    }
 
-	public void setQuantidade(int quantidade) {
-		this.quantidade = quantidade;
-	}
+    public BigDecimal getPrecoVenda() {
+        return precoVenda;
+    }
 
-	public boolean isDisponivel() {
-		return disponivel;
-	}
+    public void setPrecoVenda(BigDecimal precoVenda) {
+        this.precoVenda = precoVenda;
+    }
 
-	public void setDisponivel(boolean disponivel) {
-		this.disponivel = disponivel;
-	}
+    public int getQuantidade() {
+        return quantidade;
+    }
 
-	public LocalDateTime getDtCadastro() {
-		return dtCadastro;
-	}
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
 
-	public void setDtCadastro(LocalDateTime dtCadastro) {
-		this.dtCadastro = dtCadastro;
-	}
+    public boolean isDisponivel() {
+        return disponivel;
+    }
 
-	public Set<Categoria> getCategorias() {
-		return categorias;
-	}
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
+    }
 
-	public void setCategorias(Set<Categoria> categorias) {
-		this.categorias = categorias;
-	}
+    public LocalDateTime getDtCadastro() {
+        return dtCadastro;
+    }
 
-	public Set<ImagemProduto> getImagens() {
-		return imagens;
-	}
+    public void setDtCadastro(LocalDateTime dtCadastro) {
+        this.dtCadastro = dtCadastro;
+    }
 
-	public void setImagens(Set<ImagemProduto> imagens) {
-		this.imagens = imagens;
-	}
+    public Set<Categoria> getCategorias() {
+        return categorias;
+    }
 
-	public String getObservacoes() {
-		return observacoes;
-	}
+    public void setCategorias(Set<Categoria> categorias) {
+        this.categorias = categorias;
+    }
 
-	public void setObservacoes(String observacoes) {
-		this.observacoes = observacoes;
-	}
+    public Set<ImagemProduto> getImagens() {
+        return imagens;
+    }
 
-	public Set<Integer> getIdsCategorias() {
-		return idsCategorias;
-	}
+    public void setImagens(Set<ImagemProduto> imagens) {
+        this.imagens = imagens;
+    }
 
-	public void setIdsCategorias(Set<Integer> idsCategorias) {
-		this.idsCategorias = idsCategorias;
-	}
+    public String getObservacoes() {
+        return observacoes;
+    }
 
-	public List<ImagemProduto> getImagensList() {
-		return imagensList;
-	}
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
+    }
 
-	public void setImagensList(List<ImagemProduto> imagensList) {
-		this.imagensList = imagensList;
-	}
+    public Set<Integer> getIdsCategorias() {
+        return idsCategorias;
+    }
 
-	@Override
-	public String toString() {
-		return "Produto{" + "id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", precoCompra=" + precoCompra
-				+ ", precoVenda=" + precoVenda + ", quantidade=" + quantidade + ", dtCadastro=" + dtCadastro
-				+ ", categorias=" + categorias + ", imagens=" + imagens + ", idsCategorias=" + idsCategorias
-				+ ", observacoes=" + observacoes + '}';
-	}
+    public void setIdsCategorias(Set<Integer> idsCategorias) {
+        this.idsCategorias = idsCategorias;
+    }
+
+    public List<ImagemProduto> getImagensList() {
+        return imagensList;
+    }
+
+    public void setImagensList(List<ImagemProduto> imagensList) {
+        this.imagensList = imagensList;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" + "id=" + id + ", nome=" + nome + ", descricao=" + descricao
+                + ", precoCompra=" + precoCompra + ", precoVenda=" + precoVenda + ", quantidade="
+                + quantidade + ", dtCadastro=" + dtCadastro + ", categorias=" + categorias
+                + ", imagens=" + imagens + ", idsCategorias=" + idsCategorias + ", observacoes="
+                + observacoes + '}';
+    }
 
 }
