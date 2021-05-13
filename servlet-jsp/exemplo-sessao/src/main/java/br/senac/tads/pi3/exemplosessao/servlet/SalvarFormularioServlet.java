@@ -5,7 +5,6 @@
 package br.senac.tads.pi3.exemplosessao.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,8 +27,8 @@ public class SalvarFormularioServlet extends HttpServlet {
 
         if ("2".equals(resultado)) {
             // USANDO POST-REDIRECT-GET
-            // 1) Mantem o texto na sessaao para ser usado na proxima requisição
-            // resultante do redirect (Escopo Flash)
+            // 1) Mantem o texto na sessao para ser usado na proxima requisição
+            // resultante do redirect (escopo "Flash")
             HttpSession sessao = request.getSession();
             sessao.setAttribute("textoDigitado", texto);
             // 2) Retorna resposta indicando que navegador deve fazer um GET
