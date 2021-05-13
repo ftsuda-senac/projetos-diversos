@@ -23,9 +23,10 @@ public class ItemMain {
         List<Item> itens = itemService.findAll();
         if (itens != null && !itens.isEmpty()) {
             for (Item item : itens) {
-                System.out.println(String.format("Item id=%d, nome=%s, valor=%d, dataHora=%s, categorias=[%s]",
-                        item.getId(), item.getNome(), item.getValor(), item.getDataHora(),
-                        listCategorias(item.getCategorias())));
+                System.out.println(
+                        String.format("Item id=%d, nome=%s, valor=%d, dataHora=%s, categorias=[%s]",
+                                item.getId(), item.getNome(), item.getValor(), item.getDataHora(),
+                                listCategorias(item.getCategorias())));
             }
         }
     }

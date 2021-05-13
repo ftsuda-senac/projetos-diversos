@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this
+ * template file, choose Tools | Templates and open the template in the editor.
  */
 package br.senac.tads.pi3.exemploauth.servlet;
 
@@ -25,7 +24,7 @@ public class PeaoServlet extends HttpServlet {
         request.setAttribute("titulo", "Página do PEAO");
         request.setAttribute("msg", "Usuário logado possui papel \"PEAO\"");
         request.getRequestDispatcher("/WEB-INF/jsp/resultado-protegido.jsp")
-                .forward(request, response);
+            .forward(request, response);
     }
 
 

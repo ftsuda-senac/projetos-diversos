@@ -1,21 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this
+ * template file, choose Tools | Templates and open the template in the editor.
  */
 package br.senac.tads.pi3.exemplosessao.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import br.senac.tads.pi3.exemplosessao.item.Item;
 import br.senac.tads.pi3.exemplosessao.item.ItemSelecionado;
 import br.senac.tads.pi3.exemplosessao.item.ItemService;
@@ -55,7 +52,8 @@ public class ExemploSessaoServlet extends HttpServlet {
         }
 
         // Recupera a lista de itens selecionados da sessao
-        List<ItemSelecionado> itensSelecionados = (List<ItemSelecionado>) sessao.getAttribute("itensSelecionados");
+        List<ItemSelecionado> itensSelecionados =
+                (List<ItemSelecionado>) sessao.getAttribute("itensSelecionados");
 
         // Procura pelo item selecionado a partir do ID.
         String idStr = request.getParameter("idItem");
@@ -64,6 +62,7 @@ public class ExemploSessaoServlet extends HttpServlet {
         itensSelecionados.add(new ItemSelecionado(item));
 
         // Reapresenta tela para escolher item
+        // POST-REDIRECT-GET para evitar repetição de itens ao atualizar tela do navegador
         response.sendRedirect(request.getContextPath() + "/exemplo-sessao");
     }
 }

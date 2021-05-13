@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this
+ * template file, choose Tools | Templates and open the template in the editor.
  */
 package br.senac.tads.pi3.exemploauth.filter;
 
@@ -16,7 +15,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import br.senac.tads.pi3.exemploauth.usuario.UsuarioSistema;
 
 /**
@@ -24,15 +22,13 @@ import br.senac.tads.pi3.exemploauth.usuario.UsuarioSistema;
  * @author fernando.tsuda
  */
 @WebFilter(filterName = "AutorizacaoFilter",
-        servletNames = { "HomeServlet" },
-        urlPatterns = { "/protegido/*" })
+        servletNames = {"HomeServlet"},
+        urlPatterns = {"/protegido/*"})
 public class AutorizacaoFilter implements Filter {
 
     @Override
-    public void doFilter(
-            ServletRequest request,
-            ServletResponse response,
-            FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
         // CAST para objetos do tipo HttpServlet*
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -40,37 +36,41 @@ public class AutorizacaoFilter implements Filter {
         // Verifica se usuario ja esta logado
         HttpSession sessao = httpRequest.getSession();
         if (sessao.getAttribute("usuario") == null) {
-            // Redirecionar para tela de login
+            // Usuário não está logado -> Redireciona para tela de Login
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
             return;
         }
 
-        // Verifica se o usuário possui o papel para acessar funcionalidade.
+        // Usuário logado -> Verificar se ele possui papel para acessar funcionalidade
         UsuarioSistema usuario = (UsuarioSistema) sessao.getAttribute("usuario");
-        
+
         if (verificarAcesso(usuario, httpRequest, httpResponse)) {
-            // Requisicao pode seguir para o Servlet
+            // Requisição segue fluxo normal para o Servlet requisitado
             chain.doFilter(request, response);
         } else {
-            // Mostra erro de acesso nao autorizado
+            // Usuário não tem autorização para entrar na funcionalidade
+            // Mostrar erro de acesso não autorizado
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/erro-nao-autorizado.jsp");
         }
     }
 
-    private boolean verificarAcesso(UsuarioSistema usuario, 
-            HttpServletRequest request,
-            HttpServletResponse response) {
-        String paginaAcessada = request.getRequestURI();
+    private boolean verificarAcesso(UsuarioSistema usuario, HttpServletRequest httpRequest,
+            HttpServletResponse httpResponse) {
+        String paginaAcessada = httpRequest.getRequestURI();
+//      String queryString = httpRequest.getQueryString();
+//      if (queryString.contains("action=incluir")) {
+//          
+//      }
         if (paginaAcessada.endsWith("/home")) {
             return true;
-        } else if (paginaAcessada.endsWith("/protegido/peao-page") &&
-                usuario.verificarPapel("PEAO")) {
+        } else if (paginaAcessada.endsWith("/protegido/peao-page")
+                && usuario.verificarPapel("PEAO")) {
             return true;
-        } else if (paginaAcessada.endsWith("/protegido/fodon-page") &&
-                usuario.verificarPapel("FODON")) {
+        } else if (paginaAcessada.endsWith("/protegido/fodon-page")
+                && usuario.verificarPapel("FODON")) {
             return true;
-        } else if (paginaAcessada.endsWith("/protegido/god-page") &&
-                usuario.verificarPapel("GOD")) {
+        } else if (paginaAcessada.endsWith("/protegido/god-page")
+                && usuario.verificarPapel("GOD")) {
             return true;
         }
         return false;

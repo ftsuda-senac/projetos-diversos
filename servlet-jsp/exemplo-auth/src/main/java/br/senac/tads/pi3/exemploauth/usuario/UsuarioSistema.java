@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this
+ * template file, choose Tools | Templates and open the template in the editor.
  */
 package br.senac.tads.pi3.exemploauth.usuario;
 
@@ -15,9 +14,9 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class UsuarioSistema implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String username;
+    private String username;
 
     private String nomeCompleto;
 
@@ -25,10 +24,10 @@ public class UsuarioSistema implements Serializable {
 
     private List<Papel> papeis;
 
-    public UsuarioSistema() {
-    }
+    public UsuarioSistema() {}
 
-    public UsuarioSistema(String username, String nomeCompleto, String senhaAberta, List<Papel> papeis) {
+    public UsuarioSistema(String username, String nomeCompleto, String senhaAberta,
+            List<Papel> papeis) {
         this.username = username;
         this.nomeCompleto = nomeCompleto;
         setSenha(senhaAberta);
@@ -60,6 +59,7 @@ public class UsuarioSistema implements Serializable {
     }
 
     public final void setSenha(String senhaAberta) {
+        // this.hashSenha = senhaAberta;
         this.hashSenha = BCrypt.hashpw(senhaAberta, BCrypt.gensalt());
     }
 
@@ -72,7 +72,8 @@ public class UsuarioSistema implements Serializable {
     }
 
     public boolean validarSenha(String senhaAberta) {
-        return BCrypt.checkpw(senhaAberta, hashSenha);
+        return this.hashSenha.equals(senhaAberta);
+        //return BCrypt.checkpw(senhaAberta, hashSenha);
     }
 
     public boolean verificarPapel(String nomePapel) {

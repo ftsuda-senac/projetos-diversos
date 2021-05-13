@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this
+ * template file, choose Tools | Templates and open the template in the editor.
  */
 package br.senac.tads.pi3.exemplosessao.servlet;
 
@@ -26,8 +25,7 @@ public class FormularioServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/jsp/formulario.jsp")
-                .forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/formulario.jsp").forward(request, response);
     }
 
     /**

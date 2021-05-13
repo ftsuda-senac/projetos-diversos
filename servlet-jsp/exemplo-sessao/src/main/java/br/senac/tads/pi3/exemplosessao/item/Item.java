@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this
+ * template file, choose Tools | Templates and open the template in the editor.
  */
 package br.senac.tads.pi3.exemplosessao.item;
 
@@ -36,7 +35,8 @@ public class Item implements Serializable {
 
     }
 
-    public Item(Integer id, String nome, String corHex, int valor, LocalDateTime dataHora, Categoria... categorias) {
+    public Item(Integer id, String nome, String corHex, int valor, LocalDateTime dataHora,
+            Categoria... categorias) {
         this.id = id;
         this.nome = nome;
         this.corHex = corHex;
