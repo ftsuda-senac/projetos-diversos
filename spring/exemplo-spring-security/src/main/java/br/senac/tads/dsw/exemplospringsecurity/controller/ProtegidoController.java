@@ -5,6 +5,7 @@
  */
 package br.senac.tads.dsw.exemplospringsecurity.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProtegidoController {
 
     @GetMapping("/peao")
+    @PreAuthorize("hasRole('PEAO')") // OBS: HABILITAR O @EnableGlobalMethodSecurity em SecurityConfig
     public ModelAndView mostrarPeaoPage() {
         return new ModelAndView("resultado")
                 .addObject("titulo", "Página do PEAO")
@@ -26,6 +28,7 @@ public class ProtegidoController {
     }
 
     @GetMapping("/fodon")
+    @PreAuthorize("hasRole('FODON')")
     public ModelAndView mostrarFodonPage() {
         return new ModelAndView("resultado")
                 .addObject("titulo", "Página do FODON")
@@ -33,6 +36,7 @@ public class ProtegidoController {
     }
 
     @GetMapping("/god")
+    @PreAuthorize("hasRole('GOD')")
     public ModelAndView mostrarGodPage() {
         return new ModelAndView("resultado")
                 .addObject("titulo", "Página do GOD")
