@@ -27,59 +27,70 @@ import br.senac.tads.dsw.exemplorest.dominio.PessoaRepository;
 @RequestMapping("/hateoas/pessoas")
 public class PessoaRestHateoasController {
 
-	@Autowired
-	private PessoaRepository pessoaRepository;
+    @Autowired
+    private PessoaRepository pessoaRepository;
 
-	@GetMapping
-	public PagedModel<EntityModel<Pessoa>> listar(
-			@RequestParam(value = "pagina", defaultValue = "0") int pagina,
-			@RequestParam(value = "qtd", defaultValue = "10") int qtd) {
-		Page<Pessoa> pagePessoa = pessoaRepository.findAll(PageRequest.of(pagina, qtd));
-		
-		List<EntityModel<Pessoa>> entityModels = new ArrayList<>();
-		for (Pessoa p : pagePessoa.getContent()) {
-			EntityModel<Pessoa> emp = EntityModel.of(p);
-			emp.add(linkTo(methodOn(PessoaRestHateoasController.class).findById(p.getId())).withSelfRel());
-			
-			entityModels.add(emp);
-		}
-		PagedModel<EntityModel<Pessoa>> pageModel = PagedModel.of(entityModels, new PagedModel.PageMetadata(pagePessoa.getNumberOfElements(), pagePessoa.getNumber(), pagePessoa.getTotalElements()));
-		return pageModel;
-	}
+    @GetMapping
+    public PagedModel<EntityModel<Pessoa>> listar(
+            @RequestParam(value = "pagina", defaultValue = "0") int pagina,
+            @RequestParam(value = "qtd", defaultValue = "10") int qtd) {
+        Page<Pessoa> pagePessoa = pessoaRepository.findAll(PageRequest.of(pagina, qtd));
 
-	@GetMapping("/all")
-	public CollectionModel<EntityModel<Pessoa>> listarTodos() {
-		List<Pessoa> pessoas = pessoaRepository.findAll();
-		
-		List<EntityModel<Pessoa>> entityModels = new ArrayList<>();
-		for (Pessoa p : pessoas) {
-			EntityModel<Pessoa> emp = EntityModel.of(p);
-			emp.add(linkTo(methodOn(PessoaRestHateoasController.class).findById(p.getId())).withSelfRel());
-			
-			entityModels.add(emp);
-		}
-		CollectionModel<EntityModel<Pessoa>> collectionModel = CollectionModel.of(entityModels);
-		return collectionModel;
-	}
+        List<EntityModel<Pessoa>> entityModels = new ArrayList<>();
+        for (Pessoa p : pagePessoa.getContent()) {
+            EntityModel<Pessoa> emp = EntityModel.of(p);
+            emp.add(linkTo(methodOn(PessoaRestHateoasController.class).findById(p.getId()))
+                    .withSelfRel());
+            emp.add(linkTo(methodOn(PessoaRestHateoasController.class).update(p.getId(), p))
+                    .withRel("update"));
 
-	@GetMapping("/{id}")
-	public EntityModel<Pessoa> findById(@PathVariable("id") Integer id) {
-		Optional<Pessoa> optPessoa = pessoaRepository.findById(id);
-		if (optPessoa.isPresent()) {
-			Pessoa pessoa = optPessoa.get();
-			EntityModel<Pessoa> emp = EntityModel.of(pessoa);
-			emp.add(linkTo(methodOn(PessoaRestHateoasController.class).findById(pessoa.getId())).withSelfRel());
-			emp.add(linkTo(methodOn(PessoaRestHateoasController.class).update(pessoa.getId(), pessoa)).withRel("update"));
-			return emp;
-		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa ID " + id + " não encontrada");
-	}
+            entityModels.add(emp);
+        }
+        PagedModel<EntityModel<Pessoa>> pageModel = PagedModel.of(entityModels,
+                new PagedModel.PageMetadata(pagePessoa.getNumberOfElements(),
+                        pagePessoa.getNumber(), pagePessoa.getTotalElements()));
+        return pageModel;
+    }
 
-	@PutMapping("/{id}")
-	public EntityModel<Pessoa> update(@PathVariable("id") Integer id, @RequestBody Pessoa p) {
-		p = pessoaRepository.save(p);
-		EntityModel<Pessoa> emp = EntityModel.of(p);
-		emp.add(linkTo(methodOn(PessoaRestHateoasController.class).findById(p.getId())).withSelfRel());
-		return emp;
-	}
+    @GetMapping("/all")
+    public CollectionModel<EntityModel<Pessoa>> listarTodos() {
+        List<Pessoa> pessoas = pessoaRepository.findAll();
+
+        List<EntityModel<Pessoa>> entityModels = new ArrayList<>();
+        for (Pessoa p : pessoas) {
+            EntityModel<Pessoa> emp = EntityModel.of(p);
+            emp.add(linkTo(methodOn(PessoaRestHateoasController.class).findById(p.getId()))
+                    .withSelfRel());
+
+            entityModels.add(emp);
+        }
+        CollectionModel<EntityModel<Pessoa>> collectionModel = CollectionModel.of(entityModels);
+        return collectionModel;
+    }
+
+    @GetMapping("/{id}")
+    public EntityModel<Pessoa> findById(@PathVariable("id") Integer id) {
+        Optional<Pessoa> optPessoa = pessoaRepository.findById(id);
+        if (optPessoa.isPresent()) {
+            Pessoa pessoa = optPessoa.get();
+            EntityModel<Pessoa> emp = EntityModel.of(pessoa);
+            emp.add(linkTo(methodOn(PessoaRestHateoasController.class).findById(pessoa.getId()))
+                    .withSelfRel());
+            emp.add(linkTo(
+                    methodOn(PessoaRestHateoasController.class).update(pessoa.getId(), pessoa))
+                            .withRel("update"));
+            return emp;
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                "Pessoa ID " + id + " não encontrada");
+    }
+
+    @PutMapping("/{id}")
+    public EntityModel<Pessoa> update(@PathVariable("id") Integer id, @RequestBody Pessoa p) {
+        p = pessoaRepository.save(p);
+        EntityModel<Pessoa> emp = EntityModel.of(p);
+        emp.add(linkTo(methodOn(PessoaRestHateoasController.class).findById(p.getId()))
+                .withSelfRel());
+        return emp;
+    }
 }

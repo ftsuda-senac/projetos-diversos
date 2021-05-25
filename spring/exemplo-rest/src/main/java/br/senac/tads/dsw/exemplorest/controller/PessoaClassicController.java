@@ -27,60 +27,62 @@ import br.senac.tads.dsw.exemplorest.dominio.PessoaRepository;
 @RequestMapping("/classic/pessoas")
 public class PessoaClassicController {
 
-	private PessoaRepository pessoaRepository;
+    private PessoaRepository pessoaRepository;
 
-	private InteresseRepository interesseRepository;
+    private InteresseRepository interesseRepository;
 
-	public PessoaClassicController(PessoaRepository pessoaRepository, InteresseRepository interesseRepository) {
-		this.pessoaRepository = pessoaRepository;
-		this.interesseRepository = interesseRepository;
-	}
+    public PessoaClassicController(PessoaRepository pessoaRepository,
+            InteresseRepository interesseRepository) {
+        this.pessoaRepository = pessoaRepository;
+        this.interesseRepository = interesseRepository;
+    }
 
-	@GetMapping
-	public ModelAndView listar(@RequestParam(value = "pagina", defaultValue = "0") int pagina,
-			@RequestParam(value = "qtd", defaultValue = "10") int qtd) {
-		Page<Pessoa> pessoas = pessoaRepository.findAll(PageRequest.of(pagina, qtd));
-		ModelAndView mv = new ModelAndView("pessoa/lista-template");
-		mv.addObject("itens", pessoas);
-		return mv;
-	}
+    @GetMapping
+    public ModelAndView listar(@RequestParam(value = "pagina", defaultValue = "0") int pagina,
+            @RequestParam(value = "qtd", defaultValue = "10") int qtd) {
+        Page<Pessoa> pessoas = pessoaRepository.findAll(PageRequest.of(pagina, qtd));
+        ModelAndView mv = new ModelAndView("pessoa/lista-template");
+        mv.addObject("itens", pessoas);
+        return mv;
+    }
 
-	@ModelAttribute("interesses")
-	public List<Interesse> getInteresses() {
-		return interesseRepository.findAll();
-	}
+    @ModelAttribute("interesses")
+    public List<Interesse> getInteresses() {
+        return interesseRepository.findAll();
+    }
 
-	@GetMapping("/novo")
-	public ModelAndView abrirForm() {
-		Pessoa p = new Pessoa();
-		ModelAndView mv = new ModelAndView("pessoa/form-template");
-		mv.addObject("item", p);
-		return mv;
-	}
+    @GetMapping("/novo")
+    public ModelAndView abrirForm() {
+        Pessoa p = new Pessoa();
+        ModelAndView mv = new ModelAndView("pessoa/form-template");
+        mv.addObject("item", p);
+        return mv;
+    }
 
-	@GetMapping("/editar/{id}")
-	public ModelAndView editar(@PathVariable("id") Integer id, RedirectAttributes reditAttr) {
-		Optional<Pessoa> optPessoa = pessoaRepository.findById(id);
-		if (optPessoa.isPresent()) {
-			ModelAndView mv = new ModelAndView("pessoa/form-template");
-			mv.addObject("item", optPessoa.get());
-			return mv;
-		}
-		reditAttr.addFlashAttribute("magErro", "Pessoa não encontrada");
-		return new ModelAndView("redirect:/classic/pessoas");
-	}
+    @GetMapping("/editar/{id}")
+    public ModelAndView editar(@PathVariable("id") Integer id, RedirectAttributes reditAttr) {
+        Optional<Pessoa> optPessoa = pessoaRepository.findById(id);
+        if (optPessoa.isPresent()) {
+            ModelAndView mv = new ModelAndView("pessoa/form-template");
+            mv.addObject("item", optPessoa.get());
+            return mv;
+        }
+        reditAttr.addFlashAttribute("magErro", "Pessoa não encontrada");
+        return new ModelAndView("redirect:/classic/pessoas");
+    }
 
-	@PostMapping("/salvar")
-	@Transactional
-	public String save(@ModelAttribute("item") Pessoa p, RedirectAttributes reditAttr) {
-		Set<Interesse> interesses = new LinkedHashSet<>();
-		for (Integer id : p.getInteressesId()) {
-			interesseRepository.findById(id).ifPresent(interesse -> interesses.add(interesse));
-		}
-		p.setInteresses(interesses);
-		p = pessoaRepository.save(p);
-		reditAttr.addFlashAttribute("msgSucesso", p.getNome() + " adicionado com sucesso com ID " + p.getId());
-		return "redirect:/classic/pessoas";
-	}
+    @PostMapping("/salvar")
+    @Transactional
+    public String save(@ModelAttribute("item") Pessoa p, RedirectAttributes reditAttr) {
+        Set<Interesse> interesses = new LinkedHashSet<>();
+        for (Integer id : p.getInteressesId()) {
+            interesseRepository.findById(id).ifPresent(interesse -> interesses.add(interesse));
+        }
+        p.setInteresses(interesses);
+        p = pessoaRepository.save(p);
+        reditAttr.addFlashAttribute("msgSucesso",
+                p.getNome() + " adicionado com sucesso com ID " + p.getId());
+        return "redirect:/classic/pessoas";
+    }
 
 }

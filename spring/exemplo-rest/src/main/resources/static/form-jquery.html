@@ -43,72 +43,121 @@ code {
   font-size: 80%;
 }
 </style>
-<!-- IMPLEMENTAR FUNCIONALIDADES JAVASCRIPT/AJAX -->
-<!-- NESTE ARQUIVO, EVITAR USAR JQUERY -->
 <script>
-
-function carregarDados(id) {
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', '/rest/pessoas/' + id, true)
-    xhr.addEventListener('load', function() {
-        if (xhr.status >= 200 && xhr.status < 400) {
-            let data = JSON.parse(xhr.responseText)
-            const form = document.querySelector('#dadosForm')
-            form.id.value = data.id
-            form.nome.value = data.nome
-            form.sexo.value = data.sexo
-            form.dataNascimento.value = data.dataNascimento
-            for (const interesse of data.interesses) {
-                document.querySelector('#interesse_' + interesse.id).checked = true
-            }
-        }
-    })
-    xhr.send()
+function buildInteresses(valores, valoresSelecionados) {
+  let element = '';
+  for (const valor of valores) {
+      const elementId = 'interesse_' + valor.id;
+      let selecionado = false;
+      if (valoresSelecionados) {
+          for (const valorSelecionado of valoresSelecionados) {
+              if (valorSelecionado === valor.id) {
+                  selecionado = true;
+              }
+          }
+      }
+      element += '<div class="form-check form-check-inline">';
+      element += '<input class="form-check-input" type="checkbox" ' +
+          'name="interessesId" id="' + elementId + '" value="' + valor.id + '" ';
+      if (selecionado) {
+          element += 'checked ';
+      }
+      element += '>';
+      element += '<label class="form-check-label" for="' + elementId + '">' + valor.nome + '</label>';
+      element += '</div>';
+  }
+  return element;
 }
 
-function incluirDados() {
-    const xhr = new XMLHttpRequest()
-    xhr.open('POST', '/rest/pessoas', true)
-    xhr.setRequestHeader('Content-type', 'application/json')
-    xhr.setRequestHeader('Accept', 'application/json')
-    const form = document.querySelector('#dadosForm')
+var interesses = [];
+$(function() {
 
-    const interesses = document.querySelectorAll('[name="interessesId"]')
-    const idsArr = []
-    for (const elCheckbox of interesses) {
-        if (elCheckbox.checked) {
-            idsArr.push(+elCheckbox.value)
-        }
-    }
-    
-    let dadosParaSalvar = {
-        nome: form.nome.value,
-        sexo: +form.sexo.value,
-        dataNascimento: form.dataNascimento.value,
-        interessesId: idsArr
-    }
-    console.log('JSON montado: ' + JSON.stringify(dadosParaSalvar))
-    xhr.addEventListener('load', function() {
-        if (xhr.status >= 200 && xhr.status < 400) {
-            alert(xhr.status + ' - ' + xhr.statusText + '\r\nLocation: ' + xhr.getResponseHeader('Location'))
-        }
-    })
-    xhr.send(JSON.stringify(dadosParaSalvar))
-}
+  $.getJSON('/rest/interesses', function(dataJSON) {
+      interesses = dataJSON;
+      let interessesEl = document.getElementById('interesses');
+      interessesEl.innerHTML = buildInteresses(interesses);
+  });
 
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search)
-    const idPessoa = urlParams.get('id')
-    if (idPessoa !== null) {
-        carregarDados(idPessoa)
-        document.getElementById('titulo').innerHTML = 'Editar pessoa ID ' + idPessoa
-    }
-    
-    document.getElementById('dadosForm').addEventListener('submit', function(evt) {
-        evt.preventDefault()
-        incluirDados()
-    })
-})
+  // Carrega valores dos interesses
+  /* Se informar ID na URL, carrega os dados */
+  /* https://stackoverflow.com/a/901144 */
+  let urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('id') !== null) {
+      $.getJSON('/rest/pessoas/' + urlParams.get('id'), function(dataJSON) {
+          let form = document.getElementById('dadosForm');
+          form.id.value = dataJSON.id;
+          form.nome.value = dataJSON.nome;
+          form.sexo.value = dataJSON.sexo;
+          form.dataNascimento.value = dataJSON.dataNascimento;
+          for (let interesse of dataJSON.interesses) {
+              document.getElementById('interesse_' + interesse.id).checked = true
+          }
+      });
+      $('#titulo').text('Editar pessoa com ID ' + urlParams.get('id'))
+  }
+  
+  $('#dadosForm').on('submit', function(ev) {
+      ev.preventDefault();
+      let form = this;
+      let interessesId = [];
+      const interessesOptions = document.querySelectorAll('input[name="interessesId"]:checked');
+      for (let option of interessesOptions) {
+          if (option.checked) {
+              interessesId.push(Number(option.value));
+          }
+      }
+      /*
+      if ($('#interesse_1').is(':checked')) {
+          interessesId.push(Number($('#interesse_1').val()));
+      }
+      if ($('#interesse_2').is(':checked')) {
+          interessesId.push(Number($('#interesse_2').val()));
+      }
+      if ($('#interesse_3').is(':checked')) {
+          interessesId.push(Number($('#interesse_3').val()));
+      }
+      if ($('#interesse_4').is(':checked')) {
+          interessesId.push(Number($('#interesse_4').val()));
+      }
+      if ($('#interesse_5').is(':checked')) {
+          interessesId.push(Number($('#interesse_5').val()));
+      }
+      */
+      
+      let pessoa = {
+          nome : form.nome.value,
+          sexo: Number(form.sexo.value),
+          dataNascimento: form.dataNascimento.value,
+          interessesId: interessesId
+      };
+      console.log(JSON.stringify(pessoa));
+      $.ajax({
+          type: 'POST',
+          url: '/rest/pessoas',
+          data: JSON.stringify(pessoa),
+          contentType: 'application/json',
+          dataType: 'json'
+      }).done(function(data, textStatus, jqXHR) {
+          console.log('***** DONE CALLED');
+          let pessoaUri = jqXHR.getResponseHeader('Location');
+          alert(pessoaUri)
+          window.location.href = 'lista.html';
+      }).always(function(jqXHR) {
+          console.log('***** ALWAYS CALLED');
+          let pessoaUri = jqXHR.getResponseHeader('Location');
+          alert(pessoaUri)
+          window.location.href = 'lista.html';
+      });
+
+      /*
+      $.post('/rest/pessoas', JSON.stringify(pessoa), function(data) {
+          console.log(data);
+          window.location.href = 'lista.html';
+      }, 'json');
+      */
+      
+  });
+});
 </script>
 </head>
 <body class="d-flex flex-column h-100">
@@ -123,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h2 id="titulo">Inclusão de pessoa</h2>
+          <h2 id="titulo">Inclusão de pessoas com AJAX + JQuery</h2>
           <form id="dadosForm" novalidate>
             <input type="hidden" name="id" value="">
             <div class="form-group row">
@@ -154,8 +203,8 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="form-group row">
               <label class="col-2 col-form-label">Interesses</label>
               <div class="col-sm-10" id="interesses">
-                <!-- OBS: OPÇÕES ABAIXO DEVEM SER CARREGADOS VIA AJAX -->
-                <!-- ESTAO APRESENTADOS DIRETAMENTE NESTE HTML SOMENTE COMO EXEMPLO -->
+                <!-- VALORES DEVEM SER CARREGADOS VIA AJAX -->
+                <!--
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="checkbox" id="interesse_1" value="1" name="interessesId">
                   <label class="form-check-label" for="interesse_1">Tecnologia</label>
@@ -176,6 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   <input class="form-check-input" type="checkbox" id="interesse_5" value="5" name="interessesId">
                   <label class="form-check-label" for="interesse_5">Esportes</label>
                 </div>
+                -->
               </div>
             </div>
             <div class="text-center">
