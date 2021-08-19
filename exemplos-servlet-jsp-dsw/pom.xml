@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- BASEADO EM https://github.com/heroku/devcenter-embedded-tomcat -->
-    <groupId>br.senac.tads.pi3</groupId>
-    <artifactId>teste-embedded-tomcat</artifactId>
+    <groupId>br.senac.tads.dsw</groupId>
+    <artifactId>exemplos-servlet-jsp-dsw</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>teste-embedded-tomcat</name>
+    <name>exemplos-servlet-jsp-dsw</name>
 
     <organization>
         <name>Senac TADS</name>
@@ -23,8 +23,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
         <tomcat.version>9.0.52</tomcat.version>
     </properties>
 
@@ -59,6 +59,17 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.2</version>
+        </dependency>
+        <!-- USADO PARA JACKSON 2 FAZER PARSE DO java.time.LocalDataTime -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.12.2</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>teste-embedded-tomcat</finalName>
@@ -71,7 +82,7 @@
                     <assembleDirectory>target</assembleDirectory>
                     <programs>
                         <program>
-                            <mainClass>br.senac.tads.pi3.ServerStartup</mainClass>
+                            <mainClass>br.senac.tads.dws.ServerStartup</mainClass>
                             <name>webapp</name>
                         </program>
                     </programs>
