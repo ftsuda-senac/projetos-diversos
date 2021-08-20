@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Resultado</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
 </head>
 <body>
   <main class="container">
@@ -32,7 +32,7 @@
           Telefone: <span th:text="${dados.telefone}"></span>
         </div>
         <div>
-          Data nascimento: <span th:text="${dados.dtNascimento}"></span>
+          Data nascimento: <span th:text="${dados.dataNascimento}"></span>
         </div>
         <div>
           Idade: <span th:text="${dados.idade}"></span>
@@ -44,7 +44,7 @@
           Senha repetida: <span th:text="${dados.senhaRepetida}"></span>
         </div>
         <div>
-          Número da sorte: <span th:text="${dados.numeroSorte}"></span>
+          Número: <span th:text="${dados.numero}"></span>
         </div>
         <div>
           Altura: <span th:text="${dados.altura}"></span>
@@ -53,13 +53,16 @@
           Peso: <span th:text="${dados.peso}"></span>
         </div>
         <div>
-          IMC: <span th:text="${dados.imc}"></span>
+          IMC: <span><span th:text="${dados.imc}"></span>&nbsp;(<em th:text="${dados.imcTexto}"></em>)</span>
         </div>
         <div>
-          Sexo: <span th:text="${dados.sexo == 1? 'Masculino' : 'Feminino'}"></span>
+          Gênero:
+            <span th:if="${dados.genero == 0}">Feminino</span>
+            <span th:if="${dados.genero == 1}">Masculino</span>
+            <span th:if="${dados.genero == 2}">Nenhum</span>
         </div>
         <div>
-          Interesses: <span th:unless="{dados.interesses != null && !dados.interesses.empty}">Nenhum selecionado</span>
+          Interesses: <span th:unless="${dados.interesses != null && !dados.interesses.empty}">Nenhum selecionado</span>
           <ul th:if="${dados.interesses != null && !dados.interesses.empty}" th:each="interesse : ${dados.interesses}">
             <li th:text="${interesse}"></li>
           </ul>
@@ -68,6 +71,13 @@
       <section class="col-md-12" th:unless="${dados != null}">
         <h4>Não há dados para serem exibidos</h4>
       </section>
+    </div>
+    <div class="row">
+      <div class="col-md-4 offset-md-4">
+        <div class="d-grid">
+            <a th:href="@{/formulario}" role="button" class="btn btn-primary">Voltar para formulário</a>
+        </div>
+      </div>
     </div>
   </main>
 </body>

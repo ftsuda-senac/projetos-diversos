@@ -1,7 +1,9 @@
 package br.senac.tads.dsw.exemplos.post;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class DadosPessoais {
@@ -156,6 +158,43 @@ public class DadosPessoais {
 
     public void setInteresses(List<String> interesses) {
         this.interesses = interesses;
+    }
+    
+    public long getIdade() {
+        if (this.dataNascimento != null) {
+            return ChronoUnit.YEARS.between(this.dataNascimento, LocalDate.now());
+        }
+        return 0;
+    }
+
+    /*
+     * IMC = peso / (altura * altura)
+     * Magreza, quando o resultado é menor que 18,5 kg/m2;
+     * Normal, quando o resultado está entre 18,5 e 24,9 kg/m2;
+     * Sobrepeso, quando o resultado está entre 24,9 e 30 kg/m2;
+     * Obesidade, quando o resultado é maior que 30 kg/m2.
+     */
+    public BigDecimal getImc() {
+        BigDecimal basePeso = new BigDecimal(1).multiply(this.peso);
+        BigDecimal baseAltura = new BigDecimal(1).multiply(this.altura).multiply(this.altura);
+        if (this.peso != null && this.altura != null) {
+            return basePeso.divide(baseAltura, RoundingMode.HALF_UP);
+        }
+        return new BigDecimal(0);
+    }
+
+    public String getImcTexto() {
+        BigDecimal imc = getImc();
+        if (imc.compareTo(new BigDecimal(0)) == 0) {
+            return "NÃO CALCULADO";
+        } else if (imc.compareTo(new BigDecimal("18.5")) == -1) {
+            return "MAGREZA";
+        } else if (imc.compareTo(new BigDecimal("24.9")) == -1) {
+            return "NORMAL";
+        } else if (imc.compareTo(new BigDecimal("30")) == -1) {
+            return "SOBREPESO";
+        }
+        return "OBESIDADE";
     }
 
 }

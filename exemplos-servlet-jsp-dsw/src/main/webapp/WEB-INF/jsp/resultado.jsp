@@ -8,7 +8,7 @@
 </head>
 <body>
   <div>
-    <h1>Resultado</h1>
+    <h1>Dados preenchidos</h1>
     <p>
       ID: <span><c:out value="${dados.id}" /></span>
     </p>
@@ -22,10 +22,19 @@
       Data de nascimento: <span><c:out value="${dados.dataNascimento}" /></span>
     </p>
     <p>
+      Idade: <span><c:out value="${dados.idade}" /></span>
+    </p>
+    <p>
       E-mail: <span><c:out value="${dados.email}" /></span>
     </p>
     <p>
       Telefone: <span><c:out value="${dados.telefone}" /></span>
+    </p>
+    <p>
+      Senha: <span><c:out value="${dados.senha}" /></span>
+    </p>
+    <p>
+      Senha repetida: <span><<c:out value="${dados.senhaRepetida}" /></span>
     </p>
     <p>
       Número: <span><c:out value="${dados.numero}" /></span>
@@ -37,7 +46,10 @@
       Peso: <span><c:out value="${dados.peso}" /></span>
     </p>
     <p>
-      Genero: <span><c:out value="${dados.genero}" /></span>
+      IMC: <span><c:out value="${dados.imc}" /></span>
+    </p>
+    <p>
+      Gênero: <span><c:out value="${dados.genero}" /></span>
     </p>
     <div>
       Interesses:

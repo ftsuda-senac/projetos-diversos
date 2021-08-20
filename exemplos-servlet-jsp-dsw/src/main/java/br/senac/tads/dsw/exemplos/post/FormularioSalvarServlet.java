@@ -16,7 +16,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "FormularioSalvarServlet", urlPatterns = {"/formulario-salvar"})
 public class FormularioSalvarServlet extends HttpServlet {
@@ -47,7 +46,7 @@ public class FormularioSalvarServlet extends HttpServlet {
         String alturaStr = request.getParameter("altura");
         String pesoStr = request.getParameter("peso");
         String generoStr = request.getParameter("genero");
-        String[] interesses = request.getParameterValues("interesses");
+        String[] interessesArr = request.getParameterValues("interesses");
 
         // VALIDACOES E CONVERSÕES
         boolean temErro = false;
@@ -136,10 +135,24 @@ public class FormularioSalvarServlet extends HttpServlet {
                 // Mantem altura null
             }
         }
+        int genero = -1;
+        try {
+            genero = Integer.parseInt(generoStr);
+        } catch (NumberFormatException ex) {
+            // Mantem genero com valor invalido
+        }
+        
+        List<String> interesses = null;
+        if (interessesArr != null && interessesArr.length > 0) {
+            interesses = Arrays.asList(interessesArr);
+        } else {
+            temErro = true;
+            request.setAttribute("erroInteresses", "Pelo menos um interesse deve ser escolhido");
+        }
 
         DadosPessoais dados = new DadosPessoais(id, nome, descricao, dataNascimento, email,
-                telefone, senha, senhaRepetida, numero, altura, peso, Integer.parseInt(generoStr),
-                Arrays.asList(interesses));
+                telefone, senha, senhaRepetida, numero, altura, peso, genero,
+                interesses);
 
         request.setAttribute("dados", dados);
 
@@ -149,19 +162,19 @@ public class FormularioSalvarServlet extends HttpServlet {
                     "Esportes", "Investimentos");
             request.setAttribute("interesses", interessesOpcoes);
             RequestDispatcher dispatcher =
-                    request.getRequestDispatcher("/WEB-INF/jsp/formulario-validacao.jsp");
+                    request.getRequestDispatcher("/WEB-INF/jsp/formulario-bs.jsp");
             dispatcher.forward(request, response);
         } else {
-            // RequestDispatcher dispatcher =
-            // request.getRequestDispatcher("/WEB-INF/jsp/resultado.jsp");
-            // dispatcher.forward(request, response);
+            // ***** FAZ FORWARD DIRETO PARA RESULTADO
+            // APÓS A TELA APARECER, TENTAR ATUALIZAR NO BROWSER
+            RequestDispatcher dispatcher =
+            request.getRequestDispatcher("/WEB-INF/jsp/resultado-bs.jsp");
+            dispatcher.forward(request, response);
 
             // **** POST-REDIRECT-GET
-
-            HttpSession sessao = request.getSession();
-            sessao.setAttribute("dados", dados);
-
-            response.sendRedirect(request.getContextPath() + "/resultado");
+            // HttpSession sessao = request.getSession();
+            // sessao.setAttribute("dados", dados);
+            //response.sendRedirect(request.getContextPath() + "/resultado");
         }
 
     }

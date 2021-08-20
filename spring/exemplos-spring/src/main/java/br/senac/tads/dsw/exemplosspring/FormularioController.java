@@ -2,6 +2,8 @@ package br.senac.tads.dsw.exemplosspring;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,44 +32,50 @@ public class FormularioController {
 //        binder.addCustomFormatter(new WebDateFormatter());
 //    }
 
-	@GetMapping("/lista")
-	public ModelAndView listar() {
-		return new ModelAndView("lista").addObject("dados", service.findAll());
-	}
+    private List<String> getInteresses() {
+        return Arrays.asList("Tecnologia", "Gastronomia", "Viagens", "Esportes", "Investimentos");
+    }
 
-    @GetMapping("/form")
+    @GetMapping("/lista")
+    public ModelAndView listar() {
+        return new ModelAndView("lista").addObject("dados", service.findAll());
+    }
+
+    @GetMapping
     public ModelAndView abrirFormularioVazio() {
-        ModelAndView mv = new ModelAndView("formulario-final");
+        ModelAndView mv = new ModelAndView("formulario-validacao");
         mv.addObject("dadosPessoais", new DadosPessoais());
+        mv.addObject("interesses", getInteresses());
         return mv;
     }
 	
-    @GetMapping("/form-preenchido")
+    @GetMapping("/preenchido")
     public ModelAndView abrirFormulario() {
-        ModelAndView mv = new ModelAndView("formulario-final");
+        ModelAndView mv = new ModelAndView("formulario-validacao");
         DadosPessoais dados = new DadosPessoais();
-        dados.setId(999L);
+        dados.setId(999);
         dados.setNome("Zezinho Silveira");
         dados.setDescricao("bla bla bla");
         dados.setEmail("zezinho@email.com");
         dados.setTelefone("(11) 98711-9988");
         dados.setSenha("abcd1234");
         dados.setSenhaRepetida("abcd1234");
-        dados.setDtNascimento(LocalDate.of(1998, 9, 30));
-        dados.setSexo(1);
-        dados.setNumeroSorte(72);
-        dados.setPeso(BigDecimal.valueOf(90.7));
+        dados.setDataNascimento(LocalDate.of(1998, 9, 30));
+        dados.setGenero(1);
+        dados.setNumero(72);
+        dados.setPeso(BigDecimal.valueOf(95.7));
         dados.setAltura(BigDecimal.valueOf(1.72));
-        dados.setInteresses(new String[]{"Tecnologia", "Viagens"});
+        dados.setInteresses(Arrays.asList("Tecnologia", "Viagens"));
         mv.addObject("dadosPessoais", dados);
+        mv.addObject("interesses", getInteresses());
         return mv;
     }
 
     @PostMapping("/salvar")
     public ModelAndView salvar(
             @ModelAttribute DadosPessoais dadosRecebidos) {
-        ModelAndView mv = new ModelAndView("resultado-formulario");
         service.save(dadosRecebidos);
+        ModelAndView mv = new ModelAndView("resultado-formulario");
         mv.addObject("dados", dadosRecebidos);
         return mv;
     }
@@ -88,7 +96,9 @@ public class FormularioController {
             BindingResult bindingResult,
             RedirectAttributes redirAttr) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("formulario-final");
+            ModelAndView mv = new ModelAndView("formulario-validacao");
+            mv.addObject("interesses", getInteresses());
+            return mv;
         }
         service.save(dadosRecebidos);
         ModelAndView mv = new ModelAndView("redirect:/formulario/resultado");

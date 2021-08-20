@@ -19,8 +19,10 @@ public class MobileDinamicoServlet extends HttpServlet {
 
         String userAgent = request.getHeader("user-agent");
         String mensagem = "Acesso via dispositivo movel";
+        String backgrondColor = "#2ecc71"; //Verde
         if (!userAgent.toLowerCase().contains("mobile")) {
             mensagem = "Acesso via desktop";
+            backgrondColor = "#9b59b6"; // Roxo
         }
 
         response.setContentType("text/html;charset=UTF-8");
@@ -32,7 +34,7 @@ public class MobileDinamicoServlet extends HttpServlet {
             out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">");
             out.println("<title>Mobile - Exibição dinâmica</title>");
             out.println("</head>");
-            out.println("<body>");
+            out.println("<body style=\"background-color: " + backgrondColor + ";\">");
             out.println("<h1>" + mensagem + "</h1>");
             out.println("<p>User agent: " + userAgent + "</p>");
             out.println("</body>");

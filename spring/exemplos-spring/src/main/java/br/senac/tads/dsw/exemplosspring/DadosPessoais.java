@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
@@ -21,13 +22,17 @@ public class DadosPessoais implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private Integer id;
 
-    @NotBlank
+    @NotBlank(message = "POR FAVOR PREENCHER O NOME COMPLETO")
     @Size(max = 100)
     private String nome;
 
     private String descricao;
+
+    @PastOrPresent
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) // ISO-8601
+    private LocalDate dataNascimento;
 
     @NotBlank
     @Email
@@ -36,29 +41,20 @@ public class DadosPessoais implements Serializable {
 
     private String telefone;
 
-    @PastOrPresent
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) // ISO-8601
-    private LocalDate dtNascimento;
-
     // REGEX para senha https://stackoverflow.com/a/59317682
     @NotBlank
-    //@Pattern(regexp = "^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\\-__+.]){1,}).{8,}$")
+    // @Pattern(regexp =
+    // "^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\\-__+.]){1,}).{8,}$")
     private String senha;
 
     @NotBlank
-    //@Pattern(regexp = "^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\\-__+.]){1,}).{8,}$")
+    // @Pattern(regexp =
+    // "^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\\-__+.]){1,}).{8,}$")
     private String senhaRepetida;
 
     @Min(1)
     @Max(99)
-    private int numeroSorte;
-
-    // 0 - FEMININO
-    // 1 - MASCULINO
-    private int sexo;
-
-    @NotEmpty
-    private String[] interesses;
+    private int numero;
 
     @Min(0)
     @Max(3)
@@ -70,11 +66,19 @@ public class DadosPessoais implements Serializable {
     @Digits(integer = 3, fraction = 1)
     private BigDecimal peso;
 
-    public Long getId() {
+    // 0 - FEMININO
+    // 1 - MASCULINO
+    // 2 - NENHUM
+    private int genero;
+
+    @NotEmpty
+    private List<String> interesses;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -110,12 +114,12 @@ public class DadosPessoais implements Serializable {
         this.telefone = telefone;
     }
 
-    public LocalDate getDtNascimento() {
-        return dtNascimento;
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
     }
 
-    public void setDtNascimento(LocalDate dtNascimento) {
-        this.dtNascimento = dtNascimento;
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     public String getSenha() {
@@ -134,27 +138,27 @@ public class DadosPessoais implements Serializable {
         this.senhaRepetida = senhaRepetida;
     }
 
-    public int getNumeroSorte() {
-        return numeroSorte;
+    public int getNumero() {
+        return numero;
     }
 
-    public void setNumeroSorte(int numeroSorte) {
-        this.numeroSorte = numeroSorte;
+    public void setNumero(int numeroSorte) {
+        this.numero = numeroSorte;
     }
 
-    public int getSexo() {
-        return sexo;
+    public int getGenero() {
+        return genero;
     }
 
-    public void setSexo(int sexo) {
-        this.sexo = sexo;
+    public void setGenero(int sexo) {
+        this.genero = sexo;
     }
 
-    public String[] getInteresses() {
+    public List<String> getInteresses() {
         return interesses;
     }
 
-    public void setInteresses(String[] interesses) {
+    public void setInteresses(List<String> interesses) {
         this.interesses = interesses;
     }
 
@@ -175,8 +179,8 @@ public class DadosPessoais implements Serializable {
     }
 
     public long getIdade() {
-        if (this.dtNascimento != null) {
-            return ChronoUnit.YEARS.between(this.dtNascimento, LocalDate.now());
+        if (this.dataNascimento != null) {
+            return ChronoUnit.YEARS.between(this.dataNascimento, LocalDate.now());
         }
         return 0;
     }
@@ -194,7 +198,20 @@ public class DadosPessoais implements Serializable {
         if (this.peso != null && this.altura != null) {
             return basePeso.divide(baseAltura, RoundingMode.HALF_UP);
         }
-        return null;
+        return new BigDecimal(0);
     }
 
+    public String getImcTexto() {
+        BigDecimal imc = getImc();
+        if (imc.compareTo(new BigDecimal(0)) == 0) {
+            return "NÃO CALCULADO";
+        } else if (imc.compareTo(new BigDecimal("18.5")) == -1) {
+            return "MAGREZA";
+        } else if (imc.compareTo(new BigDecimal("24.9")) == -1) {
+            return "NORMAL";
+        } else if (imc.compareTo(new BigDecimal("30")) == -1) {
+            return "SOBREPESO";
+        }
+        return "OBESIDADE";
+    }
 }
