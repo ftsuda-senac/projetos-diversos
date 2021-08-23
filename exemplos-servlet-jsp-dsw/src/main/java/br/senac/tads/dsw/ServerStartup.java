@@ -54,7 +54,7 @@ public class ServerStartup {
             webContentFolder = Files.createTempDirectory("default-doc-base").toFile();
         }
         StandardContext ctx =
-                (StandardContext) tomcat.addWebapp("", webContentFolder.getAbsolutePath());
+                (StandardContext) tomcat.addWebapp("/exemplos", webContentFolder.getAbsolutePath());
 
         // Set execution independent of current thread context classloader (compatibility with
         // exec:java mojo)
