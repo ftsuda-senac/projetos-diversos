@@ -9,5 +9,6 @@
 <body>
   <h1><c:out value="${mensagem}" /></h1>
   <p>Data e hora atual: <c:out value="${dataHora}" /></p>
+  <p>(método usado: <c:out value="${metodoHttp}" />)</p>
 </body>
 </html>

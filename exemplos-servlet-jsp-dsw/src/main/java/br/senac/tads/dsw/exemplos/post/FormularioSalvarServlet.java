@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "FormularioSalvarServlet", urlPatterns = {"/formulario-salvar"})
 public class FormularioSalvarServlet extends HttpServlet {
@@ -167,14 +168,14 @@ public class FormularioSalvarServlet extends HttpServlet {
         } else {
             // ***** FAZ FORWARD DIRETO PARA RESULTADO
             // APÓS A TELA APARECER, TENTAR ATUALIZAR NO BROWSER
-            RequestDispatcher dispatcher =
-            request.getRequestDispatcher("/WEB-INF/jsp/resultado-bs.jsp");
-            dispatcher.forward(request, response);
+            //RequestDispatcher dispatcher =
+            //request.getRequestDispatcher("/WEB-INF/jsp/resultado-bs.jsp");
+            //dispatcher.forward(request, response);
 
             // **** POST-REDIRECT-GET
-            // HttpSession sessao = request.getSession();
-            // sessao.setAttribute("dados", dados);
-            //response.sendRedirect(request.getContextPath() + "/resultado");
+            HttpSession sessao = request.getSession();
+            sessao.setAttribute("dados", dados);
+            response.sendRedirect(request.getContextPath() + "/resultado");
         }
 
     }

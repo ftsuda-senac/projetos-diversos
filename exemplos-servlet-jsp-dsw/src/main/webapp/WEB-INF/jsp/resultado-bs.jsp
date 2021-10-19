@@ -33,7 +33,7 @@
               Data nascimento: <span><c:out value="${dados.dataNascimento}" /></span>
             </div>
             <div>
-              Idade:  <span><c:out value="${dados.idade}" /></span>
+              Idade: <span><c:out value="${dados.idade}" /></span>
             </div>
             <div>
               E-mail: <span><c:out value="${dados.email}" /></span>
