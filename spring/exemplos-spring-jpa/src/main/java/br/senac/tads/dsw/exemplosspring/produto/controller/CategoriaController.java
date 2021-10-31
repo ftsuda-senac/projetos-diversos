@@ -24,7 +24,7 @@ import br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio.CategoriaRep
  * @author fernando.tsuda
  */
 @Controller
-@RequestMapping("/categoria")
+@RequestMapping("/categorias")
 public class CategoriaController {
 
     @Autowired
@@ -33,30 +33,30 @@ public class CategoriaController {
     @GetMapping
     public ModelAndView listar() {
         List<Categoria> resultados = repository.findAll();
-        return new ModelAndView("categoria/lista").addObject("categorias", resultados);
+        return new ModelAndView("categorias/lista").addObject("categorias", resultados);
     }
 
     @GetMapping("/novo")
     public ModelAndView adicionarNovo() {
-        return new ModelAndView("categoria/form").addObject("categoria", new Categoria());
+        return new ModelAndView("categorias/form").addObject("categoria", new Categoria());
     }
 
     @GetMapping("/{id}/editar")
     public ModelAndView editar(@PathVariable("id") int id) {
         Categoria cat = repository.findById(id);
-        return new ModelAndView("categoria/form").addObject("categoria", cat);
+        return new ModelAndView("categorias/form").addObject("categoria", cat);
     }
 
     @PostMapping("/salvar")
     public ModelAndView salvar(@ModelAttribute("categoria") @Valid Categoria cat,
             BindingResult bindingResult, RedirectAttributes redirAttr) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("categoria/form");
+            return new ModelAndView("categorias/form");
         }
         repository.save(cat);
         redirAttr.addFlashAttribute("msgSucesso",
                 "Categoria " + cat.getNome() + " salva com sucesso");
-        return new ModelAndView("redirect:/categoria");
+        return new ModelAndView("redirect:/categorias");
     }
 
 }

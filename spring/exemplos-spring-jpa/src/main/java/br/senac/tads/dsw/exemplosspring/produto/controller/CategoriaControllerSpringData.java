@@ -26,7 +26,7 @@ import br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio.CategoriaRep
  * @author fernando.tsuda
  */
 @Controller
-@RequestMapping("/categoria-sd")
+@RequestMapping("/categorias-sd")
 public class CategoriaControllerSpringData {
 
     @Autowired
@@ -35,12 +35,12 @@ public class CategoriaControllerSpringData {
     @GetMapping
     public ModelAndView listar() {
         List<Categoria> resultados = repository.findAll();
-        return new ModelAndView("categoria-sd/lista").addObject("categorias", resultados);
+        return new ModelAndView("categorias-sd/lista").addObject("categorias", resultados);
     }
 
     @GetMapping("/novo")
     public ModelAndView adicionarNovo() {
-        return new ModelAndView("categoria-sd/form").addObject("categoria", new Categoria());
+        return new ModelAndView("categorias-sd/form").addObject("categoria", new Categoria());
     }
 
     @GetMapping("/{id}/editar")
@@ -48,9 +48,9 @@ public class CategoriaControllerSpringData {
         Optional<Categoria> optCat = repository.findById(id);
         if (optCat.isPresent()) {
             Categoria cat = optCat.get();
-            return new ModelAndView("categoria-sd/form").addObject("categoria", cat);
+            return new ModelAndView("categorias-sd/form").addObject("categoria", cat);
         }
-        ModelAndView notFound = new ModelAndView("redirect:/categoria-sd");
+        ModelAndView notFound = new ModelAndView("redirect:/categorias-sd");
         notFound.setStatus(HttpStatus.NOT_FOUND);
         return notFound;
     }
@@ -59,12 +59,12 @@ public class CategoriaControllerSpringData {
     public ModelAndView salvar(@ModelAttribute("categoria") @Valid Categoria cat,
             BindingResult bindingResult, RedirectAttributes redirAttr) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("categoria-sd/form");
+            return new ModelAndView("categorias-sd/form");
         }
         repository.save(cat);
         redirAttr.addFlashAttribute("msgSucesso",
                 "Categoria " + cat.getNome() + " salva com sucesso");
-        return new ModelAndView("redirect:/categoria-sd");
+        return new ModelAndView("redirect:/categorias-sd");
     }
 
 }

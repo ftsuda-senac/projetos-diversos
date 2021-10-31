@@ -38,7 +38,7 @@ import br.senac.tads.dsw.exemplosspring.produto.dominio.repositorio.ProdutoRepos
  * @author fernando.tsuda
  */
 @Controller
-@RequestMapping("/produto-sd")
+@RequestMapping("/produtos-sd")
 public class ProdutoControllerSpringData {
 
     @Autowired
@@ -60,7 +60,7 @@ public class ProdutoControllerSpringData {
             // Lista todos os produtos
             resultados = produtoRepository.findAll();
         }
-        return new ModelAndView("produto-sd/lista").addObject("produtos", resultados);
+        return new ModelAndView("produtos-sd/lista").addObject("produtos", resultados);
     }
 
     @GetMapping("/paginacao")
@@ -84,7 +84,7 @@ public class ProdutoControllerSpringData {
 
     @GetMapping("/novo")
     public ModelAndView adicionarNovo() {
-        return new ModelAndView("produto-sd/form").addObject("produto", new Produto());
+        return new ModelAndView("produtos-sd/form").addObject("produto", new Produto());
     }
 
     @GetMapping("/{id}/editar")
@@ -102,9 +102,9 @@ public class ProdutoControllerSpringData {
             if (prod.getImagens() != null && !prod.getImagens().isEmpty()) {
                 prod.setImagensList(new ArrayList<>(prod.getImagens()));
             }
-            return new ModelAndView("produto-sd/form").addObject("produto", prod);
+            return new ModelAndView("produtos-sd/form").addObject("produto", prod);
         }
-        ModelAndView notFound = new ModelAndView("redirect:/produto-sd");
+        ModelAndView notFound = new ModelAndView("redirect:/produtos-sd");
         notFound.setStatus(HttpStatus.NOT_FOUND);
         return notFound;
     }
@@ -136,7 +136,7 @@ public class ProdutoControllerSpringData {
         produtoRepository.save(produto);
         redirAttr.addFlashAttribute("msgSucesso",
                 "Produto " + produto.getNome() + " salvo com sucesso");
-        return new ModelAndView("redirect:/produto-sd");
+        return new ModelAndView("redirect:/produtos-sd");
     }
 
     @PostMapping("/{id}/remover")
@@ -145,13 +145,13 @@ public class ProdutoControllerSpringData {
         produtoRepository.deleteById(id);
         redirectAttributes.addFlashAttribute("msgSucesso",
                 "Produto ID " + id + " removido com sucesso");
-        return new ModelAndView("redirect:/produto-sd");
+        return new ModelAndView("redirect:/produtos-sd");
     }
 
     @GetMapping("/busca")
     public ModelAndView listarFiltrarPorNome(@RequestParam("nome") String nome) {
         List<Produto> resultados = produtoRepository.findByNomeIgnoreCaseContaining(nome);
-        return new ModelAndView("produto-sd/lista").addObject("produtos", resultados);
+        return new ModelAndView("produtos-sd/lista").addObject("produtos", resultados);
     }
 
     @ModelAttribute("categorias")

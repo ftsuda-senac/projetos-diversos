@@ -9,7 +9,7 @@
             <section class="col-md-12">
                 <h1 th:if="${produto.id == null}">Inclusão de produto</h1>
                 <h1 th:if="${produto.id != null}">Alteração de produto</h1>
-                <form th:action="@{/produto/salvar}" method="post" th:object="${produto}" novalidate>
+                <form th:action="@{/produtos-sd/salvar}" method="post" th:object="${produto}" novalidate>
                     <input type="hidden" th:if="*{id != null}" th:field="*{id}" />
 
                     <div class="form-group row">
@@ -112,7 +112,7 @@
 
                     <div class="row">
                         <div class="col-md-3 offset-md-3">
-                            <a th:href="@{/produto}" role="button" class="btn btn-block btn-outline-dark">Cancelar</a>
+                            <a th:href="@{/produtos-sd}" role="button" class="btn btn-block btn-outline-dark">Cancelar</a>
                         </div>
                         <div class="col-md-3">
                             <button type="submit" class="btn btn-block btn-success">Enviar</button>

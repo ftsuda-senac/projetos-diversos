@@ -23,12 +23,12 @@
                                 <td th:text="${cat.id}"></td>
                                 <td th:text="${cat.nome}"></td>
                                 <td>
-                                    <a th:href="@{/categoria-sd/{id}/editar(id=${cat.id})}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+                                    <a th:href="@{/categorias-sd/{id}/editar(id=${cat.id})}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <a th:href="@{/categoria-sd/novo}" class="btn btn-success"><i class="fa fa-plus"></i> Incluir</a>
+                    <a th:href="@{/categorias-sd/novo}" class="btn btn-success"><i class="fa fa-plus"></i> Incluir</a>
                 </div>
             </div>
         </div>
