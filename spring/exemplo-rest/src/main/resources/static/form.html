@@ -71,16 +71,18 @@ function incluirDados() {
     xhr.open('POST', '/rest/pessoas', true)
     xhr.setRequestHeader('Content-type', 'application/json')
     xhr.setRequestHeader('Accept', 'application/json')
-    const form = document.querySelector('#dadosForm')
 
+    // Percorre os checkboxes dos interesses e pega os valores selecionados
     const interesses = document.querySelectorAll('[name="interessesId"]')
     const idsArr = []
     for (const elCheckbox of interesses) {
         if (elCheckbox.checked) {
-            idsArr.push(+elCheckbox.value)
+            idsArr.push(+elCheckbox.value) // + converte para número
         }
     }
-    
+
+    // Percorre demais inputs dos formulários e pega valores para montar JSON
+    const form = document.querySelector('#dadosForm')
     let dadosParaSalvar = {
         nome: form.nome.value,
         sexo: +form.sexo.value,
@@ -91,6 +93,8 @@ function incluirDados() {
     xhr.addEventListener('load', function() {
         if (xhr.status >= 200 && xhr.status < 400) {
             alert(xhr.status + ' - ' + xhr.statusText + '\r\nLocation: ' + xhr.getResponseHeader('Location'))
+        } else {
+            alert('ERRO: ' + xhr.status + ' - ' + xhr.statusText)
         }
     })
     xhr.send(JSON.stringify(dadosParaSalvar))
@@ -105,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     document.getElementById('dadosForm').addEventListener('submit', function(evt) {
-        evt.preventDefault()
+        evt.preventDefault()  // Evita o submit padrão do <form>
         incluirDados()
     })
 })
