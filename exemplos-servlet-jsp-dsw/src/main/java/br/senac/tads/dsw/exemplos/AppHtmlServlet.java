@@ -8,6 +8,7 @@ package br.senac.tads.dsw.exemplos;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -59,7 +60,9 @@ public class AppHtmlServlet extends HttpServlet {
                 response.setContentType("application/json");
                 resposta = gerarJson();
             } else {
-                response.setStatus(400);
+                // Mostra menu caso nenhuma opção seja selecionada
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/app-html-menu.jsp");
+                dispatcher.forward(request, response);
                 return;
             }
             out.println(resposta);
