@@ -48,23 +48,23 @@ public class AppHtmlServlet extends HttpServlet {
             throws IOException, ServletException {
         String opcao = request.getParameter("opcao");
 
+        String resposta;
+        if ("1".equals(opcao)) {
+            response.setContentType("text/plain");
+            resposta = gerarTexto();
+        } else if ("2".equals(opcao)) {
+             response.setContentType("text/html");
+             resposta = gerarHtml();
+        } else if ("3".equals(opcao)) {
+            response.setContentType("application/json");
+            resposta = gerarJson();
+        } else {
+            // Mostra menu caso nenhuma opção seja selecionada
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/app-html-menu.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
         try (PrintWriter out = response.getWriter()) {
-            String resposta;
-            if ("1".equals(opcao)) {
-                response.setContentType("text/plain");
-                resposta = gerarTexto();
-            } else if ("2".equals(opcao)) {
-                 response.setContentType("text/html");
-                 resposta = gerarHtml();
-            } else if ("3".equals(opcao)) {
-                response.setContentType("application/json");
-                resposta = gerarJson();
-            } else {
-                // Mostra menu caso nenhuma opção seja selecionada
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/app-html-menu.jsp");
-                dispatcher.forward(request, response);
-                return;
-            }
             out.println(resposta);
         }
     }
