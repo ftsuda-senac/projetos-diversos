@@ -5,10 +5,13 @@
  */
 package br.com.senac.tads.dsw.exemploupload;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,13 +31,14 @@ public class UploadController {
     
     private static final String DIRETORIO_UPLOAD = "C:/uploads/";
     
-    private static final String CONTEXTO_ACESSO_UPLOAD = "/teste-uploads";
+    private static final String CONTEXTO_ACESSO_UPLOAD = "/arquivos-upload";
 
     @GetMapping
     public ModelAndView mostrarFormulario() {
         return new ModelAndView("upload");
     }
 
+    // TODO: Ver uso do RedirectView ao invés do ModelAndView
     @PostMapping("/salvar")
     public ModelAndView receberArquivo(
             @RequestParam("arquivo") MultipartFile arquivo,
@@ -66,4 +70,23 @@ public class UploadController {
         }
     }
 
+    @GetMapping("/ver-imagens")
+    public ModelAndView mostrarImagensUpload() {
+        
+        // Busca imagens carregadas no diretório de upload
+        File diretorio = new File(DIRETORIO_UPLOAD);
+        File[] listaArquivos = diretorio.listFiles();
+        
+        List<String> arquivosImagem = new ArrayList<>();
+        for (File arquivo : listaArquivos) {
+            if (arquivo.getName().endsWith("jpg") || arquivo.getName().endsWith("png")) {
+                arquivosImagem.add(arquivo.getName());
+            }
+        }
+        
+        ModelAndView mv = new ModelAndView("ver-imagens");
+        mv.addObject("arquivos", arquivosImagem);
+        return mv;   
+    }
+    
 }
