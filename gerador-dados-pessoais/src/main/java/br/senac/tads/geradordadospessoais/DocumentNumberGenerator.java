@@ -7,7 +7,6 @@ package br.senac.tads.geradordadospessoais;
 import java.security.SecureRandom;
 import java.util.Random;
 
-
 // Adaptado de https://receitasdecodigo.com.br/java/classe-java-completa-para-gerar-e-validar-cpf-e-cnpj
 public class DocumentNumberGenerator {
 
