@@ -1,7 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties. To change this
- * template file, choose Tools | Templates and open the template in the editor.
- */
 package br.senac.tads.dsw.exemplospringsecurity;
 
 import org.springframework.context.annotation.Bean;
@@ -14,10 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-/**
- *
- * @author fernando.tsuda
- */
 @Configuration
 @EnableGlobalMethodSecurity(
         prePostEnabled = true, 
@@ -60,7 +52,7 @@ public class GlobalSecurityConfig extends GlobalMethodSecurityConfiguration {
                     .frameOptions().sameOrigin() // Avoid x-frame-options problem opening H2 console
                 .and().csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/css/**", "/img/**", "/js/**", "/font/**", "/", "/index.html", "/h2/**" ).permitAll()
+                    .antMatchers("/favicon/**", "/webjars/**", "/css/**", "/img/**", "/js/**", "/font/**", "/", "/index.html", "/sessao/**", "/h2-console/**" ).permitAll()
 //                    .antMatchers("/protegido/peao/**").hasRole("PEAO") // OU .hasAuthority("ROLE_PEAO")
 //                    .antMatchers("/protegido/fodon/**").hasRole("FODON")
 //                    .antMatchers("/protegido/god/**").hasRole("GOD")

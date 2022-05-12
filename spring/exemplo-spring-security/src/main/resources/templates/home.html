@@ -1,30 +1,26 @@
 <!DOCTYPE html>
-<html>
-<head>
-<title>Exemplo Autenticação e autorização</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-  <h1>Home</h1>
-  <div th:if="${usuario != null}">
-    <div>
-      <h2>
-        Nome completo: <span th:text="${usuario.nomeCompleto}"></span>
-      </h2>
-      <p th:text="${usuario.hashSenha}"></p>
-      <ul>
-        <li sec:authorize="hasRole('PEAO')"><a th:href="@{/protegido/peao}">Tela PEAO</a></li>
-        <li sec:authorize="hasRole('FODON')"><a th:href="@{/protegido/fodon}">Tela FODON</a></li>
-        <li sec:authorize="hasRole('GOD')"><a th:href="@{/protegido/god}">Tela GOD</a></li>
-      </ul>
-      <p>
-        <a th:href="@{/logout}">Sair</a>
-      </p>
-    </div>
-  </div>
-  <div th:unless="${usuario != null}">
-    <h1>Usuário não logado no sistema</h1>
-  </div>
-</body>
+<html layout:decorate="~{modelo-bs5}">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div layout:fragment="conteudo">
+            <h1>Home</h1>
+            <div th:if="${usuario != null}">
+                <h2>Nome completo: <span th:text="${usuario.nomeCompleto}"></span></h2>
+                <p>Hash da senha: <code th:text="${usuario.hashSenha}"></code></p>
+                <ul>
+                    <li sec:authorize="hasRole('PEAO')"><a th:href="@{/protegido/peao}">Tela PEAO</a></li>
+                    <li sec:authorize="hasRole('FODON')"><a th:href="@{/protegido/fodon}">Tela FODON</a></li>
+                    <li sec:authorize="hasRole('GOD')"><a th:href="@{/protegido/god}">Tela GOD</a></li>
+                </ul>
+                <p>
+                    <a th:href="@{/logout}">Sair</a>
+                </p>
+            </div>
+            <div th:unless="${usuario != null}">
+                <h2>Usuário não logado no sistema</h2>
+            </div>
+        </div>
+    </body>
 </html>

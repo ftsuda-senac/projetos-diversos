@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html layout:decorate="~{modelo-bs5}">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div layout:fragment="conteudo">
+            <h1>Exemplo sessão</h1>
+            <div th:if="${usuario != null}">
+                <h2>Nome completo: <span th:text="${usuario.nomeCompleto}"></span></h2>
+            </div>
+            <div th:unless="${usuario != null}">
+                <h2>Usuário não logado no sistema</h2>
+            </div>
+            <hr />
+            <div>
+                <p><code>jsessionid: <b th:text="${#session.id}":></b></code> (Ver cookie pela ferramenta de desenvolvedor do navegador)<p>
+                <form method="post" th:action="@{/sessao}">
+                    <button type="submit" class="btn btn-primary">Adicionar item na sessão</button>
+                    <a th:href="@{/sessao/limpar}" role="button" class="btn btn-danger">Limpar itens</a>
+                </form>
+
+                <div class="row" th:if="${#lists.isEmpty(@sessaoController.itensSessao)}">
+                    <div class="col-12">
+                        <h2>Nenhum item adicionado</h2>
+                    </div>
+                </div>
+                <div class="row" th:unless="${#lists.isEmpty(@sessaoController.itensSessao)}">
+                    <div class="col-12">
+                        <table class="table table-striped table-sm table-responsive">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Data e hora de inclusão</th>
+                                    <th>User agent</th>
+                                    <th>Endereço IP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="sel : ${@sessaoController.itensSessao}">
+                                    <td th:text="${#temporals.format(sel.dataHoraInclusao, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                                    <td th:text="${sel.userAgent}"></td>
+                                    <td th:text="${sel.ipAddress}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

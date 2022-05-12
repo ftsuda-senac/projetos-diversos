@@ -12,10 +12,6 @@ import org.springframework.stereotype.Service;
 import br.senac.tads.dsw.exemplospringsecurity.dominio.Papel;
 import br.senac.tads.dsw.exemplospringsecurity.dominio.UsuarioSistema;
 
-/**
- *
- * @author fernando.tsuda
- */
 @Service
 public class UsuarioSistemaService implements UserDetailsService {
 

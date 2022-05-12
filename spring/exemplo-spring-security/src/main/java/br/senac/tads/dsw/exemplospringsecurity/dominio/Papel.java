@@ -2,15 +2,11 @@ package br.senac.tads.dsw.exemplospringsecurity.dominio;
 
 import org.springframework.security.core.GrantedAuthority;
 
-/**
- *
- * @author fernando.tsuda
- */
 public class Papel implements GrantedAuthority {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String nome;
+    private String nome;
 
     public Papel() {
     }
@@ -27,9 +23,9 @@ public class Papel implements GrantedAuthority {
         this.nome = nome;
     }
 
-	@Override
-	public String getAuthority() {
-		return nome;
-	}
+    @Override
+    public String getAuthority() {
+        return nome;
+    }
 
 }
