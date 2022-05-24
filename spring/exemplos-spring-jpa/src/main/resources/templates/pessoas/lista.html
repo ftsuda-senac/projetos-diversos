@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html layout:decorate="~{modelo-bs5}">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div layout:fragment="conteudo">
+            <h1>Listagem de pessoas</h1>
+            <div class="alert alert-success" role="alert" th:if="${!#strings.isEmpty(msgSucesso)}">
+                <h4 class="alert-heading">Sucesso</h4>
+                <p class="mb-0" th:text="${msgSucesso}"></p>
+            </div>
+            <div class="alert alert-danger" role="alert" th:if="${!#strings.isEmpty(msgErro)}">
+                <h4 class="alert-heading">Erro</h4>
+                <p class="mb-0" th:text="${msgErro}"></p>
+            </div>
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Data nascimento</th>
+                        <th scope="col">Status ativação</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="dados : ${dadosLista}">
+                        <td th:text="${dados.id}"></td>
+                        <td th:text="${dados.nome}"></td>
+                        <td th:text="${dados.email}"></td>
+                        <td th:text="${#temporals.format(dados.dataNascimento, 'dd/MM/yyyy')}"></td>
+                        <td><span class="badge bg-success" th:if="${dados.cadastroAtivo == true}">ATIVO</span><span class="badge bg-danger" th:if="${dados.cadastroAtivo != true}">INATIVO</span></td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Ações">
+                                <a class="btn btn-info" role="button" th:href="@{/pessoas/{id}/visualizar(id=${dados.id})}"><i class="fas fa-eye"></i> Visualizar dados</a>
+                                <a class="btn btn-primary" role="button" th:href="@{/pessoas/{id}/alterar(id=${dados.id})}"><i class="fas fa-edit"></i> Alterar</a>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" th:attr="data-action-url=@{/pessoas/{id}/excluir(id=${dados.id})}, data-item-id=${dados.id}" ><i class="fas fa-trash-alt"></i> Excluir</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <a class="btn btn-lg btn-success" role="button" th:href="@{/pessoas/incluir}"><i class="fas fa-plus-square"></i> Incluir novo</a>
+            </div>
+        </div>
+        <div layout:fragment="modal-area">
+            <div class="modal fade" id="modalExcluir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel"><i class="fas fa-trash-alt"></i> Confirmar exclusão</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="modalExcluirMsg">Confirma exclusão?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Não</button>
+                            <form id="modalExcluirForm" style="display: inline-block" method="post">
+                                <button type="submit" class="btn btn-danger">Sim</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script layout:fragment="script-area" th:inline="javascript">
+            ready(function() {
+                // Modifica as informações do modal para confirmar exclusão
+                document.getElementById('modalExcluir').addEventListener('show.bs.modal', function(evt) {
+
+                    let botaoExcluir = evt.relatedTarget; // Botão clicado que disparou evento
+                    let excluirActionUrl = botaoExcluir.dataset.actionUrl; // Recupera informação do atributo data-action-url
+                    let itemId = botaoExcluir.dataset.itemId; // Recupera informação do atributo data-item.id
+
+                    this.querySelector('#modalExcluirMsg').innerHTML = `Confirma remoção do item ID ${itemId}?`;
+                    this.querySelector('#modalExcluirForm').action = excluirActionUrl;
+                })
+            })
+        </script>
+    </body>
+</html>

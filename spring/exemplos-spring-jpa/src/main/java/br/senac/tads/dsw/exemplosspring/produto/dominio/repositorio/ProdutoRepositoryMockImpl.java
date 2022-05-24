@@ -30,9 +30,9 @@ public class ProdutoRepositoryMockImpl implements ProdutoRepository {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    private Map<Long, Produto> mapItens;
+    private Map<Integer, Produto> mapItens;
 
-    private long sequenciaId = 0;
+    private int sequenciaId = 0;
 
     @PostConstruct
     public void init() {
@@ -131,7 +131,7 @@ public class ProdutoRepositoryMockImpl implements ProdutoRepository {
     }
 
     @Override
-    public Produto findById(Long id) {
+    public Produto findById(Integer id) {
         return mapItens.get(id);
     }
 
@@ -146,7 +146,7 @@ public class ProdutoRepositoryMockImpl implements ProdutoRepository {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         mapItens.remove(id);
     }
 

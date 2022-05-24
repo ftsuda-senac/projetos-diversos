@@ -22,6 +22,8 @@ public interface ProdutoRepositorySpringData extends JpaRepository<Produto, Long
 
     List<Produto> findByNome(String nome);
 
+    List<Produto> findByNomeIgnoreCase(String nome);
+
     List<Produto> findByNomeIgnoreCaseContaining(String nome);
 
     // USAR JPQL COM Spring Data JPA
@@ -34,4 +36,6 @@ public interface ProdutoRepositorySpringData extends JpaRepository<Produto, Long
     List<Produto> buscaPorNomeSql(@Param("termoBusca") String nome);
 
     List<Produto> findByPrecoVendaGreaterThanAndPrecoVendaLessThan(BigDecimal min, BigDecimal max);
+
+    //void deleteById(Long id);
 }

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html layout:decorate="~{modelo-bs5}">
+    <head>
+        <meta charset="UTF-8">
+        <title>Exemplo Spring + JPA</title>
+    </head>
+    <body>
+        <div layout:fragment="conteudo">
+            <h1>Exemplo Spring + JPA</h1>
+
+            <div class="px-4 py-2 my-3 bg-light rounded-3">
+                <div class="container-fluid py-5">
+                    <h2 class="display-5 fw-bold mb-3">Objetivos</h2>
+                    <hr/>
+                    <ul>
+                        <li class="fs-4">Explorar a aplicação (tanto código-fonte quanto através de navegação) para ver as funcionalidades e o comportamento delas</li>
+                        <li class="fs-4">Alterar a aplicação para usar o JPA do JEE com banco de dados H2</li>
+                        <li class="fs-4">Alterar a aplicação para usar o Spring Data JPA com banco de dados H2</li>
+                        <li class="fs-4">Incluir funcionalidade para upload de fotos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <h2>Informações importantes</h2>
+                <ul>
+                    <li>Este exemplo inicialmente usa alguns dados mockeados para possibilitar a navegação entre telas simulando a aplicação final</li>
+                    <li>Conceitos já vistos anteriormente usados neste exemplo:
+                        <ul>
+                            <li>Criação de telas usando tecnologias web
+                                <ul>
+                                    <li>HTML</li>
+                                    <li>CSS</li>
+                                    <li>Javascript</li>
+                                    <li>(foi usado a tela da primeira atividade)</li>
+                                </ul>
+                            </li>
+                            <li>Criação de funcionalidades usando Spring MVC (GET/POST) + Thymeleaf</li>
+                            <li>POST-Redirect-GET</li>
+                            <li>Validação de dados</li>
+                            <li>Componentização de seções das telas usando Layout Dialect</li>
+                            <li>Criação de rota para acessar arquivos em diretórios externos</li>
+                        </ul>
+                    </li>
+                    <li>Para apresentar as imagens, obtê-las a partir do seguinte endereço: <a href="https://1drv.ms/u/s!AnEDdBYgtN7hg6ZL_cMuH0LA7bpsFQ?e=fVyrpF" target="_blank" rel="nofollow noreferer">https://1drv.ms/u/s!AnEDdBYgtN7hg6ZL_cMuH0LA7bpsFQ?e=fVyrpF</a>.
+                        <ul>
+                            <li>Após descompactar, alterar o diretório onde elas se encontram no arquivo <code>/src/main/resources/application.properties</code> e reiniciar a aplicação.</li>
+                            <li>Todas elas foram geradas através do uso da API Fake Face (<a href="https://hankhank10.github.io/fakeface/" target="_blank" rel="nofollow noreferer">https://hankhank10.github.io/fakeface/</a>)</li>
+                        </ul>
+                    </li> 
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

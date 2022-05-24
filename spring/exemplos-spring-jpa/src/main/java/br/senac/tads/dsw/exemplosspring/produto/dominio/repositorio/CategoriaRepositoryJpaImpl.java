@@ -34,10 +34,10 @@ public class CategoriaRepositoryJpaImpl implements CategoriaRepository {
     @Override
     public Categoria save(Categoria cat) {
         if (cat.getId() == null) {
-            // Incluindo nova categoria
+            // Incluir nova categoria
             em.persist(cat);
         } else {
-            // Atualiza categoria existente
+            // Atualizar categoria existente
             cat = em.merge(cat);
         }
         return cat;

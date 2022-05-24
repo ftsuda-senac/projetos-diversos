@@ -4,7 +4,6 @@
  */
 package br.senac.tads.dsw.exemplosspring.produto.dominio.entidade;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,9 +20,7 @@ import javax.validation.constraints.Size;
  * @author fernando.tsuda
  */
 @Entity
-public class ImagemProduto implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class ImagemProduto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +36,7 @@ public class ImagemProduto implements Serializable {
     private String legenda;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_produto")
+    @JoinColumn(name = "produto_id")
     private Produto produto;
 
     public ImagemProduto() {

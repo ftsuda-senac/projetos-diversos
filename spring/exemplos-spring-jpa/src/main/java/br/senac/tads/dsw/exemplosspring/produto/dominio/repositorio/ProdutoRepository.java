@@ -10,10 +10,10 @@ public interface ProdutoRepository {
 
     List<Produto> findByCategoria(List<Integer> idsCat, int offset, int quantidade);
 
-    Produto findById(Long id);
+    Produto findById(Integer id);
 
     Produto save(Produto p);
 
-    void deleteById(Long id);
+    void deleteById(Integer id);
 
 }

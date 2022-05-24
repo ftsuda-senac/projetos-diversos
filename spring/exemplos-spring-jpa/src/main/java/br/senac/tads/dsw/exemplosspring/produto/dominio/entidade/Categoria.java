@@ -4,7 +4,6 @@
  */
 package br.senac.tads.dsw.exemplosspring.produto.dominio.entidade;
 
-import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,9 +20,7 @@ import javax.validation.constraints.Size;
  * @author fernando.tsuda
  */
 @Entity
-public class Categoria implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

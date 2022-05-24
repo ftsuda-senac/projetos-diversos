@@ -4,7 +4,6 @@
  */
 package br.senac.tads.dsw.exemplosspring.produto.dominio.entidade;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,24 +32,22 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@NamedQueries({@
-        NamedQuery(name = "Produto.findAll", query = "SELECT p FROM Produto p"),
+@NamedQueries({
+        @NamedQuery(name = "Produto.findAll", query = "SELECT p FROM Produto p"),
         @NamedQuery(name = "Produto.findAllByCategorias_Id", query = "SELECT DISTINCT p FROM Produto p INNER JOIN p.categorias c WHERE c.id IN :idsCat"),
         @NamedQuery(name = "Produto.findById", query = "SELECT p FROM Produto p WHERE p.id = :idProd"),
-        @NamedQuery(name = "Produto.findByIdComFetch", query = "SELECT p FROM Produto p LEFT JOIN FETCH p.categorias LEFT JOIN FETCH p.imagens WHERE p.id = :idProd")})
+        @NamedQuery(name = "Produto.findByIdComJoinFetch", query = "SELECT p FROM Produto p LEFT JOIN FETCH p.categorias LEFT JOIN FETCH p.imagens WHERE p.id = :idProd")})
 @NamedEntityGraphs({
     @NamedEntityGraph(name = "graph.ProdutoCategoriasImagens", attributeNodes = {
         @NamedAttributeNode(value = "categorias"),
         @NamedAttributeNode(value = "imagens")
     })
 })
-public class Produto implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotBlank
     @Size(min = 1, max = 100)
@@ -83,8 +80,8 @@ public class Produto implements Serializable {
     private LocalDateTime dtCadastro;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "ID_PRODUTO"),
-            inverseJoinColumns = @JoinColumn(name = "ID_CATEGORIA"))
+    @JoinTable(name = "produto_categoria", joinColumns = @JoinColumn(name = "produto_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     private Set<Categoria> categorias;
 
     // "produto" é o atributo na classe ImagemProduto onde o @ManyToOne foi configurado
@@ -116,7 +113,7 @@ public class Produto implements Serializable {
         this.dtCadastro = dtCadastro;
     }
 
-    public Produto(Long id, String nome, String descricao, BigDecimal precoCompra,
+    public Produto(Integer id, String nome, String descricao, BigDecimal precoCompra,
             BigDecimal precoVenda, int quantidade, boolean disponivel, LocalDateTime dtCadastro) {
         this(nome, descricao, precoCompra, precoVenda, quantidade, disponivel, dtCadastro);
         this.id = id;
@@ -130,7 +127,7 @@ public class Produto implements Serializable {
         this.categorias = categorias;
     }
 
-    public Produto(Long id, String nome, String descricao, BigDecimal precoCompra,
+    public Produto(Integer id, String nome, String descricao, BigDecimal precoCompra,
             BigDecimal precoVenda, int quantidade, boolean disponivel, LocalDateTime dtCadastro,
             Set<ImagemProduto> imagens, Set<Categoria> categorias) {
         this(nome, descricao, precoCompra, precoVenda, quantidade, disponivel, dtCadastro, imagens,
@@ -138,11 +135,11 @@ public class Produto implements Serializable {
         this.id = id;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

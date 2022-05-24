@@ -1,0 +1,48 @@
+@charset 'utf-8';
+
+.dados-pessoa {
+    /* Gerado em https://css.glass/ */
+    background: rgba(255, 255, 255, 0.2);
+    border: 8px outset rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: all 0.5s ease-in-out;
+}
+.dados-pessoa:hover {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(10px);
+    transform: scale(1.03);
+    box-shadow: 5px 9px 30px rgba(0, 0, 0, 0.8);
+}
+
+.dados-pessoa .pessoa-nome {
+    transition: all 0.5s ease-in-out;
+}
+
+/* Efeito neon - https://css-tricks.com/how-to-create-neon-text-with-css/ */
+.dados-pessoa:hover .pessoa-nome {
+    text-shadow:
+        0 0 7px #fff,
+        0 0 10px #fff,
+        0 0 21px #fff,
+        0 0 42px #0fa,
+        0 0 82px #0fa,
+        0 0 92px #0fa,
+        0 0 102px #0fa,
+        0 0 151px #0fa;
+}
+
+.dados-pessoa > .pessoa-contatos > a {
+    white-space: nowrap;
+}
+
+.dados-pessoa > :is(.pessoa-contatos, .pessoa-interesses) {
+    background-color: white;
+}
+
+.dados-pessoa > .card-footer {
+    background: linear-gradient(90deg, #e5e5e5 0%, #a0a0a0 100%);
+}

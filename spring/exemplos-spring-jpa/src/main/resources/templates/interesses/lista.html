@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html layout:decorate="~{modelo-bs5}">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div layout:fragment="conteudo">
+            <h1>Listagem de interesses</h1>
+            <div class="alert alert-success" role="alert" th:if="${!#strings.isEmpty(msgSucesso)}">
+                <h4 class="alert-heading">Sucesso</h4>
+                <p class="mb-0" th:text="${msgSucesso}"></p>
+            </div>
+            <div class="alert alert-danger" role="alert" th:if="${!#strings.isEmpty(msgErro)}">
+                <h4 class="alert-heading">Erro</h4>
+                <p class="mb-0" th:text="${msgErro}"></p>
+            </div>
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="dados : ${dadosLista}">
+                        <td th:text="${dados.id}"></td>
+                        <td th:text="${dados.nome}"></td>
+                        <td>
+                            <a class="btn btn-primary" role="button" th:href="@{/interesses/{id}/alterar(id=${dados.id})}"><i class="fas fa-edit"></i> Alterar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <a class="btn btn-lg btn-success" role="button" th:href="@{/interesses/incluir}"><i class="fas fa-plus-square"></i> Incluir novo</a>
+            </div>
+        </div>
+    </body>
+</html>

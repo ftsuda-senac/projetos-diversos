@@ -32,9 +32,9 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
         String sqlProduto =
                 "SELECT ID, NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DISPONIVEL, DT_CADASTRO FROM PRODUTO";
         String sqlImagensProduto =
-                "SELECT ID, NOME_ARQUIVO, LEGENDA FROM IMAGEM_PRODUTO WHERE ID_PRODUTO = ?";
+                "SELECT ID, NOME_ARQUIVO, LEGENDA FROM IMAGEM_PRODUTO WHERE PRODUTO_ID = ?";
         String sqlProdutoCategoria =
-                "SELECT ID_CATEGORIA FROM PRODUTO_CATEGORIA WHERE ID_PRODUTO = ?";
+                "SELECT ID_CATEGORIA FROM PRODUTO_CATEGORIA WHERE PRODUTO_ID = ?";
 
         List<Produto> produtos = new ArrayList<>();
         try (Connection conn = dataSource.getConnection();
@@ -44,7 +44,7 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
             if (rs != null) {
                 while (rs.next()) {
                     Produto p = new Produto();
-                    p.setId(rs.getLong("ID"));
+                    p.setId(rs.getInt("ID"));
                     p.setNome(rs.getString("NOME"));
                     p.setDescricao(rs.getString("DESCRICAO"));
                     p.setPrecoCompra(rs.getBigDecimal("PRECO_COMPRA"));
@@ -79,7 +79,7 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
                         stmtCat.setLong(1, p.getId());
                         try (ResultSet rsCat = stmtCat.executeQuery()) {
                             while (rsCat.next()) {
-                                categorias.add(mapCategorias.get(rsCat.getInt("ID_CATEGORIA")));
+                                categorias.add(mapCategorias.get(rsCat.getInt("CATEGORIA_ID")));
                             }
                         }
                     }
@@ -87,8 +87,8 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
                     produtos.add(p);
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return produtos;
     }
@@ -100,17 +100,17 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
     }
 
     @Override
-    public Produto findById(Long id) {
+    public Produto findById(Integer id) {
         String sqlProduto =
                 "SELECT ID, NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DISPONIVEL, DT_CADASTRO FROM PRODUTO WHERE ID = ?";
         String sqlImagensProduto =
-                "SELECT ID, NOME_ARQUIVO, LEGENDA FROM IMAGEM_PRODUTO WHERE ID_PRODUTO = ?";
+                "SELECT ID, NOME_ARQUIVO, LEGENDA FROM IMAGEM_PRODUTO WHERE PRODUTO_ID = ?";
         String sqlProdutoCategoria =
-                "SELECT ID_CATEGORIA FROM PRODUTO_CATEGORIA WHERE ID_PRODUTO = ?";
+                "SELECT ID_CATEGORIA FROM PRODUTO_CATEGORIA WHERE PRODUTO_ID = ?";
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sqlProduto)) {
-            stmt.setLong(1, id);
+            stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs != null) {
                     while (rs.next()) {
@@ -152,7 +152,7 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
                             stmtCat.setLong(1, p.getId());
                             try (ResultSet rsCat = stmtCat.executeQuery()) {
                                 while (rsCat.next()) {
-                                    categorias.add(mapCategorias.get(rsCat.getInt("ID_CATEGORIA")));
+                                    categorias.add(mapCategorias.get(rsCat.getInt("CATEGORIA_ID")));
                                 }
                             }
                         }
@@ -161,8 +161,8 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
                     }
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return null;
     }
@@ -181,9 +181,9 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
         String sqlProduto =
                 "INSERT INTO PRODUTO (NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DISPONIVEL, DT_CADASTRO) VALUES (?,?,?,?,?,?,?)";
         String sqlProdutoCategoriaIns =
-                "INSERT INTO PRODUTO_CATEGORIA (ID_PRODUTO, ID_CATEGORIA) VALUES(?,?)";
+                "INSERT INTO PRODUTO_CATEGORIA (PRODUTO_ID, CATEGORIA_ID) VALUES(?,?)";
         String sqlImagemIns =
-                "INSERT INTO IMAGEM_PRODUTO (NOME_ARQUIVO, LEGENDA, ID_PRODUTO) VALUES (?,?,?)";
+                "INSERT INTO IMAGEM_PRODUTO (NOME_ARQUIVO, LEGENDA, PRODUTO_ID) VALUES (?,?,?)";
 
         int resultados = 0;
         try (Connection conn = dataSource.getConnection()) {
@@ -205,7 +205,7 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
                 if (resultados > 0) {
                     try (ResultSet chaves = stmt.getGeneratedKeys()) {
                         if (chaves != null && chaves.next()) {
-                            p.setId(chaves.getLong(1));
+                            p.setId(chaves.getInt(1));
                         }
                     }
                     // Incluindo novo produto - inclui as imagens cadastradas
@@ -238,18 +238,18 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
             } else {
                 conn.rollback();
             }
-        } catch (SQLException e) {
+        } catch (SQLException ex) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            ex.printStackTrace();
         }
     }
 
     private void update(Produto p) {
         String sqlProduto =
                 "UPDATE PRODUTO SET NOME=?, DESCRICAO=?, PRECO_COMPRA=?, PRECO_VENDA=?, QUANTIDADE=?, DISPONIVEL=? WHERE ID=?";
-        String sqlProdutoCategoriaDel = "DELETE FROM PRODUTO_CATEGORIA WHERE ID_PRODUTO=?";
+        String sqlProdutoCategoriaDel = "DELETE FROM PRODUTO_CATEGORIA WHERE PRODUTO_ID=?";
         String sqlProdutoCategoriaIns =
-                "INSERT INTO PRODUTO_CATEGORIA (ID_PRODUTO, ID_CATEGORIA) VALUES(?,?)";
+                "INSERT INTO PRODUTO_CATEGORIA (PRODUTO_ID, CATEGORIA_ID) VALUES(?,?)";
 
         int resultados = 0;
         try (Connection conn = dataSource.getConnection()) {
@@ -289,31 +289,31 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
             } else {
                 conn.rollback();
             }
-        } catch (SQLException e) {
+        } catch (SQLException ex) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            ex.printStackTrace();
         }
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         String sqlProd = "DELETE FROM PRODUTO WHERE ID=?";
-        String sqlProdCat = "DELETE FROM PRODUTO_CATEGORIA WHERE ID_PRODUTO=?";
-        String sqlImg = "DELETE FROM IMAGEM_PRODUTO WHERE ID_PRODUTO=?";
+        String sqlProdCat = "DELETE FROM PRODUTO_CATEGORIA WHERE PRODUTO_ID=?";
+        String sqlImg = "DELETE FROM IMAGEM_PRODUTO WHERE PRODUTO_ID=?";
 
         int resultados = 0;
         try (Connection conn = dataSource.getConnection()) {
             conn.setAutoCommit(false);
             try (PreparedStatement stmtProdCat = conn.prepareStatement(sqlProdCat)) {
-                stmtProdCat.setLong(1, id);
+                stmtProdCat.setInt(1, id);
                 stmtProdCat.executeUpdate();
             }
             try (PreparedStatement stmtImg = conn.prepareStatement(sqlImg)) {
-                stmtImg.setLong(1, id);
+                stmtImg.setInt(1, id);
                 stmtImg.executeUpdate();
             }
             try (PreparedStatement stmt = conn.prepareStatement(sqlProd)) {
-                stmt.setLong(1, id);
+                stmt.setInt(1, id);
                 resultados = stmt.executeUpdate();
             }
             if (resultados > 0) {
@@ -321,15 +321,15 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
             } else {
                 conn.rollback();
             }
-        } catch (SQLException e) {
+        } catch (SQLException ex) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            ex.printStackTrace();
         }
     }
 
     private void insertImagem(Connection conn, Long idProd, ImagemProduto img) {
         String sql =
-                "INSERT INTO IMAGEM_PRODUTO (NOME_ARQUIVO, LEGENDA, ID_PRODUTO) VALUES (?,?,?)";
+                "INSERT INTO IMAGEM_PRODUTO (NOME_ARQUIVO, LEGENDA, PRODUTO_ID) VALUES (?,?,?)";
     }
 
     private void updateImagem(Connection conn, ImagemProduto img) {

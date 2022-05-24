@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html layout:decorate="~{modelo-bs5}">
+    <head>        
+        <meta charset="UTF-8">
+        <link rel="stylesheet" th:href="@{/css/estilos-visualizacao-lista.css}" />
+        <style th:inline="css">
+            body {
+                background: rgb(172,112,6);
+                /* Gerado em https://cssgradient.io/ */
+                background: linear-gradient(45deg, rgba(172,112,6,1) 0%, rgba(127,0,250,1) 40%, rgba(127,0,250,0) 70%) no-repeat fixed, url("[(@{/img/montanhas.jpg})]") no-repeat fixed center center;
+                background-size: cover, cover;
+            }
+        </style>
+    </head>
+    <body>
+        <div layout:fragment="conteudo">
+            <h1 class="mb-5">Listagem das pessoas</h1>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+                <div class="col" th:each="dados : ${dadosLista}">
+                    <div class="card h-100 dados-pessoa">
+                        <img class="card-img-top pessoa-avatar"
+                             th:src="@{__${imagemUrlPrefix}__/__${dados.arquivoFoto}__}" 
+                             th:alt-title="'Foto do perfil ' + ${dados.nome}" />
+                        <div class="card-body flex-grow-1">
+                            <h5 class="card-title text-center pessoa-nome" th:text="${dados.nome}"></h5>
+                            <p class="card-text pessoa-descricao" th:text="${dados.descricao}"></p>
+                        </div>
+                        <ul class="list-group list-group-flush flex-grow-0 pessoa-interesses">
+                            <th:block th:each="interesse, stat : ${dados.interesses}" th:if="${stat.count < 3}">
+                                <li class="list-group-item"
+                                    th:if="${stat.count == 1}"
+                                    th:text="${interesse.nome}"></li>
+                                <li class="list-group-item"
+                                    th:if="${stat.count == 2 && (stat.size - stat.count == 0)}"
+                                    th:text="${interesse.nome}"></li>
+                                <li class="list-group-item"
+                                    th:if="${stat.count == 2 && (stat.size - stat.count > 0)}"
+                                    th:text="${interesse.nome} + ' e mais ' + ${stat.size - stat.count}"></li>
+                            </th:block>
+                        </ul>
+                        <div class="card-body flex-grow-0 d-flex flex-row justify-content-between pessoa-contatos">
+                            <a th:href="'mailto:' + ${dados.email}" class="card-link"
+                               data-bs-toggle="tooltip" data-bs-placement="top"
+                               th:title="${dados.email}"><i class="fas fa-envelope fa-2x" style="color: #f39c12;"></i></a>
+                            <a th:href="'tel:' + ${dados.telefone}" class="card-link" 
+                               data-bs-toggle="tooltip" data-bs-placement="top"
+                               th:title="${dados.telefone}"><i class="fas fa-phone fa-2x" style="color: black;"></i></a>
+                            <a th:href="@{__${dados.linkedinUrl}__}" class="card-link" 
+                               target="_blank" rel="nofollow noreferer" 
+                               data-bs-toggle="tooltip" data-bs-placement="top"
+                               th:title="${dados.linkedinUrl}"><i class="fab fa-linkedin fa-2x" style="color: #0A66C2;"></i></a>
+                            <a th:href="@{__${dados.githubUrl}__}" class="card-link" 
+                               target="_blank" rel="nofollow noreferer" 
+                               data-bs-toggle="tooltip" data-bs-placement="top"
+                               th:title="${dados.githubUrl}"><i class="fab fa-github fa-2x" style="color: #333333;"></i></a>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-grid gap-2">
+                                <a th:href="@{/pessoas/{id}/visualizar(id=${dados.id})}" role="button" class="btn btn-outline-dark">Ver mais</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <script layout:fragment="script-area">
+            ready(function () {
+                // Ativação dos tooltips do BS5
+                const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl, {
+                        boundary: document.body
+                    });
+                });
+                
+                // Carrega imagem padrão para avatar caso a imagem original não exista
+                document.querySelectorAll('.pessoa-avatar').forEach(function(el) {
+                        el.addEventListener('error', function(evt) {
+                        evt.currentTarget.src = '[(@{/img/avatar-padrao.jpg})]';
+                    });
+                });
+                
+                // Truncar descrições grandes usando clamp.js
+                // Referencia: https://css-tricks.com/line-clampin/#aa-the-clamp-js-way
+                document.querySelectorAll(".pessoa-descricao").forEach(function(el) {
+                    $clamp(el, {clamp: 4});
+                });
+            });
+        </script>
+    </body>
+</html>

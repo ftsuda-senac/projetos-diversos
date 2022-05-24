@@ -23,6 +23,10 @@ public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
 
     @Override
     public List<Produto> findAll(int offset, int quantidade) {
+//        TypedQuery<Produto> jpqlQuery =
+//                em.createQuery("SELECT p FROM Produto p", Produto.class)
+//                        .setFirstResult(offset)
+//                        .setMaxResults(quantidade);
         TypedQuery<Produto> jpqlQuery = em.createNamedQuery("Produto.findAll", Produto.class)
                 .setFirstResult(offset).setMaxResults(quantidade);
         return jpqlQuery.getResultList();
@@ -35,15 +39,14 @@ public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
         CriteriaQuery<Produto> criteriaQuery = cb.createQuery(Produto.class);
         criteriaQuery.from(Produto.class);
         TypedQuery<Produto> query = em.createQuery(criteriaQuery)
-
                 .setFirstResult(offset).setMaxResults(quantidade);
         return query.getResultList();
     }
 
     @Override
     public List<Produto> findByCategoria(List<Integer> idsCat, int offset, int quantidade) {
-        TypedQuery<Produto> jpqlQuery =
-                em.createNamedQuery("Produto.findAllByCategorias_Id", Produto.class)
+        TypedQuery<Produto> jpqlQuery
+                = em.createNamedQuery("Produto.findAllByCategorias_Id", Produto.class)
                         .setParameter("idsCat", idsCat);
         return jpqlQuery.getResultList();
     }
@@ -56,18 +59,28 @@ public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
         Predicate categoriaPredicate = categoriaExpression.in(idsCat);
         criteriaQuery.where(categoriaPredicate);
 
-        TypedQuery<Produto> query =
-                em.createQuery(criteriaQuery).setFirstResult(offset).setMaxResults(quantidade);
+        TypedQuery<Produto> query
+                = em.createQuery(criteriaQuery).setFirstResult(offset).setMaxResults(quantidade);
         return query.getResultList();
     }
 
+    // OBS: FUNÇÃO PADRÃO QUE SÓ FUNCIONA COM open-in-view=TRUE NO ARQUIVO application.properties
+    // SE CONFIGURAR open-in-view=false NO ARQUIVO application.properties, IRÁ OCORRER UM ERRO 
     @Override
-    public Produto findById(Long id) {
-        //
-        TypedQuery<Produto> jpqlQuery =
-                em.createNamedQuery("Produto.findById", Produto.class).setParameter("idProd", id);
+    public Produto findById(Integer id) {
+        TypedQuery<Produto> jpqlQuery
+                = em.createNamedQuery("Produto.findById", Produto.class).setParameter("idProd", id);
         Produto p = jpqlQuery.getSingleResult();
         return p;
+    }
+
+    // OBS: PARA TESTAR, CONFIGURAR open-in-view=false NO ARQUIVO application.properties
+    public Produto findByIdComJoinFetch(Long id) {
+        TypedQuery<Produto> jpqlQuery
+                = em.createNamedQuery("Produto.findByIdComJoinFetch", Produto.class)
+                        .setParameter("idProd", id);
+        Produto prod = jpqlQuery.getSingleResult();
+        return prod;
     }
 
     public Produto findByIdCriteria(Long id) {
@@ -87,20 +100,24 @@ public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
     // javax.persistence.fetchgraph --> Campos que serão retornados devem estar explicitos
     // javax.persistence.loadgraph --> Campos que serão retornados são adicionais aos campos padrao
     // definidos no modelo
+    // OBS: PARA TESTAR, CONFIGURAR open-in-view=false NO ARQUIVO application.properties
     public Produto findByIdEntityGraph(Long id) {
         EntityGraph<Produto> entityGraph = em.createEntityGraph(Produto.class);
         entityGraph.addAttributeNodes("categorias", "imagens");
 
         Query jpqlQuery = em.createQuery("SELECT p FROM Produto p WHERE p.id = :idProd")
-                .setParameter("idProd", id).setHint("javax.persistence.loadgraph", entityGraph);
+                .setParameter("idProd", id)
+                .setHint("javax.persistence.loadgraph", entityGraph);
         return (Produto) jpqlQuery.getSingleResult();
     }
 
     // https://thoughts-on-java.org/jpa-21-entity-graph-part-1-named-entity/
+    // OBS: PARA TESTAR, CONFIGURAR open-in-view=false NO ARQUIVO application.properties
     public Produto findByIdNamedEntityGraph(Long id) {
         EntityGraph<?> namedEntityGraph = em.getEntityGraph("graph.ProdutoCategoriasImagens");
 
-        Query jpqlQuery = em.createNamedQuery("Produto.findById").setParameter("idProd", id)
+        Query jpqlQuery = em.createNamedQuery("Produto.findById")
+                .setParameter("idProd", id)
                 .setHint("javax.persistence.loadgraph", namedEntityGraph);
         return (Produto) jpqlQuery.getSingleResult();
     }
@@ -109,10 +126,10 @@ public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
     @Transactional
     public Produto save(Produto prod) {
         if (prod.getId() == null) {
-            // Salva um novo produto
+            // Incluir novo produto
             em.persist(prod);
         } else {
-            // Atualiza um produto existente
+            // Atualizar um produto existente
             prod = em.merge(prod);
         }
         return prod;
@@ -120,9 +137,9 @@ public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
 
     @Override
     @Transactional
-    public void deleteById(Long id) {
-        // TEM QUE FAZER CONSULTA PARA OBJETO FICAR ASSOCIADO AO
-        // ENTITY MANAGER (ATTACHED)
+    public void deleteById(Integer id) {
+        // TEM QUE FAZER CONSULTA PARA OBJETO FICAR ASSOCIADO (ATTACHED) 
+        // AO ENTITY MANAGER 
         Produto prod = em.find(Produto.class, id);
         em.remove(prod);
     }
