@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html layout:decorate="~{modelo-bs5}">
+    <head>
+        <meta charset="UTF-8">
+        <title>Exemplo Web Services REST</title>
+    </head>
+    <body>
+        <div layout:fragment="conteudo">
+            <h1>Exemplo Web Services REST</h1>
+
+            <div class="px-4 py-2 my-3 bg-light rounded-3">
+                <div class="container-fluid py-5">
+                    <h2 class="display-5 fw-bold mb-3">Objetivos</h2>
+                    <hr/>
+                    <ul>
+                        <li class="fs-4">Explorar a aplicação (tanto código-fonte quanto através de navegação) para ver as funcionalidades e o comportamento delas</li>
+                        <li class="fs-4">Reimplementar funcionalidades principais como Webservices REST</li>
+                        <li class="fs-4">Recriar as telas usando HTML + JS + AJAX para consumir dados do Webservice</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <h2>Informações importantes</h2>
+                <ul>
+                    <li>Este exemplo foi baseado no mesmo exemplo usado para apresentação do JPA e cria um banco de dados H2 e insere alguns dados na primeira execução.</li>
+                    <li><strong class="badge bg-danger">**** IMPORTANTE ****</strong> Após abrir o projeto no Netebeans, rodar o comando <em>Clean and Build</em> ANTES de executá-lo.</li>
+                    <li>Para apresentar as imagens, obtê-las a partir do seguinte endereço: <a href="https://1drv.ms/u/s!AnEDdBYgtN7hg6ZL_cMuH0LA7bpsFQ?e=fVyrpF" target="_blank" rel="nofollow noreferer">https://1drv.ms/u/s!AnEDdBYgtN7hg6ZL_cMuH0LA7bpsFQ?e=fVyrpF</a>.
+                        <ul>
+                            <li>Mover o arquivo .zip para um diretório adequado da sua máquina e descompactar (OBS: EVITAR COLOCAR DENTRO DA PASTA DO PROJETO)</li>
+                            <li>Após descompactar, alterar o diretório onde elas se encontram no arquivo <code>/src/main/resources/application.properties</code> na propriedade <code>app.imagem-path</code> e reiniciar a aplicação.</li>
+                            <li>Todas elas foram geradas através do uso da API Fake Face (<a href="https://hankhank10.github.io/fakeface/" target="_blank" rel="nofollow noreferer">https://hankhank10.github.io/fakeface/</a>)</li>
+                        </ul>
+                    </li> 
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

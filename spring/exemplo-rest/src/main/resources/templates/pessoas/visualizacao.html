@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="${dados.nome + ' - Dados pessoais'}"></title>
+        <link rel="stylesheet" th:href="@{/css/estilos-visualizacao.css}" />
+    </head>
+
+    <body>
+        <main>
+            <header>
+                <h1 th:text="${dados.nome}">BATMAN</h1>
+                <h3>VERSÃO MVC Tradicional</h3>
+            </header>
+            <section class="dados-contato">
+                <div>
+                    <img class="pessoa-avatar" th:src="@{__${imagemUrlPrefix}__/__${dados.arquivoFoto}__}" title="Foto do perfil" />
+                </div>
+                <div>
+                    <p>Data de nascimento: <span th:text="${#temporals.format(dados.dataNascimento, 'dd/MM/yyyy')}">01/01/1982</span></p>
+                    <p>Telefone: <span th:text="${dados.telefone}">(11) 99999-1234</span></p>
+                    <p>E-mail: <span th:text="${dados.email}">BATMAN@teste.com.br</span></p>
+                    <p>LinkedIn: <a th:href="@{__${dados.linkedinUrl}__}" th:text="${dados.linkedinUrl}">https://br.linkedin.com/in/BATMAN</a></p>
+                    <p>Github: <a th:href="@{__${dados.githubUrl}__}" th:text="${dados.githubUrl}">https://github.com/BATMAN</a></p>
+                </div>
+            </section>
+            <section class="dados-gerais interesses">
+                <h3>Interesses</h3>
+                <span th:unless="${dados.interesses != null && #arrays.length(dados.interesses) > 0}">Nenhum selecionado</span>
+                <ul th:if="${dados.interesses != null && #arrays.length(dados.interesses) > 0}">
+                    <li th:each="interesse : ${dados.interesses}" th:text="${interesse.nome}"></li>
+                </ul>
+            </section>
+            <section class="dados-gerais" id="outros">
+                <h3>Outras informações</h3>
+                <p>Sexo:
+                <th:block th:switch="${dados.genero}">
+                    <span th:case="0">Feminino</span>
+                    <span th:case="1">Masculino</span>
+                    <span th:case="2">Outro</span>
+                    <span th:case="*">Não informado</span>
+                </th:block>
+                </p>
+                <p>Número: <span th:text="${dados.numero}"></span></p>
+                <p>Altura: <span th:text="${dados.altura}"></span> metros</p>
+                <p>Peso: <span th:text="${dados.peso}"></span> kg</p>
+                <p>IMC: <span><span th:text="${dados.imc}"></span>&nbsp;(<em th:text="${dados.imcTexto}"></em>)</span></p>
+            </section>
+        </main>
+        <script th:src="@{/js/funcoes.js}"></script>
+        <script th:inline="javascript">
+            ready(function() {
+                // Carrega imagem padrão para avatar caso a imagem original não exista
+                document.querySelector('.pessoa-avatar').addEventListener('error', function(evt) {
+                  evt.currentTarget.src = '[(@{/img/avatar-padrao.jpg})]';
+                });
+            });
+        </script>
+    </body>
+
+</html>

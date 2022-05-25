@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Madruga - Dados pessoais</title>
+        <link rel="stylesheet" href="/css/estilos-visualizacao.css" />
+    </head>
+    <body>
+        <main>
+            <header>
+                <h1 id="nome">MADRUGA</h1>
+                <h3>VERSÃO APP Frontend (Estático + AJAX)</h3>
+            </header>
+            <section class="dados-contato">
+                <div>
+                    <img id="imgAvatar" class="pessoa-avatar" src="/img/avatar-padrao.jpg" title="Foto do perfil" />
+                </div>
+                <div>
+                    <p>Data de nascimento: <span id="dataNascimento">06/03/1969</span></p>
+                    <p>Telefone: <span id="telefone">(11) 99999-1234</span></p>
+                    <p>E-mail: <span id="email">MADRUGA@teste.com.br</span></p>
+                    <p>LinkedIn: <a href="#" id="linkedinUrl">https://br.linkedin.com/in/MADRUGA</a></p>
+                    <p>Github: <a href="#" id="githubUrl">https://github.com/MADRUGA</a></p>
+                </div>
+            </section>
+            <section class="dados-gerais interesses">
+                <h3>Interesses</h3>
+                <ul id="listaInteresses">
+                    <li>Python</li>
+                </ul>
+            </section>
+            <section class="dados-gerais" id="outros">
+                <h3>Outras informações</h3>
+                <p>Sexo:
+                    <span id="genero">Masculino</span>
+                </p>
+                <p>Número: <span id="numero">32</span></p>
+                <p>Altura: <span id="altura">1.35</span> metros</p>
+                <p>Peso: <span id="peso">130.2</span> kg</p>
+                <p>IMC: <span><span id="imc">71.4</span>&nbsp;(<em id="imcTexto">OBESIDADE</em>)</span></p>
+            </section>
+        </main>
+        <script src="/js/funcoes.js"></script>
+        <script>
+            ready(function () {
+                // Carrega imagem padrão para avatar caso a imagem original não exista
+                document.querySelector('.pessoa-avatar').addEventListener('error', function (evt) {
+                    evt.currentTarget.src = '/img/avatar-padrao.jpg';
+                });
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const idPessoa = urlParams.get('id');
+                if (idPessoa) {
+                    // Lógica JS baseada neste exemplo: https://codepen.io/ftsuda-senac/pen/MxEmxM
+                    const xhr = new XMLHttpRequest();
+
+                    xhr.open('GET', '/classic/pessoas/' + idPessoa + '/visualizar-json', true);
+                    xhr.onload = function () {
+                        if (xhr.status >= 200 && xhr.status < 400) {
+                            let dados = JSON.parse(xhr.responseText);
+                            document.getElementsByTagName("title")[0].innerHTML = dados.nome + ' - Dados pessoais';
+                            document.getElementById('nome').innerHTML = dados.nome;
+                            document.getElementById('dataNascimento').innerHTML = dados.dataNascimento;
+                            document.getElementById('telefone').innerHTML = dados.telefone;
+                            document.getElementById('email').innerHTML = dados.email;
+                            document.getElementById('linkedinUrl').href = dados.linkedinUrl;
+                            document.getElementById('linkedinUrl').innerHTML = dados.linkedinUrl;
+                            document.getElementById('githubUrl').href = dados.githubUrl;
+                            document.getElementById('githubUrl').innerHTML = dados.githubUrl;
+                            document.getElementById('imgAvatar').src = '/imagens/' + dados.arquivoFoto;
+
+                            const interesses = [];
+                            for (const interesse of dados.interesses) {
+                                const item = document.createElement('li');
+                                item.dataset.interesseId = interesse.id;
+                                const itemText = document.createTextNode(interesse.nome);
+                                item.appendChild(itemText);
+                                interesses.push(item);
+                            }
+                            const listaInteresses = document.getElementById('listaInteresses');
+                            listaInteresses.replaceChildren(...interesses);
+
+                            let generoTexto;
+                            switch (dados.genero) {
+                                case 0:
+                                    generoTexto = 'Feminino';
+                                    break;
+                                case 1:
+                                    generoTexto = 'Masculino';
+                                    break;
+                                case 2:
+                                    generoTexto = 'Outro';
+                                    break;
+                                default:
+                                    generoTexto = 'Não informado';
+                            }
+                            document.getElementById('genero').innerHTML = generoTexto;
+
+                            document.getElementById('numero').innerHTML = dados.numero;
+                            document.getElementById('altura').innerHTML = dados.altura;
+                            document.getElementById('peso').innerHTML = dados.peso;
+                            document.getElementById('imc').innerHTML = dados.imc;
+                            document.getElementById('imcTexto').innerHTML = dados.imcTexto;
+                        }
+                    };
+                    xhr.send();
+                }
+            });
+        </script>
+    </body>
+
+</html>
