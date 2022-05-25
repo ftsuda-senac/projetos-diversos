@@ -84,16 +84,28 @@ public class UsuarioSistema implements UserDetails {
         return hashSenha;
     }
 
+    /*
+     * isAccountNonExpired() -> Verificar se o cadastro do usuario está expirado
+     * (Ex: data de validade da conta)
+     */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    /*
+     * isAccountNonLocked() -> Verificar se usuário está bloqueado (Ex: quantidade
+     * de logins errados excedida)
+     */
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    /*
+     * isCredentialsNonExpired() -> Verificar se a senha está expirada (Ex: X dias
+     * após ultima atualização da senha)
+     */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
