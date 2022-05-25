@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="h-100">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Pessoas - REST</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+<style>
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@media ( min-width : 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+main>.container {
+  padding: 60px 15px 0;
+}
+
+.footer {
+  background-color: #f5f5f5;
+}
+
+.footer>.container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+code {
+  font-size: 80%;
+}
+</style>
+<script>
+function buildInteresses(valores, valoresSelecionados) {
+  let element = '';
+  for (const valor of valores) {
+      const elementId = 'interesse_' + valor.id;
+      let selecionado = false;
+      if (valoresSelecionados) {
+          for (const valorSelecionado of valoresSelecionados) {
+              if (valorSelecionado === valor.id) {
+                  selecionado = true;
+              }
+          }
+      }
+      element += '<div class="form-check form-check-inline">';
+      element += '<input class="form-check-input" type="checkbox" ' +
+          'name="interessesId" id="' + elementId + '" value="' + valor.id + '" ';
+      if (selecionado) {
+          element += 'checked ';
+      }
+      element += '>';
+      element += '<label class="form-check-label" for="' + elementId + '">' + valor.nome + '</label>';
+      element += '</div>';
+  }
+  return element;
+}
+
+var interesses = [];
+$(function() {
+
+  $.getJSON('/rest/interesses', function(dataJSON) {
+      interesses = dataJSON;
+      let interessesEl = document.getElementById('interesses');
+      interessesEl.innerHTML = buildInteresses(interesses);
+  });
+
+  // Carrega valores dos interesses
+  /* Se informar ID na URL, carrega os dados */
+  /* https://stackoverflow.com/a/901144 */
+  let urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('id') !== null) {
+      $.getJSON('/rest/pessoas/' + urlParams.get('id'), function(dataJSON) {
+          let form = document.getElementById('dadosForm');
+          form.id.value = dataJSON.id;
+          form.nome.value = dataJSON.nome;
+          form.sexo.value = dataJSON.sexo;
+          form.dataNascimento.value = dataJSON.dataNascimento;
+          for (let interesse of dataJSON.interesses) {
+              document.getElementById('interesse_' + interesse.id).checked = true
+          }
+      });
+      $('#titulo').text('Editar pessoa com ID ' + urlParams.get('id'))
+  }
+  
+  $('#dadosForm').on('submit', function(ev) {
+      ev.preventDefault();
+      let form = this;
+      let interessesId = [];
+      const interessesOptions = document.querySelectorAll('input[name="interessesId"]:checked');
+      for (let option of interessesOptions) {
+          if (option.checked) {
+              interessesId.push(Number(option.value));
+          }
+      }
+      /*
+      if ($('#interesse_1').is(':checked')) {
+          interessesId.push(Number($('#interesse_1').val()));
+      }
+      if ($('#interesse_2').is(':checked')) {
+          interessesId.push(Number($('#interesse_2').val()));
+      }
+      if ($('#interesse_3').is(':checked')) {
+          interessesId.push(Number($('#interesse_3').val()));
+      }
+      if ($('#interesse_4').is(':checked')) {
+          interessesId.push(Number($('#interesse_4').val()));
+      }
+      if ($('#interesse_5').is(':checked')) {
+          interessesId.push(Number($('#interesse_5').val()));
+      }
+      */
+      
+      let pessoa = {
+          nome : form.nome.value,
+          sexo: Number(form.sexo.value),
+          dataNascimento: form.dataNascimento.value,
+          interessesId: interessesId
+      };
+      console.log(JSON.stringify(pessoa));
+      $.ajax({
+          type: 'POST',
+          url: '/rest/pessoas',
+          data: JSON.stringify(pessoa),
+          contentType: 'application/json',
+          dataType: 'json'
+      }).done(function(data, textStatus, jqXHR) {
+          console.log('***** DONE CALLED');
+          let pessoaUri = jqXHR.getResponseHeader('Location');
+          alert(pessoaUri)
+          window.location.href = 'lista.html';
+      }).always(function(jqXHR) {
+          console.log('***** ALWAYS CALLED');
+          let pessoaUri = jqXHR.getResponseHeader('Location');
+          alert(pessoaUri)
+          window.location.href = 'lista.html';
+      });
+
+      /*
+      $.post('/rest/pessoas', JSON.stringify(pessoa), function(data) {
+          console.log(data);
+          window.location.href = 'lista.html';
+      }, 'json');
+      */
+      
+  });
+});
+</script>
+</head>
+<body class="d-flex flex-column h-100">
+  <header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">Pessoas</a>
+    </nav>
+  </header>
+  <!-- Begin page content -->
+  <main role="main" class="flex-shrink-0">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 id="titulo">Inclusão de pessoas com AJAX + JQuery</h2>
+          <form id="dadosForm" novalidate>
+            <input type="hidden" name="id" value="">
+            <div class="form-group row">
+              <label class="col-2 col-form-label">Nome completo</label>
+              <div class="col-10">
+                <input type="text" class="form-control" required id="nome" name="nome" value="">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-2 col-form-label">Sexo</label>
+              <div class="col-sm-10">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="sexoF" value="0" name="sexo" checked="checked">
+                  <label class="form-check-label" for="sexoF">Feminino</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="sexoM" value="1" name="sexo"> <label
+                    class="form-check-label" for="sexoM">Masculino</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-2 col-form-label">Data nascimento</label>
+              <div class="col-10">
+                <input type="date" class="form-control" required id="dataNascimento" name="dataNascimento" value="">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-2 col-form-label">Interesses</label>
+              <div class="col-sm-10" id="interesses">
+                <!-- VALORES DEVEM SER CARREGADOS VIA AJAX -->
+                <!--
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="interesse_1" value="1" name="interessesId">
+                  <label class="form-check-label" for="interesse_1">Tecnologia</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="interesse_2" value="2" name="interessesId">
+                  <label class="form-check-label" for="interesse_2">Gastronomia</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="interesse_3" value="3" name="interessesId">
+                  <label class="form-check-label" for="interesse_3">Viagens</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="interesse_4" value="4" name="interessesId">
+                  <label class="form-check-label" for="interesse_4">Investimentos</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="interesse_5" value="5" name="interessesId">
+                  <label class="form-check-label" for="interesse_5">Esportes</label>
+                </div>
+                -->
+              </div>
+            </div>
+            <div class="text-center">
+              <a href="lista.html" class="btn btn-light">Voltar</a>
+              <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer mt-auto py-3">
+    <div class="container">
+      <span class="text-muted">&copy; Senac TADS 2020</span>
+    </div>
+  </footer>
+</body>
+</html>
