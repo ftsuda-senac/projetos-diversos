@@ -29,8 +29,8 @@
             <section class="dados-gerais interesses">
                 <h3>Interesses</h3>
                 <span th:unless="${dados.interesses != null && #arrays.length(dados.interesses) > 0}">Nenhum selecionado</span>
-                <ul th:if="${dados.interesses != null && #arrays.length(dados.interesses) > 0}" th:each="interesse : ${dados.interesses}">
-                    <li th:text="${interesse.nome}"></li>
+                <ul th:if="${dados.interesses != null && #arrays.length(dados.interesses) > 0}">
+                    <li th:each="interesse : ${dados.interesses}" th:text="${interesse.nome}"></li>
                 </ul>
             </section>
             <section class="dados-gerais" id="outros">

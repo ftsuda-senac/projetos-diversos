@@ -74,9 +74,14 @@ public class DadosPessoaisService {
             }
         } else {
             // Caso não exista, incluir informações adicionais padrão
-            String arquivoFoto = "avatar-padrao.jpg";
+            String arquivoFoto = null;
             if (dados.getArquivoFoto() != null && dados.getArquivoFoto().length() > 0) {
                 arquivoFoto = dados.getArquivoFoto();
+            }
+            // Forçando nome do arquivo diferente para ficar em conformidade
+            // com regra UNIQUE do banco de dados
+            if (arquivoFoto == null || arquivoFoto.startsWith("avatar-padrao")) {
+                arquivoFoto = "avatar-padrao-" + System.currentTimeMillis() + ".jpg";
             }
             Set<FotoPessoa> fotos = new LinkedHashSet<>();
             FotoPessoa foto = new FotoPessoa(arquivoFoto, "Foto de " + dados.getNome());
