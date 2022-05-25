@@ -62,7 +62,7 @@ public class DadosPessoaisRestController {
             // TODO: MELHORAR O DETALHAMENTO DA RESPOSTA EM CASO DE ERRO
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro nos dados enviados");
         }
-        service.save(dados);
+        dados = service.save(dados);
 
         // Prepara a URI que identifica a pessoa salva
         // Essa informacão é retornada no cabeçalho "Location"

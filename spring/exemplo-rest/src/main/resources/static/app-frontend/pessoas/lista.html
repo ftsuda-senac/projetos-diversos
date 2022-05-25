@@ -4,18 +4,18 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
-        
+
         <title>TADS DSW - Exemplo Dados Pessoais</title>
         <!-- Geradas em https://favicon.io/favicon-generator/ -->
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-        
+
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" />
     </head>
     <body class="d-flex flex-column h-100">
-        
+
         <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">TADS DSW</a>
@@ -83,23 +83,23 @@
                 </table>
                 <nav aria-label="Paginação">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item">
+                        <li class="page-item" id="paginacaoPrimeiro">
                             <a class="page-link"
                                href="#">Primeiro</a>
                         </li>
-                        <li class="page-item">
+                        <li class="page-item" id="paginacaoAnterior">
                             <a class="page-link"
                                href="#">1</a>
                         </li>
-                        <li class="page-item active">
+                        <li class="page-item active" id="paginacaoAtual">
                             <a class="page-link active" href="#">
                                 <span>2</span><span class="sr-only">Página atual</span></a>
                         </li>
-                        <li class="page-item">
+                        <li class="page-item" id="paginacaoProximo">
                             <a class="page-link"
                                href="#">3</a>
                         </li>
-                        <li class="page-item">
+                        <li class="page-item" id="paginacaoUltimo">
                             <a class="page-link"
                                href="#">Último</a>
                         </li>
@@ -143,6 +143,103 @@
         <script src="/js/clamp.min.js"></script>
         <script src="/js/funcoes.js"></script>
         <script>
+            var paginaAtual = 0; // 0-indexed
+            var ultimaPagina = 0;
+            var qtde = 10;
+
+            function convertIsoDateToLocaleDate(isoDate) {
+                return new Date(isoDate).toLocaleDateString('pt-BR');
+            }
+
+            function obterHtmlStatus(cadastroAtivo) {
+                if (cadastroAtivo === true) {
+                    return '<span class="badge bg-success">ATIVO</span>';
+                }
+                return '<span class="badge bg-danger">INATIVO</span>';
+            }
+
+            function montarLinhaTabela(item) {
+                return  '<tr>' +
+                        '<td>' + item.id + '</td>' +
+                        '<td>' + item.nome + '</td>' +
+                        '<td>' + item.email + '</td>' +
+                        '<td>' + convertIsoDateToLocaleDate(item.dataNascimento) + '</td>' +
+                        '<td>' + obterHtmlStatus(item.cadastroAtivo) + '</td>' +
+                        '<td>' +
+                        '<div class="btn-group" role="group" aria-label="Ações">' +
+                        '<a class="btn btn-info" role="button" href="visualizacao.html?id=' + item.id + '">' +
+                        '<i class="fas fa-eye"></i> Visualizar dados</a>' +
+                        '<a class="btn btn-primary" role="button" href="form.html?id=' + item.id + '">' +
+                        '<i class="fas fa-edit"></i> Alterar</a>' +
+                        '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" ' + // espaço em branco antes do '
+                        'data-action-url="/rest/pessoas/' + item.id + '" ' + // espaço em branco antes do '
+                        'data-item-id="' + item.id + '">' +
+                        '<i class="fas fa-trash-alt"></i> Excluir</button>' +
+                        '</div>' +
+                        '</td>' +
+                        '</tr>';
+            }
+
+            function ajustarPaginacao(dadosJSON) {
+                paginaAtual = dadosJSON.number;
+                ultimaPagina = dadosJSON.totalPages - 1;
+
+                document.querySelector('#paginacaoAtual span:first-child').innerHTML = paginaAtual + 1;
+
+                let primeiro = document.getElementById('paginacaoPrimeiro');
+                if (dadosJSON.first) {
+                    primeiro.classList.add('disabled');
+                } else {
+                    primeiro.classList.remove('disabled');
+                }
+
+                let anterior = document.getElementById('paginacaoAnterior');
+                let anteriorValue = paginaAtual - 1;
+                if (anteriorValue < 0) {
+                    anterior.style.display = 'none';
+                } else {
+                    anterior.style.display = 'initial';
+                    anterior.querySelector('a').innerHTML = anteriorValue + 1;
+                }
+
+                let proximo = document.getElementById('paginacaoProximo');
+                let proximoValue = paginaAtual + 1;
+                if (proximoValue > ultimaPagina) {
+                    proximo.style.display = 'none';
+                } else {
+                    proximo.style.display = 'initial';
+                    proximo.querySelector('a').innerHTML = proximoValue + 1;
+                }
+
+                let ultimo = document.getElementById('paginacaoUltimo');
+                if (dadosJSON.last) {
+                    ultimo.classList.add('disabled');
+                } else {
+                    ultimo.classList.remove('disabled');
+                }
+            }
+
+            function carregarDados(pagina, qtde) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', '/rest/pessoas?page=' + pagina + '&qtde=' + qtde, true);
+                xhr.onload = function () {
+                    if (xhr.status >= 200 && xhr.status < 400) {
+                        const dadosJSON = JSON.parse(xhr.responseText);
+
+                        // ATUALIZA TABELA COM DADOS
+                        const container = document.getElementById('dadosTabela');
+                        container.innerHTML = ''; // Limpa linhas da tabela
+                        for (const item of dadosJSON.content) {
+                            container.insertAdjacentHTML('beforeend', montarLinhaTabela(item));
+                        }
+
+                        // ATUALIZA BOTOES DE PAGINAÇÃO
+                        ajustarPaginacao(dadosJSON);
+                    }
+                }
+                xhr.send();
+            }
+
             ready(function () {
                 // Modifica as informações do modal para confirmar exclusão
                 document.getElementById('modalExcluir').addEventListener('show.bs.modal', function (evt) {
@@ -153,8 +250,55 @@
 
                     this.querySelector('#modalExcluirMsg').innerHTML = 'Confirma remoção do item ID ' + itemId + '?';
                     this.querySelector('#modalExcluirForm').action = excluirActionUrl;
-                })
-            })
+                });
+
+                // Efetiva exclusão da pessoa
+                document.getElementById('modalExcluirForm').addEventListener('submit', function (evt) {
+                    evt.preventDefault(); // Evita o submit padrão do <form>
+                    const actionUrl = evt.target.action; // Pega URL configurada no <form>
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('DELETE', actionUrl, true);
+                    xhr.onload = function () {
+                        if (xhr.status >= 200 && xhr.status < 400) {
+                            const bsModal = bootstrap.Modal.getInstance(document.getElementById('modalExcluir'));
+                            bsModal.hide(); // Fecha modal
+                            alert('Pessoa excluida com sucesso');
+                            
+                            // Recarrega dados para tirar a pessoa excluida da tela
+                            carregarDados(paginaAtual, qtde);
+                        }
+                    };
+                    xhr.send();
+                });
+
+                // Adiciona eventos aos botões de paginação
+                document.querySelector('#paginacaoPrimeiro a').addEventListener('click', function (evt) {
+                    evt.preventDefault(); // Evita o click padrão do <a>
+                    carregarDados(0, qtde);
+                });
+                document.querySelector('#paginacaoAnterior a').addEventListener('click', function (evt) {
+                    evt.preventDefault();
+                    let pagina = paginaAtual - 1;
+                    if (pagina >= 0) {
+                        carregarDados(pagina, qtde);
+                    }
+                });
+                document.querySelector('#paginacaoProximo a').addEventListener('click', function (evt) {
+                    evt.preventDefault();
+                    let pagina = paginaAtual + 1;
+                    if (pagina <= ultimaPagina) {
+                        carregarDados(pagina, qtde);
+                    }
+                });
+                document.querySelector('#paginacaoUltimo a').addEventListener('click', function (evt) {
+                    evt.preventDefault();
+                    carregarDados(ultimaPagina, qtde);
+                });
+
+                carregarDados(0, qtde);
+
+
+            });
         </script>
 
     </body>

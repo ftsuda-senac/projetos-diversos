@@ -53,9 +53,8 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 const idPessoa = urlParams.get('id');
                 if (idPessoa) {
-                    // Lógica JS baseada neste exemplo: https://codepen.io/ftsuda-senac/pen/MxEmxM
+                    // Lógica AJAX baseada neste exemplo: https://codepen.io/ftsuda-senac/pen/MxEmxM
                     const xhr = new XMLHttpRequest();
-
                     xhr.open('GET', '/classic/pessoas/' + idPessoa + '/visualizar-json', true);
                     xhr.onload = function () {
                         if (xhr.status >= 200 && xhr.status < 400) {
@@ -80,7 +79,7 @@
                                 interesses.push(item);
                             }
                             const listaInteresses = document.getElementById('listaInteresses');
-                            listaInteresses.replaceChildren(...interesses);
+                            listaInteresses.replaceChildren(...interesses); // ... é operador spread - abre os itens do array
 
                             let generoTexto;
                             switch (dados.genero) {
