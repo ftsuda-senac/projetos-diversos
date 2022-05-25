@@ -9,9 +9,9 @@
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>br.senac.tads.dsw</groupId>
-    <artifactId>exemplo-rest-old1</artifactId>
+    <artifactId>exemplo-rest-old</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>exemplo-rest-old1</name>
+    <name>exemplo-rest-old</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
