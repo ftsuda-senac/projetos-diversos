@@ -22,6 +22,10 @@ public class DadosPessoaisService {
         this.dadosPessoaisRepository = dadosPessoaisRepository;
         this.interesseRepository = interesseRepository;
     }
+    
+    public List<DadosPessoais> findAll() {
+        return dadosPessoaisRepository.findAll();
+    }
 
     public Page<DadosPessoais> findAll(int page, int qtde, List<Integer> interessesIds) {
         if (interessesIds != null && !interessesIds.isEmpty()) {

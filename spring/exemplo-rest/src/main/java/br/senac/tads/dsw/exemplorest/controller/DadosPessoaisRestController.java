@@ -30,11 +30,8 @@ public class DadosPessoaisRestController {
 
     private DadosPessoaisService service;
 
-    private InteresseRepository interesseRepository;
-
-    public DadosPessoaisRestController(DadosPessoaisService service, InteresseRepository interesseRepository) {
+    public DadosPessoaisRestController(DadosPessoaisService service) {
         this.service = service;
-        this.interesseRepository = interesseRepository;
     }
 
     @GetMapping
