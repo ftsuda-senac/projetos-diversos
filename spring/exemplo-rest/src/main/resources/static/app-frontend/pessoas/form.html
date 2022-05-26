@@ -226,7 +226,7 @@
         <script src="/js/funcoes.js"></script>
         <script>
 
-            // https://stackoverflow.com/a/30008115
+            // Usando xhr com Promise - https://stackoverflow.com/a/30008115
             function getBackendData(url) {
                 return new Promise(function (resolve, reject) {
                     const xhr = new XMLHttpRequest();
@@ -252,7 +252,7 @@
                 });
             }
 
-            function montarInteresses(interesses) {
+            function montarOpcoesInteresses(interesses) {
                 let element = '';
                 for (const interesse of interesses) {
                     const elementId = 'interesse' + interesse.id;
@@ -269,7 +269,7 @@
                 // Usando Promise para carregar primeiro as opções dos interesses
                 // e somente depois disso carregar os dados da pessoa (se houver)
                 getBackendData('/rest/interesses').then(function (dadosJSONInteresses) {
-                    document.getElementById('opcoesInteresses').innerHTML = montarInteresses(dadosJSONInteresses);
+                    document.getElementById('opcoesInteresses').innerHTML = montarOpcoesInteresses(dadosJSONInteresses);
                     if (idPessoa) {
                         getBackendData('/rest/pessoas/' + idPessoa).then(function (dadosJSON) {
                             const form = document.getElementById('dadosForm');
@@ -301,6 +301,11 @@
                 if (idPessoa === 0) {
                     idPessoa = null;
                 }
+
+                // TODO: IMPLEMENTAR LÓGICA PARA:
+                // 1) PEGAR DADOS PREENCHIDOS DO FORMULARIO
+                // 2) MONTAR OBJETO JSON
+                // 3) ENVIAR USANDO AJAX (POST OU PUT)
 
                 // Percorre os checkboxes dos interesses e pega os valores selecionados
                 const interesses = document.querySelectorAll('[name="interessesIds"]')
@@ -341,12 +346,15 @@
 
                 xhr.onload = function () {
                     if (xhr.status >= 200 && xhr.status < 400) {
-                        alert(xhr.status + ' - ' + xhr.statusText + '\r\nLocation: ' + xhr.getResponseHeader('Location'));
+                        alert('SUCESSO\r\n' + xhr.status + ' - ' + xhr.statusText + '\r\nLocation: ' + xhr.getResponseHeader('Location'));
+                        history.go(-1)
                     }
                 }
                 xhr.send(JSON.stringify(dadosJSONParaSalvar));
             }
 
+            // ready- Função que chama a function definida quando ocorre o evento
+            // DOMContentLoaded; está definida no arquivo funcoes.js
             ready(function () {
 
                 // Vincula o evento 'submit' do form à função salvar()

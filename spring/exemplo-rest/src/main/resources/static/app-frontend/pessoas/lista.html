@@ -151,6 +151,14 @@
                 return new Date(isoDate).toLocaleDateString('pt-BR');
             }
 
+            function excluirSucesso(msg = 'Pessoa excluida com sucesso') {
+                const bsModal = bootstrap.Modal.getInstance(document.getElementById('modalExcluir'));
+                bsModal.hide(); // Fecha modal
+                alert(msg);
+
+
+            }
+
             function obterHtmlStatus(cadastroAtivo) {
                 if (cadastroAtivo === true) {
                     return '<span class="badge bg-success">ATIVO</span>';
@@ -220,6 +228,11 @@
             }
 
             function carregarDados(pagina, qtde) {
+                // TODO: IMPLEMENTAR LÓGICA PARA
+                // 1) CARREGAR DADOS
+                // 2) MOSTRAR DADOS NA TABELA
+                // 3) ATUALIZAR BOTÕES DE PAGINAÇÃO
+
                 const xhr = new XMLHttpRequest();
                 xhr.open('GET', '/rest/pessoas?page=' + pagina + '&qtde=' + qtde, true);
                 xhr.onload = function () {
@@ -240,6 +253,8 @@
                 xhr.send();
             }
 
+            // ready- Função que chama a function definida quando ocorre o evento
+            // DOMContentLoaded; está definida no arquivo funcoes.js
             ready(function () {
                 // Modifica as informações do modal para confirmar exclusão
                 document.getElementById('modalExcluir').addEventListener('show.bs.modal', function (evt) {
@@ -256,14 +271,17 @@
                 document.getElementById('modalExcluirForm').addEventListener('submit', function (evt) {
                     evt.preventDefault(); // Evita o submit padrão do <form>
                     const actionUrl = evt.target.action; // Pega URL configurada no <form>
+
+                    // TODO: IMPLEMENTAR LÓGICA PARA
+                    // 1) APAGAR USUÁRIO
+                    // 2) MOSTRAR MSG DE SUCESSO E FECHAR MODAL
+
                     const xhr = new XMLHttpRequest();
                     xhr.open('DELETE', actionUrl, true);
                     xhr.onload = function () {
                         if (xhr.status >= 200 && xhr.status < 400) {
-                            const bsModal = bootstrap.Modal.getInstance(document.getElementById('modalExcluir'));
-                            bsModal.hide(); // Fecha modal
-                            alert('Pessoa excluida com sucesso');
-                            
+                            excluirSucesso('Pessoa excluida com sucesso');
+
                             // Recarrega dados para tirar a pessoa excluida da tela
                             carregarDados(paginaAtual, qtde);
                         }
@@ -296,7 +314,6 @@
                 });
 
                 carregarDados(0, qtde);
-
 
             });
         </script>
