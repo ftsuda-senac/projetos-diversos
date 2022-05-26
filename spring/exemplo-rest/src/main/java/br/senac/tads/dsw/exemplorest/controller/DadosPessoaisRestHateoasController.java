@@ -45,7 +45,9 @@ public class DadosPessoaisRestHateoasController {
         for (DadosPessoais p : resultadosPagina.getContent()) {
             EntityModel<DadosPessoais> emp = EntityModel.of(p);
             emp.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).findById(p.getId()))
-                    .withSelfRel());
+                    .withSelfRel()
+            //.andAffordance(afford(methodOn(DadosPessoaisRestHateoasController.class).update(p.getId(), null)))
+            );
             emp.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).update(p.getId(), p))
                     .withRel("edit"));
             for (Interesse interesse : p.getInteresses()) {
@@ -70,7 +72,9 @@ public class DadosPessoaisRestHateoasController {
         for (DadosPessoais p : resultados) {
             EntityModel<DadosPessoais> emp = EntityModel.of(p);
             emp.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).findById(p.getId()))
-                    .withSelfRel());
+                    .withSelfRel()
+            //.andAffordance(afford(methodOn(DadosPessoaisRestHateoasController.class).update(p.getId(), null)))
+            );
             emp.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).update(p.getId(), p))
                     .withRel("edit"));
             for (Interesse interesse : p.getInteresses()) {
@@ -92,7 +96,9 @@ public class DadosPessoaisRestHateoasController {
 
         EntityModel<DadosPessoais> emp = EntityModel.of(p);
         emp.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).findById(p.getId()))
-                .withSelfRel());
+                .withSelfRel()
+        //.andAffordance(afford(methodOn(DadosPessoaisRestHateoasController.class).update(p.getId(), null)))
+        );
         emp.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).update(p.getId(), p))
                 .withRel("edit"));
         for (Interesse interesse : p.getInteresses()) {
@@ -107,7 +113,9 @@ public class DadosPessoaisRestHateoasController {
 
         EntityModel<DadosPessoais> emp = EntityModel.of(p);
         emp.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).findById(p.getId()))
-                .withSelfRel());
+                .withSelfRel()
+        //.andAffordance(afford(methodOn(DadosPessoaisRestHateoasController.class).update(p.getId(), null)))
+        );
         emp.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).update(p.getId(), p))
                 .withRel("edit"));
         for (Interesse interesse : p.getInteresses()) {
@@ -122,7 +130,8 @@ public class DadosPessoaisRestHateoasController {
 
         EntityModel<DadosPessoais> emp = EntityModel.of(p);
         emp.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).findById(p.getId()))
-                .withSelfRel());
+                .withSelfRel()
+                .andAffordance(afford(methodOn(DadosPessoaisRestHateoasController.class).update(p.getId(), null))));
         emp.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).update(p.getId(), p))
                 .withRel("edit"));
         for (Interesse interesse : p.getInteresses()) {
