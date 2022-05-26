@@ -35,6 +35,9 @@ public class DadosPessoaisRestController {
     }
 
     @GetMapping
+    // tentar acessar usando 127.0.0.1 no código Ajax/Javascript
+    // @CrossOrigin(origins = "http://localhost:8080")
+    // @CrossOrigin(origins = "*")
     public Page<DadosPessoais> listar(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "qtde", defaultValue = "10") int qtde,
