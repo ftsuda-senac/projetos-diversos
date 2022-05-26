@@ -10,11 +10,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.afford;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +56,9 @@ public class DadosPessoaisRestHateoasController {
         PagedModel<EntityModel<DadosPessoais>> pageModel = PagedModel.of(entityModels,
                 new PagedModel.PageMetadata(resultadosPagina.getNumberOfElements(),
                         resultadosPagina.getNumber(), resultadosPagina.getTotalElements()));
+        pageModel.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).listar(0, 0, null))
+                .withSelfRel()
+                .andAffordance(afford(methodOn(DadosPessoaisRestHateoasController.class).addNew(null))));
         return pageModel;
     }
 
@@ -84,6 +89,21 @@ public class DadosPessoaisRestHateoasController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa com ID " + id + " não encontrada");
         }
         DadosPessoais p = optPessoa.get();
+
+        EntityModel<DadosPessoais> emp = EntityModel.of(p);
+        emp.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).findById(p.getId()))
+                .withSelfRel());
+        emp.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).update(p.getId(), p))
+                .withRel("edit"));
+        for (Interesse interesse : p.getInteresses()) {
+            emp.add(linkTo(methodOn(InteresseRestHateoasController.class).findById(interesse.getId())).withRel("interesses"));
+        }
+        return emp;
+    }
+
+    @PostMapping
+    public EntityModel<DadosPessoais> addNew(@RequestBody DadosPessoais p) {
+        p = service.save(p);
 
         EntityModel<DadosPessoais> emp = EntityModel.of(p);
         emp.add(linkTo(methodOn(DadosPessoaisRestHateoasController.class).findById(p.getId()))
