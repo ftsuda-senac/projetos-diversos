@@ -42,6 +42,7 @@ public class GlobalSecurityConfig extends GlobalMethodSecurityConfiguration {
 
     @Configuration
     @EnableWebSecurity
+    // TODO: Ajustar: https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
     public static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Override
