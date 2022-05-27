@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
-<head></head>
-<body>
-	<h1>E-mail HTML</h1>
-	<p data-th-text="${mensagem + ' ' + dataHora}"></p>
-	<img src="cid:imagem" alt="imagem inline" title="imagem inline" />
-</body>
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <title>Teste envio e-mail</title>
+    </head>
+    <body>
+        <h1>E-mail HTML</h1>
+        <p data-th-text="${mensagem + ' ' + dataHora}"></p>
+        <img src="cid:imagem" alt="imagem inline" title="imagem inline" />
+    </body>
 </html>

@@ -22,10 +22,12 @@ import javax.persistence.PrePersist;
 
 @Entity
 @NamedEntityGraph(name = "graph.PedidoEnderecoItens",
-        attributeNodes = {@NamedAttributeNode(value = "enderecoEntrega"),
-                @NamedAttributeNode(value = "itens", subgraph = "subgraph.PedidoItem")},
-        subgraphs = {@NamedSubgraph(name = "subgraph.PedidoItem",
-                attributeNodes = @NamedAttributeNode(value = "item"))})
+        attributeNodes = {
+            @NamedAttributeNode(value = "enderecoEntrega"),
+            @NamedAttributeNode(value = "itens", subgraph = "subgraph.PedidoItem")},
+        subgraphs = {
+            @NamedSubgraph(name = "subgraph.PedidoItem",
+                    attributeNodes = @NamedAttributeNode(value = "item"))})
 public class Pedido implements Serializable {
 
     private static final long serialVersionUID = 1L;

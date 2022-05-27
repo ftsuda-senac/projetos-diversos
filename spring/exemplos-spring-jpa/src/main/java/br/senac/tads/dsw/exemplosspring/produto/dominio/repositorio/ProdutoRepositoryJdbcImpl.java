@@ -29,17 +29,15 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
 
     @Override
     public List<Produto> findAll(int offset, int quantidade) {
-        String sqlProduto =
-                "SELECT ID, NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DISPONIVEL, DT_CADASTRO FROM PRODUTO";
-        String sqlImagensProduto =
-                "SELECT ID, NOME_ARQUIVO, LEGENDA FROM IMAGEM_PRODUTO WHERE PRODUTO_ID = ?";
-        String sqlProdutoCategoria =
-                "SELECT ID_CATEGORIA FROM PRODUTO_CATEGORIA WHERE PRODUTO_ID = ?";
+        String sqlProduto
+                = "SELECT ID, NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DISPONIVEL, DT_CADASTRO FROM PRODUTO";
+        String sqlImagensProduto
+                = "SELECT ID, NOME_ARQUIVO, LEGENDA FROM IMAGEM_PRODUTO WHERE PRODUTO_ID = ?";
+        String sqlProdutoCategoria
+                = "SELECT ID_CATEGORIA FROM PRODUTO_CATEGORIA WHERE PRODUTO_ID = ?";
 
         List<Produto> produtos = new ArrayList<>();
-        try (Connection conn = dataSource.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sqlProduto);
-                ResultSet rs = stmt.executeQuery()) {
+        try ( Connection conn = dataSource.getConnection();  PreparedStatement stmt = conn.prepareStatement(sqlProduto);  ResultSet rs = stmt.executeQuery()) {
 
             if (rs != null) {
                 while (rs.next()) {
@@ -56,9 +54,9 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
 
                     // RECUPERA IMAGENS
                     Set<ImagemProduto> imagens = new LinkedHashSet<>();
-                    try (PreparedStatement stmtImagem = conn.prepareStatement(sqlImagensProduto)) {
+                    try ( PreparedStatement stmtImagem = conn.prepareStatement(sqlImagensProduto)) {
                         stmtImagem.setLong(1, p.getId());
-                        try (ResultSet rsImagem = stmtImagem.executeQuery()) {
+                        try ( ResultSet rsImagem = stmtImagem.executeQuery()) {
                             while (rsImagem.next()) {
                                 imagens.add(new ImagemProduto(rsImagem.getLong("ID"),
                                         rsImagem.getString("NOME_ARQUIVO"),
@@ -75,9 +73,9 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
                         mapCategorias.put(cat.getId(), cat);
                     }
                     Set<Categoria> categorias = new LinkedHashSet<>();
-                    try (PreparedStatement stmtCat = conn.prepareStatement(sqlProdutoCategoria)) {
+                    try ( PreparedStatement stmtCat = conn.prepareStatement(sqlProdutoCategoria)) {
                         stmtCat.setLong(1, p.getId());
-                        try (ResultSet rsCat = stmtCat.executeQuery()) {
+                        try ( ResultSet rsCat = stmtCat.executeQuery()) {
                             while (rsCat.next()) {
                                 categorias.add(mapCategorias.get(rsCat.getInt("CATEGORIA_ID")));
                             }
@@ -101,17 +99,16 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
 
     @Override
     public Produto findById(Integer id) {
-        String sqlProduto =
-                "SELECT ID, NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DISPONIVEL, DT_CADASTRO FROM PRODUTO WHERE ID = ?";
-        String sqlImagensProduto =
-                "SELECT ID, NOME_ARQUIVO, LEGENDA FROM IMAGEM_PRODUTO WHERE PRODUTO_ID = ?";
-        String sqlProdutoCategoria =
-                "SELECT ID_CATEGORIA FROM PRODUTO_CATEGORIA WHERE PRODUTO_ID = ?";
+        String sqlProduto
+                = "SELECT ID, NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DISPONIVEL, DT_CADASTRO FROM PRODUTO WHERE ID = ?";
+        String sqlImagensProduto
+                = "SELECT ID, NOME_ARQUIVO, LEGENDA FROM IMAGEM_PRODUTO WHERE PRODUTO_ID = ?";
+        String sqlProdutoCategoria
+                = "SELECT ID_CATEGORIA FROM PRODUTO_CATEGORIA WHERE PRODUTO_ID = ?";
 
-        try (Connection conn = dataSource.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sqlProduto)) {
+        try ( Connection conn = dataSource.getConnection();  PreparedStatement stmt = conn.prepareStatement(sqlProduto)) {
             stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
+            try ( ResultSet rs = stmt.executeQuery()) {
                 if (rs != null) {
                     while (rs.next()) {
                         Produto p = new Produto();
@@ -127,10 +124,10 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
 
                         // RECUPERA IMAGENS
                         Set<ImagemProduto> imagens = new LinkedHashSet<>();
-                        try (PreparedStatement stmtImagem =
-                                conn.prepareStatement(sqlImagensProduto)) {
+                        try ( PreparedStatement stmtImagem
+                                = conn.prepareStatement(sqlImagensProduto)) {
                             stmtImagem.setLong(1, p.getId());
-                            try (ResultSet rsImagem = stmtImagem.executeQuery()) {
+                            try ( ResultSet rsImagem = stmtImagem.executeQuery()) {
                                 while (rsImagem.next()) {
                                     imagens.add(new ImagemProduto(rsImagem.getLong("ID"),
                                             rsImagem.getString("NOME_ARQUIVO"),
@@ -147,10 +144,10 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
                             mapCategorias.put(cat.getId(), cat);
                         }
                         Set<Categoria> categorias = new LinkedHashSet<>();
-                        try (PreparedStatement stmtCat =
-                                conn.prepareStatement(sqlProdutoCategoria)) {
+                        try ( PreparedStatement stmtCat
+                                = conn.prepareStatement(sqlProdutoCategoria)) {
                             stmtCat.setLong(1, p.getId());
-                            try (ResultSet rsCat = stmtCat.executeQuery()) {
+                            try ( ResultSet rsCat = stmtCat.executeQuery()) {
                                 while (rsCat.next()) {
                                     categorias.add(mapCategorias.get(rsCat.getInt("CATEGORIA_ID")));
                                 }
@@ -178,18 +175,18 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
     }
 
     private void insert(Produto p) {
-        String sqlProduto =
-                "INSERT INTO PRODUTO (NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DISPONIVEL, DT_CADASTRO) VALUES (?,?,?,?,?,?,?)";
-        String sqlProdutoCategoriaIns =
-                "INSERT INTO PRODUTO_CATEGORIA (PRODUTO_ID, CATEGORIA_ID) VALUES(?,?)";
-        String sqlImagemIns =
-                "INSERT INTO IMAGEM_PRODUTO (NOME_ARQUIVO, LEGENDA, PRODUTO_ID) VALUES (?,?,?)";
+        String sqlProduto
+                = "INSERT INTO PRODUTO (NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DISPONIVEL, DT_CADASTRO) VALUES (?,?,?,?,?,?,?)";
+        String sqlProdutoCategoriaIns
+                = "INSERT INTO PRODUTO_CATEGORIA (PRODUTO_ID, CATEGORIA_ID) VALUES(?,?)";
+        String sqlImagemIns
+                = "INSERT INTO IMAGEM_PRODUTO (NOME_ARQUIVO, LEGENDA, PRODUTO_ID) VALUES (?,?,?)";
 
         int resultados = 0;
-        try (Connection conn = dataSource.getConnection()) {
+        try ( Connection conn = dataSource.getConnection()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement stmt =
-                    conn.prepareStatement(sqlProduto, Statement.RETURN_GENERATED_KEYS)) {
+            try ( PreparedStatement stmt
+                    = conn.prepareStatement(sqlProduto, Statement.RETURN_GENERATED_KEYS)) {
                 stmt.setString(1, p.getNome());
                 stmt.setString(2, p.getDescricao());
                 stmt.setBigDecimal(3, p.getPrecoCompra());
@@ -203,7 +200,7 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
                 resultados = stmt.executeUpdate();
 
                 if (resultados > 0) {
-                    try (ResultSet chaves = stmt.getGeneratedKeys()) {
+                    try ( ResultSet chaves = stmt.getGeneratedKeys()) {
                         if (chaves != null && chaves.next()) {
                             p.setId(chaves.getInt(1));
                         }
@@ -211,7 +208,7 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
                     // Incluindo novo produto - inclui as imagens cadastradas
                     if (p.getImagens() != null && !p.getImagens().isEmpty()) {
                         for (ImagemProduto img : p.getImagens()) {
-                            try (PreparedStatement stmtImg = conn.prepareStatement(sqlImagemIns)) {
+                            try ( PreparedStatement stmtImg = conn.prepareStatement(sqlImagemIns)) {
                                 stmtImg.setString(1, img.getNomeArquivo());
                                 stmtImg.setString(2, img.getLegenda());
                                 stmtImg.setLong(3, p.getId());
@@ -223,8 +220,8 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
                     // Salva categorias associadas
                     if (p.getCategorias() != null && !p.getCategorias().isEmpty()) {
                         for (Categoria cat : p.getCategorias()) {
-                            try (PreparedStatement stmtCatIns =
-                                    conn.prepareStatement(sqlProdutoCategoriaIns)) {
+                            try ( PreparedStatement stmtCatIns
+                                    = conn.prepareStatement(sqlProdutoCategoriaIns)) {
                                 stmtCatIns.setLong(1, p.getId());
                                 stmtCatIns.setInt(2, cat.getId());
                                 stmtCatIns.executeUpdate();
@@ -245,16 +242,16 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
     }
 
     private void update(Produto p) {
-        String sqlProduto =
-                "UPDATE PRODUTO SET NOME=?, DESCRICAO=?, PRECO_COMPRA=?, PRECO_VENDA=?, QUANTIDADE=?, DISPONIVEL=? WHERE ID=?";
+        String sqlProduto
+                = "UPDATE PRODUTO SET NOME=?, DESCRICAO=?, PRECO_COMPRA=?, PRECO_VENDA=?, QUANTIDADE=?, DISPONIVEL=? WHERE ID=?";
         String sqlProdutoCategoriaDel = "DELETE FROM PRODUTO_CATEGORIA WHERE PRODUTO_ID=?";
-        String sqlProdutoCategoriaIns =
-                "INSERT INTO PRODUTO_CATEGORIA (PRODUTO_ID, CATEGORIA_ID) VALUES(?,?)";
+        String sqlProdutoCategoriaIns
+                = "INSERT INTO PRODUTO_CATEGORIA (PRODUTO_ID, CATEGORIA_ID) VALUES(?,?)";
 
         int resultados = 0;
-        try (Connection conn = dataSource.getConnection()) {
+        try ( Connection conn = dataSource.getConnection()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement stmt = conn.prepareStatement(sqlProduto)) {
+            try ( PreparedStatement stmt = conn.prepareStatement(sqlProduto)) {
                 stmt.setString(1, p.getNome());
                 stmt.setString(2, p.getDescricao());
                 stmt.setBigDecimal(3, p.getPrecoCompra());
@@ -267,15 +264,15 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
                     // Atualizar imagens (TODO)
 
                     // Salva categorias associadas
-                    try (PreparedStatement stmtCatDel =
-                            conn.prepareStatement(sqlProdutoCategoriaDel)) {
+                    try ( PreparedStatement stmtCatDel
+                            = conn.prepareStatement(sqlProdutoCategoriaDel)) {
                         stmtCatDel.setLong(1, p.getId());
                         stmtCatDel.executeQuery();
                     }
                     if (p.getCategorias() != null && !p.getCategorias().isEmpty()) {
                         for (Categoria cat : p.getCategorias()) {
-                            try (PreparedStatement stmtCatIns =
-                                    conn.prepareStatement(sqlProdutoCategoriaIns)) {
+                            try ( PreparedStatement stmtCatIns
+                                    = conn.prepareStatement(sqlProdutoCategoriaIns)) {
                                 stmtCatIns.setLong(1, p.getId());
                                 stmtCatIns.setInt(2, cat.getId());
                                 stmt.executeQuery();
@@ -302,17 +299,17 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
         String sqlImg = "DELETE FROM IMAGEM_PRODUTO WHERE PRODUTO_ID=?";
 
         int resultados = 0;
-        try (Connection conn = dataSource.getConnection()) {
+        try ( Connection conn = dataSource.getConnection()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement stmtProdCat = conn.prepareStatement(sqlProdCat)) {
+            try ( PreparedStatement stmtProdCat = conn.prepareStatement(sqlProdCat)) {
                 stmtProdCat.setInt(1, id);
                 stmtProdCat.executeUpdate();
             }
-            try (PreparedStatement stmtImg = conn.prepareStatement(sqlImg)) {
+            try ( PreparedStatement stmtImg = conn.prepareStatement(sqlImg)) {
                 stmtImg.setInt(1, id);
                 stmtImg.executeUpdate();
             }
-            try (PreparedStatement stmt = conn.prepareStatement(sqlProd)) {
+            try ( PreparedStatement stmt = conn.prepareStatement(sqlProd)) {
                 stmt.setInt(1, id);
                 resultados = stmt.executeUpdate();
             }
@@ -328,8 +325,8 @@ public class ProdutoRepositoryJdbcImpl implements ProdutoRepository {
     }
 
     private void insertImagem(Connection conn, Long idProd, ImagemProduto img) {
-        String sql =
-                "INSERT INTO IMAGEM_PRODUTO (NOME_ARQUIVO, LEGENDA, PRODUTO_ID) VALUES (?,?,?)";
+        String sql
+                = "INSERT INTO IMAGEM_PRODUTO (NOME_ARQUIVO, LEGENDA, PRODUTO_ID) VALUES (?,?,?)";
     }
 
     private void updateImagem(Connection conn, ImagemProduto img) {

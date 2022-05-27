@@ -16,15 +16,15 @@ public class CategoriaRepositoryJpaImpl implements CategoriaRepository {
 
     @Override
     public List<Categoria> findAll() {
-        TypedQuery<Categoria> jpqlQuery =
-                em.createQuery("SELECT c FROM Categoria c", Categoria.class);
+        TypedQuery<Categoria> jpqlQuery
+                = em.createQuery("SELECT c FROM Categoria c", Categoria.class);
         return jpqlQuery.getResultList();
     }
 
     @Override
     public Categoria findById(Integer id) {
-        TypedQuery<Categoria> jpqlQuery =
-                em.createQuery("SELECT c FROM Categoria c WHERE c.id = :idCat", Categoria.class);
+        TypedQuery<Categoria> jpqlQuery
+                = em.createQuery("SELECT c FROM Categoria c WHERE c.id = :idCat", Categoria.class);
         jpqlQuery.setParameter("idCat", id);
         Categoria cat = jpqlQuery.getSingleResult();
         return cat;

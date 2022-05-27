@@ -40,22 +40,22 @@ public class DadosPessoaisRepositoryJpaImpl implements DadosPessoaisRepository {
 //                "SELECT dp FROM DadosPessoais dp WHERE dp.id = :idPessoa", 
 //                DadosPessoais.class);
         TypedQuery<DadosPessoais> jpqlQuery = em.createNamedQuery(
-                "DadosPessoais.findById", 
+                "DadosPessoais.findById",
                 DadosPessoais.class);
         jpqlQuery.setParameter("idPessoa", id);
         DadosPessoais resultado = jpqlQuery.getSingleResult();
         return Optional.ofNullable(resultado);
     }
-    
+
     @Override
     public Optional<DadosPessoais> findById(Integer id) {
         // Versão alterada para usar entityGraph
         // Para testar corretamente, alterar o application.properties para deixar
         // propriedade spring.jpa.open-in-view=false
         EntityGraph<DadosPessoais> entityGraph = em.createEntityGraph(DadosPessoais.class);
-        entityGraph.addAttributeNodes("interesses","fotos");
+        entityGraph.addAttributeNodes("interesses", "fotos");
         TypedQuery<DadosPessoais> jpqlQuery = em.createNamedQuery(
-                "DadosPessoais.findById", 
+                "DadosPessoais.findById",
                 DadosPessoais.class);
         jpqlQuery.setParameter("idPessoa", id);
         // javax.persistence.loadgraph -> Campos que são retornados são adicionados ao Fetch padrão

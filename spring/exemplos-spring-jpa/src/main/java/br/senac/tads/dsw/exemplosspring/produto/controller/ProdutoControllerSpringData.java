@@ -73,8 +73,8 @@ public class ProdutoControllerSpringData {
         int pagina = offset / qtd;
         if (idsCat != null && !idsCat.isEmpty()) {
             // Busca pelos IDs das categorias informadas
-            resultados =
-                    produtoRepository.findAllByCategorias_IdIn(idsCat, PageRequest.of(pagina, qtd));
+            resultados
+                    = produtoRepository.findAllByCategorias_IdIn(idsCat, PageRequest.of(pagina, qtd));
         } else {
             // Lista todos os produtos usando paginacao
             resultados = produtoRepository.findAll(PageRequest.of(pagina, qtd));

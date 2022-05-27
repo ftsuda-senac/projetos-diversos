@@ -36,11 +36,11 @@ public class FotoPessoa {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pessoa_id") // FK
     private DadosPessoais pessoa;
-    
+
     public FotoPessoa() {
-        
+
     }
-    
+
     public FotoPessoa(String nomeArquivo, String legenda) {
         this.nomeArquivo = nomeArquivo;
         this.legenda = legenda;

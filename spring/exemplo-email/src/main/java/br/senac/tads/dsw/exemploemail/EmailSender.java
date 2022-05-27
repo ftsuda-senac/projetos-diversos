@@ -27,75 +27,72 @@ import org.thymeleaf.context.Context;
 @Service
 public class EmailSender {
 
-	@Value("${app.email.to}")
-	private String to;
+    @Value("${app.email.to}")
+    private String to;
 
-	@Autowired
-	private JavaMailSender javaMailSender;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
-	@Autowired
-	private TemplateEngine templateEngine;
+    @Autowired
+    private TemplateEngine templateEngine;
 
-	public void sendEmail() {
-		SimpleMailMessage msg = new SimpleMailMessage();
+    public void sendEmail() {
+        SimpleMailMessage msg = new SimpleMailMessage();
 
-		msg.setTo(to);
-		msg.setSubject("Teste Spring Simple E-mail");
-		msg.setText("Teste de e-mail enviado pela aplicação Spring Boot");
+        msg.setTo(to);
+        msg.setSubject("Teste Spring Simple E-mail");
+        msg.setText("Teste de e-mail enviado pela aplicação Spring Boot");
 
-		javaMailSender.send(msg);
-	}
+        javaMailSender.send(msg);
+    }
 
-	public void sendEmailWithAttachment() throws MessagingException, IOException {
+    public void sendEmailWithAttachment() throws MessagingException, IOException {
 
-		MimeMessage msg = javaMailSender.createMimeMessage();
+        MimeMessage msg = javaMailSender.createMimeMessage();
 
-		// true = multipart message
-		MimeMessageHelper helper = new MimeMessageHelper(msg, true);
-		helper.setTo(to);
+        // true = multipart message
+        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+        helper.setTo(to);
 
-		helper.setSubject("Teste Spring MIME E-mail");
+        helper.setSubject("Teste Spring MIME E-mail");
 
-		// default = text/plain
-		// helper.setText("Check attachment for image!");
+        // default = text/plain
+        // helper.setText("Check attachment for image!");
+        // true = text/html
+        helper.setText("<h1>Check attachment for image!</h1>", true);
+        helper.addAttachment("imagem.jpg", new ClassPathResource("jaspion.jpg"));
 
-		// true = text/html
-		helper.setText("<h1>Check attachment for image!</h1>", true);
-		helper.addAttachment("imagem.jpg", new ClassPathResource("jaspion.jpg"));
+        javaMailSender.send(msg);
+    }
 
-		javaMailSender.send(msg);
-	}
+    public String buildContent(String mensagem) {
+        Context context = new Context();
+        context.setVariable("mensagem", mensagem);
+        context.setVariable("dataHora", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        return templateEngine.process("mail/template", context);
+    }
 
-	public String buildContent(String mensagem) {
-		Context context = new Context();
-		context.setVariable("mensagem", mensagem);
-		context.setVariable("dataHora", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-		return templateEngine.process("mail/template", context);
-	}
+    public void sendEmailWithInlineAttachment() throws MessagingException, IOException {
 
-	public void sendEmailWithInlineAttachment() throws MessagingException, IOException {
+        MimeMessage msg = javaMailSender.createMimeMessage();
 
-		MimeMessage msg = javaMailSender.createMimeMessage();
+        // true = multipart message
+        MimeMessageHelper helper = new MimeMessageHelper(msg, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                StandardCharsets.UTF_8.name());
 
-		// true = multipart message
-		MimeMessageHelper helper = new MimeMessageHelper(msg, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-				StandardCharsets.UTF_8.name());
+        helper.setTo(to);
 
-		helper.setTo(to);
+        helper.setSubject("Teste Spring MIME E-mail com imagem");
 
-		helper.setSubject("Teste Spring MIME E-mail com imagem");
+        // default = text/plain
+        // helper.setText("Check attachment for image!");
+        // true = text/html
+        String content = buildContent("Teste de e-mail com imagem");
+        System.out.println(content);
+        helper.setText(content, true);
+        helper.addInline("imagem", new ClassPathResource("jaspion.jpg"), "image/jpg");
 
-		// default = text/plain
-		// helper.setText("Check attachment for image!");
-
-		// true = text/html
-		
-		String content = buildContent("Teste de e-mail com imagem");
-		System.out.println(content);
-		helper.setText(content, true);
-		helper.addInline("imagem", new ClassPathResource("jaspion.jpg"), "image/jpg");
-		
-		javaMailSender.send(msg);
-	}
+        javaMailSender.send(msg);
+    }
 
 }

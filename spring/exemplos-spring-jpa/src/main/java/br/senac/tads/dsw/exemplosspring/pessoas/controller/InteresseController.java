@@ -77,5 +77,5 @@ public class InteresseController {
         redirAttr.addFlashAttribute("msgSucesso", "Interesse com ID " + id + " alterado com sucesso");
         return new ModelAndView("redirect:/interesses");
     }
-    
+
 }

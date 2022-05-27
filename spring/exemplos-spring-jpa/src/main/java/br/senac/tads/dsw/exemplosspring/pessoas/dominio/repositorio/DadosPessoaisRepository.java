@@ -15,7 +15,7 @@ public interface DadosPessoaisRepository {
     Optional<DadosPessoais> findByApelido(String apelido);
 
     DadosPessoais save(DadosPessoais dados);
-    
+
     void deleteById(Integer id);
 
 }

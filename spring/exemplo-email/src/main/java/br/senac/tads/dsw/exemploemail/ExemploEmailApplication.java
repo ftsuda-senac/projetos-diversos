@@ -12,29 +12,29 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ExemploEmailApplication implements CommandLineRunner {
 
-	@Autowired
-	private EmailSender emailSender;
+    @Autowired
+    private EmailSender emailSender;
 
-	public static void main(String[] args) {
-		SpringApplication.run(ExemploEmailApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ExemploEmailApplication.class, args);
+    }
 
-	@Override
-	public void run(String... args) throws Exception {
-		System.out.println("Sending Email...");
+    @Override
+    public void run(String... args) throws Exception {
+        System.out.println("Sending Email...");
 
-		try {
-			//emailSender.sendEmail();
-			//emailSender.sendEmailWithAttachment();
-			emailSender.sendEmailWithInlineAttachment();
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        try {
+            //emailSender.sendEmail();
+            //emailSender.sendEmailWithAttachment();
+            emailSender.sendEmailWithInlineAttachment();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		System.out.println("Done");
+        System.out.println("Done");
 
-	}
+    }
 
 }

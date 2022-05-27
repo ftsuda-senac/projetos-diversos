@@ -1,55 +1,55 @@
 <!doctype html>
 <html data-layout-decorate="~{modelo}">
-<head>
-<title>Seleção de itens</title>
-<meta charset="UTF-8" />
-</head>
-<body>
-	<main class="container" data-layout-fragment="conteudo">
-		<div class="row">
-			<div class="col-12">
-				<h1>Selecione os itens</h1>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12 col-sm-6 col-md-4" data-th-each="item : ${itens}">
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title" data-th-text="${item.nome}">Item X</h5>
-						<p class="card-text">Descrição do item</p>
-					</div>
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item">ID: <span data-th-text="${item.id}">1</span></li>
-						<li class="list-group-item">Valor: <span data-th-text="${#numbers.formatDecimal(item.valor,1,'DEFAULT',2,'DEFAULT')}">99</span></li>
-						<li class="list-group-item">Data e hora: <span data-th-text="${#temporals.format(item.dataHora, 'dd/MM/yyyy HH:mm')}">99</span></li>
-						<li class="list-group-item"><span data-th-if="${#lists.isEmpty(item.categorias)}">Sem categorias</span>
-							<div data-th-unless="${#lists.isEmpty(item.categorias)}">
-								<p>Categorias:</p>
-								<ul data-th-each="cat : ${item.categorias}">
-									<li data-th-text="${cat.nome}"></li>
-								</ul>
-							</div>
-						</li>
-					</ul>
-					<div class="card-body">
-						<form method="post" data-th-action="@{/carrinho}">
-							<input type="hidden" name="itemId" data-th-value="${item.id}" />
-							<div class="form-group row">
-								<label for="txtQtd" class="col-3 col-form-label">Qtd</label>
-								<div class="col-3">
-									<input type="number" name="qtd" class="form-control" id="txtQtd" value="1" min="1">
-								</div>
-								<div class="col-6">
-									<button type="submit" class="btn btn-block"
-										data-th-style="'color: #fff; background-color: ' + ${item.corHex}">Adicionar</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</main>
+    <head>
+        <title>Seleção de itens</title>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <main class="container" data-layout-fragment="conteudo">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Selecione os itens</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4" data-th-each="item : ${itens}">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" data-th-text="${item.nome}">Item X</h5>
+                            <p class="card-text">Descrição do item</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">ID: <span data-th-text="${item.id}">1</span></li>
+                            <li class="list-group-item">Valor: <span data-th-text="${#numbers.formatDecimal(item.valor,1,'DEFAULT',2,'DEFAULT')}">99</span></li>
+                            <li class="list-group-item">Data e hora: <span data-th-text="${#temporals.format(item.dataHora, 'dd/MM/yyyy HH:mm')}">99</span></li>
+                            <li class="list-group-item"><span data-th-if="${#lists.isEmpty(item.categorias)}">Sem categorias</span>
+                                <div data-th-unless="${#lists.isEmpty(item.categorias)}">
+                                    <p>Categorias:</p>
+                                    <ul data-th-each="cat : ${item.categorias}">
+                                        <li data-th-text="${cat.nome}"></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="card-body">
+                            <form method="post" data-th-action="@{/carrinho}">
+                                <input type="hidden" name="itemId" data-th-value="${item.id}" />
+                                <div class="form-group row">
+                                    <label for="txtQtd" class="col-3 col-form-label">Qtd</label>
+                                    <div class="col-3">
+                                        <input type="number" name="qtd" class="form-control" id="txtQtd" value="1" min="1">
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="submit" class="btn btn-block"
+                                                data-th-style="'color: #fff; background-color: ' + ${item.corHex}">Adicionar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
 
-</body>
+    </body>
 </html>

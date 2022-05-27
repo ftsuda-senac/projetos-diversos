@@ -43,23 +43,30 @@ public class PedidoItemId implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         PedidoItemId other = (PedidoItemId) obj;
         if (idItem == null) {
-            if (other.idItem != null)
+            if (other.idItem != null) {
                 return false;
-        } else if (!idItem.equals(other.idItem))
+            }
+        } else if (!idItem.equals(other.idItem)) {
             return false;
+        }
         if (idPedido == null) {
-            if (other.idPedido != null)
+            if (other.idPedido != null) {
                 return false;
-        } else if (!idPedido.equals(other.idPedido))
+            }
+        } else if (!idPedido.equals(other.idPedido)) {
             return false;
+        }
         return true;
     }
 }

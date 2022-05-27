@@ -23,9 +23,7 @@ public class CategoriaRepositoryJdbcImpl implements CategoriaRepository {
     public List<Categoria> findAll() {
         String sql = "SELECT ID, NOME FROM CATEGORIA";
         List<Categoria> categorias = new ArrayList<>();
-        try (Connection conn = dataSource.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                ResultSet rs = stmt.executeQuery()) {
+        try ( Connection conn = dataSource.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql);  ResultSet rs = stmt.executeQuery()) {
 
             if (rs != null) {
                 while (rs.next()) {
@@ -41,10 +39,9 @@ public class CategoriaRepositoryJdbcImpl implements CategoriaRepository {
     @Override
     public Categoria findById(Integer id) {
         String sql = "SELECT NOME FROM CATEGORIA WHERE ID=?";
-        try (Connection conn = dataSource.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try ( Connection conn = dataSource.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
+            try ( ResultSet rs = stmt.executeQuery()) {
                 if (rs != null) {
                     while (rs.next()) {
                         return new Categoria(id, rs.getString(1));
@@ -70,14 +67,14 @@ public class CategoriaRepositoryJdbcImpl implements CategoriaRepository {
     private void insert(Categoria cat) {
         String sql = "INSERT INTO CATEGORIA (NOME) VALUES (?)";
         int resultados = 0;
-        try (Connection conn = dataSource.getConnection()) {
+        try ( Connection conn = dataSource.getConnection()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement stmt =
-                    conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            try ( PreparedStatement stmt
+                    = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 stmt.setString(1, cat.getNome());
                 resultados = stmt.executeUpdate();
                 if (resultados > 0) {
-                    try (ResultSet chaves = stmt.getGeneratedKeys()) {
+                    try ( ResultSet chaves = stmt.getGeneratedKeys()) {
                         if (chaves != null && chaves.next()) {
                             cat.setId(chaves.getInt(1));
                         }
@@ -97,9 +94,9 @@ public class CategoriaRepositoryJdbcImpl implements CategoriaRepository {
     private void update(Categoria cat) {
         String sql = "UPDATE CATEGORIA SET NOME=? WHERE ID=?";
         int resultados = 0;
-        try (Connection conn = dataSource.getConnection()) {
+        try ( Connection conn = dataSource.getConnection()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            try ( PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, cat.getNome());
                 stmt.setInt(2, cat.getId());
                 resultados = stmt.executeUpdate();

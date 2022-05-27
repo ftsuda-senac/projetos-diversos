@@ -93,7 +93,7 @@ public class DadosPessoaisRepositoryMockImpl implements DadosPessoaisRepository 
 
     @PostConstruct
     public void init() {
-       
+
         mapItens = new ConcurrentHashMap<>();
 //        addNewItem(new DadosPessoais("Agenor Barros", "abarros", "Bio do Agenor Barros", "1981-11-21",
 //                "abarros@teste.com.br", "(11) 99876-1029", "abcd1234", 86, "1.75", "89.4", 1, Arrays.asList(1, 3, 5), "avatarm1.jpg", "");

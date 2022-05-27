@@ -97,7 +97,7 @@ public class DadosPessoaisService {
         // e/ou @PreMerge na classe de entidade
         Set<DadosPessoais> pessoas = new HashSet<>();
         pessoas.add(dados);
-        
+
         Set<Interesse> interesses = new LinkedHashSet<>();
         for (Integer interesseId : dados.getInteressesIds()) {
             Optional<Interesse> optInteresse = interesseRepository.findById(interesseId);

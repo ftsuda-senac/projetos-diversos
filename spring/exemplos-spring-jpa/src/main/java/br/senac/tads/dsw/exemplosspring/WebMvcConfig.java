@@ -16,7 +16,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Value("${app.imagem-url-prefix}")
     private String imagemUrlPrefix;
 
-    
     /**
      * Define uma URL para acessar um diretório contendo as imagens<br>
      * Criar o diretório configurado no sistema.<br>
@@ -29,7 +28,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler(imagemUrlPrefix + "/**")
                 .addResourceLocations("file:///" + imagemPath);
     }
-    
+
     /**
      * Redireciona uma requisição de / ou /index.html para um template
      * espeficicado<br>

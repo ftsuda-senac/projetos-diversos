@@ -14,11 +14,11 @@ public class InteresseRepositoryJpaImpl implements InteresseRepository {
 
     @PersistenceContext
     private EntityManager em;
-    
+
     @Override
     public List<Interesse> findAll() {
         TypedQuery<Interesse> jpqlQuery = em.createQuery(
-                "SELECT i FROM Interesse i", 
+                "SELECT i FROM Interesse i",
                 Interesse.class);
         List<Interesse> resultados = jpqlQuery.getResultList();
         return resultados;
@@ -46,5 +46,5 @@ public class InteresseRepositoryJpaImpl implements InteresseRepository {
         }
         return interesse;
     }
-    
+
 }

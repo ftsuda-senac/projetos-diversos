@@ -154,8 +154,8 @@ public class PedidoItemService {
         PedidoItem pi23 = new PedidoItem(ped2, item3, 1);
         PedidoItem pi24 = new PedidoItem(ped2, item4, 1);
 
-        Set<PedidoItem> ped2Itens =
-                new LinkedHashSet<PedidoItem>(Arrays.asList(pi21, pi22, pi23, pi24));
+        Set<PedidoItem> ped2Itens
+                = new LinkedHashSet<PedidoItem>(Arrays.asList(pi21, pi22, pi23, pi24));
         pedidoItemRepository.saveAll(ped2Itens);
 
         // ================================
@@ -183,8 +183,8 @@ public class PedidoItemService {
         PedidoItem pi32b = new PedidoItem(ped3, item2, 2);
         PedidoItem pi33b = new PedidoItem(ped3, item3, 4);
 
-        Set<PedidoItem> ped3bItens =
-                new LinkedHashSet<PedidoItem>(Arrays.asList(pi31b, pi32b, pi33b));
+        Set<PedidoItem> ped3bItens
+                = new LinkedHashSet<PedidoItem>(Arrays.asList(pi31b, pi32b, pi33b));
         pedidoItemRepository.saveAll(ped3bItens);
     }
 

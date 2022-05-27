@@ -23,9 +23,7 @@ public class InteresseRepositoryJdbcImpl implements InteresseRepository {
     public List<Interesse> findAll() {
         String sql = "SELECT id, nome FROM interesse";
         List<Interesse> resultados = new ArrayList<>();
-        try (Connection conn = dataSource.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                ResultSet rs = stmt.executeQuery()) {
+        try ( Connection conn = dataSource.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql);  ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Interesse interesse = new Interesse();
                 interesse.setId(rs.getInt("id"));
@@ -43,10 +41,9 @@ public class InteresseRepositoryJdbcImpl implements InteresseRepository {
     public Optional<Interesse> findById(Integer id) {
         String sql = "SELECT id, nome FROM interesse WHERE id = ?";
         Interesse interesse = null;
-        try (Connection conn = dataSource.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try ( Connection conn = dataSource.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
+            try ( ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     interesse = new Interesse();
                     interesse.setId(rs.getInt("id"));
@@ -73,14 +70,14 @@ public class InteresseRepositoryJdbcImpl implements InteresseRepository {
     private void insert(Interesse interesse) {
         String sql = "INSERT INTO interesse (nome) VALUES (?)";
         int qtResultados = 0;
-        try (Connection conn = dataSource.getConnection()) {
+        try ( Connection conn = dataSource.getConnection()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement stmt
+            try ( PreparedStatement stmt
                     = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 stmt.setString(1, interesse.getNome());
                 qtResultados = stmt.executeUpdate();
                 if (qtResultados > 0) {
-                    try (ResultSet chaves = stmt.getGeneratedKeys()) {
+                    try ( ResultSet chaves = stmt.getGeneratedKeys()) {
                         if (chaves != null && chaves.next()) {
                             interesse.setId(chaves.getInt(1));
                         }
@@ -101,9 +98,9 @@ public class InteresseRepositoryJdbcImpl implements InteresseRepository {
     private void update(Interesse interesse) {
         String sql = "UPDATE interesse SET nome=? WHERE id=?";
         int qtResultados = 0;
-        try (Connection conn = dataSource.getConnection()) {
+        try ( Connection conn = dataSource.getConnection()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement stmt
+            try ( PreparedStatement stmt
                     = conn.prepareStatement(sql)) {
                 stmt.setString(1, interesse.getNome());
                 stmt.setInt(2, interesse.getId());

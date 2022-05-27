@@ -33,10 +33,10 @@ import javax.validation.constraints.Size;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Produto.findAll", query = "SELECT p FROM Produto p"),
-        @NamedQuery(name = "Produto.findAllByCategorias_Id", query = "SELECT DISTINCT p FROM Produto p INNER JOIN p.categorias c WHERE c.id IN :idsCat"),
-        @NamedQuery(name = "Produto.findById", query = "SELECT p FROM Produto p WHERE p.id = :idProd"),
-        @NamedQuery(name = "Produto.findByIdComJoinFetch", query = "SELECT p FROM Produto p LEFT JOIN FETCH p.categorias LEFT JOIN FETCH p.imagens WHERE p.id = :idProd")})
+    @NamedQuery(name = "Produto.findAll", query = "SELECT p FROM Produto p"),
+    @NamedQuery(name = "Produto.findAllByCategorias_Id", query = "SELECT DISTINCT p FROM Produto p INNER JOIN p.categorias c WHERE c.id IN :idsCat"),
+    @NamedQuery(name = "Produto.findById", query = "SELECT p FROM Produto p WHERE p.id = :idProd"),
+    @NamedQuery(name = "Produto.findByIdComJoinFetch", query = "SELECT p FROM Produto p LEFT JOIN FETCH p.categorias LEFT JOIN FETCH p.imagens WHERE p.id = :idProd")})
 @NamedEntityGraphs({
     @NamedEntityGraph(name = "graph.ProdutoCategoriasImagens", attributeNodes = {
         @NamedAttributeNode(value = "categorias"),
