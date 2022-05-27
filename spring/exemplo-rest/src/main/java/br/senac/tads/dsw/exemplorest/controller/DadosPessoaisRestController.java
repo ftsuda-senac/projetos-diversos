@@ -26,6 +26,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/rest/pessoas")
+// tentar acessar usando 127.0.0.1:8080 no código Ajax/Javascript
+// @CrossOrigin(origins = "http://localhost:8080")
+// @CrossOrigin(origins = "*")
 public class DadosPessoaisRestController {
 
     private DadosPessoaisService service;
@@ -35,9 +38,6 @@ public class DadosPessoaisRestController {
     }
 
     @GetMapping
-    // tentar acessar usando 127.0.0.1 no código Ajax/Javascript
-    // @CrossOrigin(origins = "http://localhost:8080")
-    // @CrossOrigin(origins = "*")
     public Page<DadosPessoais> listar(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "qtde", defaultValue = "10") int qtde,
