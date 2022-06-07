@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: stretch;
+                background: rgb(110,27,190);
+                background: radial-gradient(circle, rgba(110,27,190,1) 32%, rgba(0,211,250,1) 84%);
+            }
+            body > div {
+
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <div>Teste iframe</div>
+            <button id="btnSendMessage">Apresentar mensagem</button>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('btnSendMessage').onclick = function (evt) {
+                    let iframeEvent = new CustomEvent('iframebuttonclick', {detail: {type: 'teste', value: 123}});
+                    window.parent.document.dispatchEvent(iframeEvent);
+                }
+            });
+
+
+        </script>
+    </body>
+
+</html>
