@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "AppHtmlServlet", urlPatterns = "/app-html")
-public class AppHtmlServlet extends HttpServlet {
+@WebServlet(name = "AppWebServlet", urlPatterns = "/app-web")
+public class AppWebServlet extends HttpServlet {
 
     public String gerarTexto() {
         return "Texto gerado - Data e hora: " + LocalDateTime.now();
@@ -60,7 +60,7 @@ public class AppHtmlServlet extends HttpServlet {
             resposta = gerarJson();
         } else {
             // Mostra menu caso nenhuma opção seja selecionada
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/app-html-menu.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/app-web-menu.jsp");
             dispatcher.forward(request, response);
             return;
         }
