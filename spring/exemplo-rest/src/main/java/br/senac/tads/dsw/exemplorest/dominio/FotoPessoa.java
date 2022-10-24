@@ -17,8 +17,9 @@ import javax.validation.constraints.Size;
 public class FotoPessoa {
 
     @Id
-    @SequenceGenerator(name = "seq_fotopessoa_id",
-            sequenceName = "seq_fotopessoa_id",
+    @SequenceGenerator(
+            name = "seq_fotopessoa_id",
+            // sequenceName = "seq_fotopessoa_id",
             allocationSize = 1,
             initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,

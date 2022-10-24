@@ -18,8 +18,9 @@ import javax.validation.constraints.Size;
 public class Interesse {
 
     @Id
-    @SequenceGenerator(name = "seq_interesse_id",
-            sequenceName = "seq_interesse_id",
+    @SequenceGenerator(
+            name = "seq_interesse_id",
+            // sequenceName = "seq_interesse_id",
             allocationSize = 1,
             initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,

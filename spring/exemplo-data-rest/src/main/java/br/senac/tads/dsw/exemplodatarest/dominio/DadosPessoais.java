@@ -39,7 +39,7 @@ public class DadosPessoais {
 
     @Id
     @SequenceGenerator(name = "seq_pessoa_id",
-            sequenceName = "seq_pessoa_id",
+            // sequenceName = "seq_pessoa_id",
             allocationSize = 1,
             initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
