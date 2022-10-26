@@ -9,17 +9,20 @@
             <div th:if="${usuario != null}">
                 <h2>Nome completo: <span th:text="${usuario.nomeCompleto}"></span></h2>
                 <p>Hash da senha: <code th:text="${usuario.hashSenha}"></code></p>
-                <ul>
-                    <li sec:authorize="hasRole('PEAO')"><a th:href="@{/protegido/peao}">Tela PEAO</a></li>
-                    <li sec:authorize="hasRole('FODON')"><a th:href="@{/protegido/fodon}">Tela FODON</a></li>
-                    <li sec:authorize="hasRole('GOD')"><a th:href="@{/protegido/god}">Tela GOD</a></li>
-                </ul>
-                <p>
-                    <a th:href="@{/logout}">Sair</a>
-                </p>
+                <p>Papeis: <span class="badge rounded-pill text-bg-info mx-1" th:each="papel : ${usuario.papeis}" th:text="${papel.nome}"></span></p>
             </div>
             <div th:unless="${usuario != null}">
                 <h2>Usuário não logado no sistema</h2>
+            </div>
+            <div>
+                <ul>
+                    <li sec:authorize="hasAuthority('ROLE_PEAO')"><a th:href="@{/protegido/peao}">Tela PEAO</a></li>
+                    <li sec:authorize="hasAuthority('ROLE_FODON')"><a th:href="@{/protegido/fodon}">Tela FODON</a></li>
+                    <li sec:authorize="hasAuthority('ROLE_GOD')"><a th:href="@{/protegido/god}">Tela GOD</a></li>
+                </ul>
+                <p sec:authorize="isAuthenticated()">
+                    <a th:href="@{/logout}">Sair</a>
+                </p>
             </div>
         </div>
     </body>

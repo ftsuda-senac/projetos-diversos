@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProtegidoController {
 
     @GetMapping("/peao")
-    @PreAuthorize("hasRole('PEAO')") // OBS: HABILITAR O @EnableGlobalMethodSecurity em SecurityConfig
+    @PreAuthorize("hasAuthority('ROLE_PEAO')") // OBS: HABILITAR O @EnableGlobalMethodSecurity em SecurityConfig
     public ModelAndView mostrarPeaoPage() {
         return new ModelAndView("protegido")
                 .addObject("titulo", "Página do PEAO")
@@ -19,7 +19,7 @@ public class ProtegidoController {
     }
 
     @GetMapping("/fodon")
-    @PreAuthorize("hasRole('FODON')")
+    @PreAuthorize("hasAuthority('ROLE_FODON')")
     public ModelAndView mostrarFodonPage() {
         return new ModelAndView("protegido")
                 .addObject("titulo", "Página do FODON")
@@ -27,7 +27,7 @@ public class ProtegidoController {
     }
 
     @GetMapping("/god")
-    @PreAuthorize("hasRole('GOD')")
+    @PreAuthorize("hasAuthority('ROLE_GOD')")
     public ModelAndView mostrarGodPage() {
         return new ModelAndView("protegido")
                 .addObject("titulo", "Página do GOD")
