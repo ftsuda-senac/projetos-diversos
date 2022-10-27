@@ -1,0 +1,44 @@
+<html layout:decorate="~{modelo-bs5}">
+    <head>
+        <meta charset="UTF-8" />
+        <title>TADS DSW</title>
+    </head>
+    <body>
+        <main layout:fragment="conteudo">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Listagem de Categorias (Spring Data JPA)</h1>
+                    <div class="alert alert-success" role="alert" th:if="${!#strings.isEmpty(msgSucesso)}">
+                        <h4 class="alert-heading">Sucesso</h4>
+                        <p class="mb-0" th:text="${msgSucesso}"></p>
+                    </div>
+                    <div class="alert alert-danger" role="alert" th:if="${!#strings.isEmpty(msgErro)}">
+                        <h4 class="alert-heading">Erro</h4>
+                        <p class="mb-0" th:text="${msgErro}"></p>
+                    </div>
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody th:if="${categorias != null}">
+                            <tr th:each="cat, stat: ${categorias}">
+                                <td th:text="${cat.id}"></td>
+                                <td th:text="${cat.nome}"></td>
+                                <td>
+                                    <a class="btn btn-primary" th:href="@{/categorias-sd/{id}/editar(id=${cat.id})}"><i class="fas fa-edit"></i> Alterar</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <a th:href="@{/categorias-sd/novo}" class="btn btn-success"><i class="fas fa-plus"></i> Incluir novo</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

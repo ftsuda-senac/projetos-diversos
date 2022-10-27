@@ -4,6 +4,7 @@ import br.senac.tads.dsw.exemplosspring.pessoas.dominio.entidade.Interesse;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -14,11 +15,11 @@ public class InteresseRepositoryJpaImpl implements InteresseRepository {
 
     @PersistenceContext
     private EntityManager em;
-    
+
     @Override
     public List<Interesse> findAll() {
         TypedQuery<Interesse> jpqlQuery = em.createQuery(
-                "SELECT i FROM Interesse i", 
+                "SELECT i FROM Interesse i",
                 Interesse.class);
         List<Interesse> resultados = jpqlQuery.getResultList();
         return resultados;
@@ -30,8 +31,12 @@ public class InteresseRepositoryJpaImpl implements InteresseRepository {
                 "SELECT i FROM Interesse i WHERE i.id = :idParam",
                 Interesse.class)
                 .setParameter("idParam", id);
-        Interesse resultado = jpqlQuery.getSingleResult();
-        return Optional.ofNullable(resultado);
+        try {
+            Interesse resultado = jpqlQuery.getSingleResult();
+            return Optional.of(resultado);
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -46,5 +51,5 @@ public class InteresseRepositoryJpaImpl implements InteresseRepository {
         }
         return interesse;
     }
-    
+
 }

@@ -1,0 +1,53 @@
+<html layout:decorate="~{modelo-bs5}">
+    <head>
+        <meta charset="UTF-8" />
+        <title>TADS DSW</title>
+    </head>
+    <body>
+        <main layout:fragment="conteudo">
+            <div class="row">
+                <section class="col-12 offset-md-2 col-md-8">
+                    <h1 th:if="${categoria.id == null}">Inclusão de categoria</h1>
+                    <h1 th:if="${categoria.id != null}">Alteração de categoria</h1>
+                    <div class="alert alert-success" role="alert" th:if="${!#strings.isEmpty(msgSucesso)}">
+                        <h4 class="alert-heading">Sucesso</h4>
+                        <p class="mb-0" th:text="${msgSucesso}"></p>
+                    </div>
+                    <div class="alert alert-danger" role="alert" th:if="${!#strings.isEmpty(msgErro)}">
+                        <h4 class="alert-heading">Erro</h4>
+                        <p class="mb-0" th:text="${msgErro}"></p>
+                    </div>
+
+                    <form th:action="@{/categorias/salvar}" method="post" th:object="${categoria}" novalidate>
+                        <input type="hidden" th:if="*{id != null}" th:field="*{id}" />
+
+                        <div class="row mb-3">
+                            <label for="txtNome" class="col-sm-2 col-form-label">Nome</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"
+                                       id="txtNome" placeholder="Preencha o nome da categoria"
+                                       maxlength="100" required
+                                       th:field="*{nome}"
+                                       th:classappend="${#fields.hasErrors('nome')}? is-invalid" 
+                                       />
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-3">
+                                <div class="d-grid">
+                                    <a th:href="@{/categorias}" role="button" class="btn btn-outline-dark">Cancelar</a>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-success">Enviar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </body>
+</html>

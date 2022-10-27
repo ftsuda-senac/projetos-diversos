@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -61,8 +62,12 @@ public class DadosPessoaisRepositoryJpaImpl implements DadosPessoaisRepository {
         // javax.persistence.loadgraph -> Campos que são retornados são adicionados ao Fetch padrão
         // javax.persistence.fetchgraph -> Campos que são retornados devem ser explicitados
         jpqlQuery.setHint("javax.persistence.loadgraph", entityGraph);
-        DadosPessoais resultado = jpqlQuery.getSingleResult();
-        return Optional.ofNullable(resultado);
+        try {
+            DadosPessoais resultado = jpqlQuery.getSingleResult();
+            return Optional.of(resultado);
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
     }
 
     @Override

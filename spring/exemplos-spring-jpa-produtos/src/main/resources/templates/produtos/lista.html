@@ -1,0 +1,108 @@
+<html layout:decorate="~{modelo-bs5}">
+    <head>
+        <meta charset="UTF-8" />
+        <title>TADS DSW</title>
+        <script th:inline="javascript">
+            /*
+            $(function () {  
+                $('#deleteModal').on('show.bs.modal', function (evt) {
+                    var button = $(evt.relatedTarget) // Button that triggered the modal
+                    var nomeProduto = button.data('nomeprod') // Extract info from data-* attributes
+                    var actionUrl = button.data('actionurl');
+                    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                    var modal = $(this);
+                    modal.find('.modal-title').text('Apagar produto ' + nomeProduto);
+                    modal.find('.modal-body p').text('Deseja apagar o produto ' + nomeProduto + '?');
+                    modal.find('.modal-footer form').attr('action', actionUrl);
+                });
+            });
+            */
+        </script>
+    </head>
+    <body>
+        <main layout:fragment="conteudo">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Listagem de Produtos</h1>
+                    <div class="alert alert-success" role="alert" th:if="${!#strings.isEmpty(msgSucesso)}">
+                        <h4 class="alert-heading">Sucesso</h4>
+                        <p class="mb-0" th:text="${msgSucesso}"></p>
+                    </div>
+                    <div class="alert alert-danger" role="alert" th:if="${!#strings.isEmpty(msgErro)}">
+                        <h4 class="alert-heading">Erro</h4>
+                        <p class="mb-0" th:text="${msgErro}"></p>
+                    </div>
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Preço compra</th>
+                                <th>Preço venda</th>
+                                <th>Quantidade</th>
+                                <th>Disponível</th>
+                                <th>AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody th:if="${produtos != null}">
+                            <tr th:each="prod, stat: ${produtos}">
+                                <td th:text="${prod.id}"></td>
+                                <td th:text="${prod.nome}"></td>
+                                <td th:text="${prod.precoCompra}"></td>
+                                <td th:text="${prod.precoVenda}"></td>
+                                <td th:text="${prod.quantidade}"></td>
+                                <td th:text="${prod.disponivel}"></td>
+                                <td>
+                                   <div class="btn-group" role="group" aria-label="Ações">
+                                       <a class="btn btn-primary" th:href="@{/produtos/{id}/editar(id=${prod.id})}"><i class="fas fa-edit"></i> Alterar</a>
+                                       <button class="btn btn-danger" role="button" data-bs-toogle="modal" data-bs-target="#modalExcluir"
+                                               th:attr="data-action-url=@{/produtos/{id}/remover(id=${prod.id})}, data-nome-prod=${prod.nome}"><i class="fas fa-trash-alt"></i> Excluir</button>
+                                   </div>
+                               </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <a th:href="@{/produtos/novo}" class="btn btn-success"><i class="fa fa-plus"></i> Incluir novo</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div layout:fragment="modal-area">
+            <div class="modal fade" id="modalExcluir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel"><i class="fas fa-trash-alt"></i> Confirmar exclusão</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="modalExcluirMsg">Confirma exclusão?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Não</button>
+                            <form id="modalExcluirForm" style="display: inline-block" method="post">
+                                <button type="submit" class="btn btn-danger">Sim</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script layout:fragment="script-area" th:inline="javascript">
+            ready(function() {
+                // Modifica as informações do modal para confirmar exclusão
+                document.getElementById('modalExcluir').addEventListener('show.bs.modal', function(evt) {
+
+                    let botaoExcluir = evt.relatedTarget; // Botão clicado que disparou evento
+                    let excluirActionUrl = botaoExcluir.dataset.actionUrl; // Recupera informação do atributo data-action-url
+                    let nomeProd = botaoExcluir.dataset.nomeProd; // Recupera informação do atributo data-nomeprod
+
+                    this.querySelector('#modalExcluirMsg').innerHTML = `Deseja apagar o produto ${nomeProduto}?`;
+                    this.querySelector('#modalExcluirForm').action = excluirActionUrl;
+                })
+            })
+        </script>
+    </body>
+</html>
