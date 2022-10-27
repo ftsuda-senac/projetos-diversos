@@ -1,7 +1,9 @@
 package br.senac.tads.dsw.exemplorest.controller;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import br.senac.tads.dsw.exemplorest.dominio.Pessoa;
+import br.senac.tads.dsw.exemplorest.dominio.PessoaRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import br.senac.tads.dsw.exemplorest.dominio.Pessoa;
-import br.senac.tads.dsw.exemplorest.dominio.PessoaRepository;
 
 @RestController
 @RequestMapping("/hateoas/pessoas")
