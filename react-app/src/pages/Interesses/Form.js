@@ -9,7 +9,7 @@ export default function InteressesForm() {
   return (
     <div className="row">
       <div className="offset-md-2 col-md-8">
-        <h1>{(dados && dados.id) ? `Alteração de interesse - ID ${dados.id}` : 'Inclusão de interesse'}</h1>
+        <h1>{(dados && dados.id) ? `Alteração de interesse - ID ${dados.id}` : 'Inclusão de interesse'} (VERSÃO React)</h1>
         {
           msgSucesso.length > 0 &&
           <div className="alert alert-success" role="alert">

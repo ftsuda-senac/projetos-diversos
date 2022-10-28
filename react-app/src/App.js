@@ -13,18 +13,20 @@ export default function App() {
     <div className="d-flex flex-column h-100">
       <BrowserRouter>
         <Navbar />
-        <Routes>
-          <Route path="/pessoas" element={<DadosPessoais />}>
-            <Route path="novo" element={<DadosPessoaisForm />} />
-            <Route path="editar/:id" element={<DadosPessoaisForm />} />
-            <Route path="" element={<DadosPessoaisList />} />
-          </Route>
-          <Route path="/interesses" element={<Interesses />}>
-            <Route path="novo" element={<InteressesForm />} />
-            <Route path="editar/:id" element={<InteressesForm />} />
-            <Route path="" element={<InteressesList />} />
-          </Route>
-        </Routes>
+        <div className="container-lg mb-3">
+          <Routes >
+            <Route path="/pessoas" element={<DadosPessoais />}>
+              <Route path="novo" element={<DadosPessoaisForm />} />
+              <Route path="editar/:id" element={<DadosPessoaisForm />} />
+              <Route path="" element={<DadosPessoaisList />} />
+            </Route>
+            <Route path="/interesses" element={<Interesses />}>
+              <Route path="novo" element={<InteressesForm />} />
+              <Route path="editar/:id" element={<InteressesForm />} />
+              <Route path="" element={<InteressesList />} />
+            </Route>
+          </Routes>
+        </div>
         <Footer />
       </BrowserRouter>
     </div>

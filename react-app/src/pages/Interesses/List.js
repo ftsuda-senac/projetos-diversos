@@ -9,7 +9,7 @@ export default function InteressesList() {
   return (
     <div className="row">
       <div className="offset-md-2 col-md-8">
-        <h1>Listagem de interesses</h1>
+        <h1>Listagem de interesses (VERSÃO React)</h1>
         {
           msgSucesso.length > 0 &&
           <div className="alert alert-success" role="alert">
