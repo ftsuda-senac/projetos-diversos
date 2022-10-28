@@ -1,31 +1,32 @@
-import React from 'react';
-import './App.css';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Lista from './Lista';
-import Form from './Form';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from 'components/Navbar';
+import Footer from 'components/Footer';
+import DadosPessoais from "pages/DadosPessoais";
+import DadosPessoaisList from "pages/DadosPessoais/List";
+import DadosPessoaisForm from "pages/DadosPessoais/Form";
+import Interesses from "pages/Interesses";
+import InteressesList from "pages/Interesses/List";
+import InteressesForm from "pages/Interesses/Form";
 
-function App() {
+export default function App() {
   return (
-    <>
-    <header>
-      <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a className="navbar-brand" href="#">Pessoas</a>
-      </nav>
-    </header>
-    <BrowserRouter>
-      <Switch>
-        <Route path="/" exact={true} component={Lista} />
-        <Route path="/new" exact={true} component={Form} />
-        <Route path="/edit/:id" exact={true} component={Form} />
-      </Switch>
-    </BrowserRouter>
-    <footer className="footer mt-auto py-3">
-      <div className="container">
-        <span className="text-muted">&copy; Senac TADS 2020</span>
-      </div>
-    </footer>
-    </>
+    <div className="d-flex flex-column h-100">
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/pessoas" element={<DadosPessoais />}>
+            <Route path="novo" element={<DadosPessoaisForm />} />
+            <Route path="editar/:id" element={<DadosPessoaisForm />} />
+            <Route path="" element={<DadosPessoaisList />} />
+          </Route>
+          <Route path="/interesses" element={<Interesses />}>
+            <Route path="novo" element={<InteressesForm />} />
+            <Route path="editar/:id" element={<InteressesForm />} />
+            <Route path="" element={<InteressesList />} />
+          </Route>
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </div>
   );
 }
-
-export default App;
