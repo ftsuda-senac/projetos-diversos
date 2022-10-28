@@ -89,7 +89,7 @@ public class DadosPessoaisRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa com ID " + id + " não encontrada");
         }
         service.deleteById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
 }
