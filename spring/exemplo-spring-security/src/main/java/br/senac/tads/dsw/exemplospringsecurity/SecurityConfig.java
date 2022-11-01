@@ -4,15 +4,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+// Configuração do Spring Security pós versão 5.7/Boot 2.7
 // https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
 // https://github.com/eugenp/tutorials/blob/master/spring-security-modules/spring-security-web-boot-4/src/main/java/com/baeldung/securityfilterchain/configuration/SecurityConfig.java
 @Configuration
-@EnableWebSecurity
 @EnableGlobalMethodSecurity(
         prePostEnabled = true,
         securedEnabled = true,
@@ -35,14 +34,11 @@ public class SecurityConfig {
             }
         };
     }
-
-    public static PasswordEncoder bcryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
     
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return bcryptPasswordEncoder();
+        // return plainPasswordEncoder()
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
