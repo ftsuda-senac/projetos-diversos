@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.senac.tads.dsw.exemplorest.controller;
 
-import br.senac.tads.dsw.exemplorest.dominio.DadosPessoais;
 import br.senac.tads.dsw.exemplorest.dominio.Interesse;
 import br.senac.tads.dsw.exemplorest.dominio.InteresseRepository;
 import java.util.ArrayList;
@@ -57,7 +52,6 @@ public class InteresseRestHateoasController {
         emi.add(linkTo(methodOn(InteresseRestHateoasController.class).findById(interesse.getId()))
                 .withSelfRel());
         return emi;
-
     }
 
 }

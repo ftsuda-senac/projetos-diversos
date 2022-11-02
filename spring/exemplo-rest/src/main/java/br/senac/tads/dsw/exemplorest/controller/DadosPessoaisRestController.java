@@ -2,7 +2,6 @@ package br.senac.tads.dsw.exemplorest.controller;
 
 import br.senac.tads.dsw.exemplorest.dominio.DadosPessoais;
 import br.senac.tads.dsw.exemplorest.dominio.DadosPessoaisService;
-import br.senac.tads.dsw.exemplorest.dominio.InteresseRepository;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
