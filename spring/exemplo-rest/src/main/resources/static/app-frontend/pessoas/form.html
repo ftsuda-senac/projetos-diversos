@@ -272,24 +272,24 @@
             function carregarDados(idPessoa) {
                 // Usando Promise para carregar primeiro as opções dos interesses
                 // e somente depois disso carregar os dados da pessoa (se houver)
-                getBackendData('/rest/interesses').then(function (dadosJSONInteresses) {
-                    document.getElementById('opcoesInteresses').innerHTML = montarOpcoesInteresses(dadosJSONInteresses);
+                getBackendData('/rest/interesses').then(function (dadosInteresses) {
+                    document.getElementById('opcoesInteresses').innerHTML = montarOpcoesInteresses(dadosInteresses);
                     if (idPessoa) {
-                        getBackendData('/rest/pessoas/' + idPessoa).then(function (dadosJSON) {
+                        getBackendData('/rest/pessoas/' + idPessoa).then(function (dados) {
                             const form = document.getElementById('dadosForm');
-                            form.id.value = dadosJSON.id;
-                            form.nome.value = dadosJSON.nome;
-                            form.apelido.value = dadosJSON.apelido;
-                            form.descricao.value = dadosJSON.descricao;
-                            form.dataNascimento.value = dadosJSON.dataNascimento;
-                            form.email.value = dadosJSON.email;
-                            form.telefone.value = dadosJSON.telefone;
-                            form.numero.value = dadosJSON.numero;
-                            form.altura.value = dadosJSON.altura;
-                            form.peso.value = dadosJSON.peso;
-                            form.genero.value = dadosJSON.genero;
+                            form.id.value = dados.id;
+                            form.nome.value = dados.nome;
+                            form.apelido.value = dados.apelido;
+                            form.descricao.value = dados.descricao;
+                            form.dataNascimento.value = dados.dataNascimento;
+                            form.email.value = dados.email;
+                            form.telefone.value = dados.telefone;
+                            form.numero.value = dados.numero;
+                            form.altura.value = dados.altura;
+                            form.peso.value = dados.peso;
+                            form.genero.value = dados.genero;
 
-                            for (const interesse of dadosJSON.interesses) {
+                            for (const interesse of dados.interesses) {
                                 document.getElementById('interesse' + interesse.id).checked = true;
                             }
                         });
@@ -357,7 +357,7 @@
                 xhr.send(JSON.stringify(dadosParaSalvar));
             }
 
-            // ready- Função que chama a function definida quando ocorre o evento
+            // ready - Função que dispara a function definida quando ocorre o evento
             // DOMContentLoaded; está definida no arquivo funcoes.js
             ready(function () {
 

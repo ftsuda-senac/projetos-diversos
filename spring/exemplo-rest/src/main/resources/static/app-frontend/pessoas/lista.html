@@ -238,23 +238,24 @@
                 xhr.open('GET', '/rest/pessoas?page=' + pagina + '&qtde=' + qtde, true);
                 xhr.onload = function () {
                     if (xhr.status >= 200 && xhr.status < 400) {
-                        const dadosJSON = JSON.parse(xhr.responseText);
+                        // Desserialização de JSON para obj JS
+                        const dados = JSON.parse(xhr.responseText);
 
                         // ATUALIZA TABELA COM DADOS
                         const container = document.getElementById('dadosTabela');
                         container.innerHTML = ''; // Limpa linhas da tabela
-                        for (const item of dadosJSON.content) {
+                        for (const item of dados.content) {
                             container.insertAdjacentHTML('beforeend', montarLinhaTabela(item));
                         }
 
                         // ATUALIZA BOTOES DE PAGINAÇÃO
-                        ajustarPaginacao(dadosJSON);
+                        ajustarPaginacao(dados);
                     }
                 }
                 xhr.send();
             }
 
-            // ready- Função que chama a function definida quando ocorre o evento
+            // ready - Função que dispara a function definida quando ocorre o evento
             // DOMContentLoaded; está definida no arquivo funcoes.js
             ready(function () {
                 // Modifica as informações do modal para confirmar exclusão
