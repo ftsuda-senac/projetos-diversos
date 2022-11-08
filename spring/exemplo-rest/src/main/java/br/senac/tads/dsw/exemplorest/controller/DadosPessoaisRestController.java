@@ -25,9 +25,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/rest/pessoas")
-// tentar acessar usando 127.0.0.1:8080 no código Ajax/Javascript
-// @CrossOrigin(origins = "http://localhost:8080")
+// tentar acessar usando 127.0.0.1:8080 na URL do frontend
+// @CrossOrigin(origins = "http://127.0.0.1:8080")
 // @CrossOrigin(origins = "*")
+
+// Annotations do Springdoc/Swagger
+// Exemplos em https://github.com/springdoc/springdoc-openapi-demos/blob/master/springdoc-openapi-spring-boot-2-webmvc/src/main/java/org/springdoc/demo/app2/api/StoreApi.java
+
 public class DadosPessoaisRestController {
 
     private DadosPessoaisService service;
@@ -49,17 +53,21 @@ public class DadosPessoaisRestController {
     public DadosPessoais findById(@PathVariable("id") Integer id) {
         Optional<DadosPessoais> optPessoa = service.findById(id);
         if (!optPessoa.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa com ID " + id + " não encontrada");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, 
+                    "Pessoa com ID " + id + " não encontrada");
         }
         DadosPessoais resultado = optPessoa.get();
         return resultado;
     }
 
     @PostMapping
-    public ResponseEntity<?> salvarNovo(@RequestBody @Valid DadosPessoais dados, BindingResult bindingResult) {
+    public ResponseEntity<?> salvarNovo(
+            @RequestBody @Valid DadosPessoais dados,
+            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // TODO: MELHORAR O DETALHAMENTO DA RESPOSTA EM CASO DE ERRO
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro nos dados enviados");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, 
+                    "Erro nos dados enviados");
         }
         dados = service.save(dados);
 
@@ -74,7 +82,8 @@ public class DadosPessoaisRestController {
     public ResponseEntity<?> salvarExistente(@PathVariable("id") Integer id, @RequestBody @Valid DadosPessoais dados, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // TODO: MELHORAR O DETALHAMENTO DA RESPOSTA EM CASO DE ERRO
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro nos dados enviados");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, 
+                    "Erro nos dados enviados");
         }
         dados.setId(id);
         service.save(dados);

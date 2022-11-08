@@ -272,10 +272,10 @@
             function carregarDados(idPessoa) {
                 // Usando Promise para carregar primeiro as opções dos interesses
                 // e somente depois disso carregar os dados da pessoa (se houver)
-                getBackendData('/rest/interesses').then(function (dadosInteresses) {
+                getBackendData('http://localhost:8080/rest/interesses').then(function (dadosInteresses) {
                     document.getElementById('opcoesInteresses').innerHTML = montarOpcoesInteresses(dadosInteresses);
                     if (idPessoa) {
-                        getBackendData('/rest/pessoas/' + idPessoa).then(function (dados) {
+                        getBackendData('http://localhost:8080/rest/pessoas/' + idPessoa).then(function (dados) {
                             const form = document.getElementById('dadosForm');
                             form.id.value = dados.id;
                             form.nome.value = dados.nome;
@@ -341,9 +341,9 @@
 
                 const xhr = new XMLHttpRequest()
                 if (idPessoa) {
-                    xhr.open('PUT', '/rest/pessoas/' + idPessoa, true);
+                    xhr.open('PUT', 'http://localhost:8080/rest/pessoas/' + idPessoa, true);
                 } else {
-                    xhr.open('POST', '/rest/pessoas', true);
+                    xhr.open('POST', 'http://localhost:8080/rest/pessoas', true);
                 }
                 xhr.setRequestHeader('Content-type', 'application/json');
                 xhr.setRequestHeader('Accept', 'application/json');

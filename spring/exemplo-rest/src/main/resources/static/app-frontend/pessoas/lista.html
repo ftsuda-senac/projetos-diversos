@@ -235,7 +235,7 @@
                 // 3) ATUALIZAR BOTÕES DE PAGINAÇÃO
 
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET', '/rest/pessoas?page=' + pagina + '&qtde=' + qtde, true);
+                xhr.open('GET', 'http://localhost:8080/rest/pessoas?page=' + pagina + '&qtde=' + qtde, true);
                 xhr.onload = function () {
                     if (xhr.status >= 200 && xhr.status < 400) {
                         // Desserialização de JSON para obj JS
@@ -272,14 +272,14 @@
                 // Efetiva exclusão da pessoa
                 document.getElementById('modalExcluirForm').addEventListener('submit', function (evt) {
                     evt.preventDefault(); // Evita o submit padrão do <form>
-                    const actionUrl = evt.target.action; // Pega URL configurada no <form>
+                    const actionUrl = evt.target.action; // Pega URL configurada no <form> do modal
 
                     // TODO: IMPLEMENTAR LÓGICA PARA
                     // 1) APAGAR USUÁRIO
                     // 2) MOSTRAR MSG DE SUCESSO E FECHAR MODAL
 
                     const xhr = new XMLHttpRequest();
-                    xhr.open('DELETE', actionUrl, true);
+                    xhr.open('DELETE', 'http://localhost:8080' + actionUrl, true); // actionUrl tem formato /rest/pessoas/<ID>
                     xhr.onload = function () {
                         if (xhr.status >= 200 && xhr.status < 400) {
                             excluirSucesso('Pessoa excluida com sucesso');
