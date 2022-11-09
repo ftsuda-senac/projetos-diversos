@@ -17,7 +17,7 @@
     </head>
     <body class="d-flex flex-column h-100">
         
-        <nav th:replace="navbar-footer :: navbar"></nav>
+        <nav th:replace="~{navbar-footer :: navbar}"></nav>
 
         <main class="flex-shrink-0">
             <div class="container-lg mb-3" layout:fragment="conteudo">
@@ -27,7 +27,7 @@
             </div>
         </main>
 
-        <footer th:replace="navbar-footer :: footer"></footer>
+        <footer th:replace="~{navbar-footer :: footer}"></footer>
 
         <div layout:fragment="modal-area"></div>
 
