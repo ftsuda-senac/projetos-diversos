@@ -24,14 +24,14 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/classic/pessoas")
-public class DadosPessoaisClassicController {
+@RequestMapping("/mvc-tradicional/pessoas")
+public class DadosPessoaisTradicionalController {
 
     private DadosPessoaisService service;
 
     private InteresseRepository interesseRepository;
 
-    public DadosPessoaisClassicController(DadosPessoaisService service, InteresseRepository interesseRepository) {
+    public DadosPessoaisTradicionalController(DadosPessoaisService service, InteresseRepository interesseRepository) {
         this.service = service;
         this.interesseRepository = interesseRepository;
     }
@@ -61,7 +61,7 @@ public class DadosPessoaisClassicController {
         Optional<DadosPessoais> optPessoa = service.findById(id);
         if (!optPessoa.isPresent()) {
             redirAttr.addFlashAttribute("msgErro", "Pessoa com ID " + id + " não encontrada");
-            return new ModelAndView("redirect:/pessoas");
+            return new ModelAndView("redirect:/mvc-tradicional/pessoas");
         }
         ModelAndView mv = new ModelAndView("pessoas/visualizacao");
         mv.addObject("dados", optPessoa.get());
@@ -86,7 +86,7 @@ public class DadosPessoaisClassicController {
         Optional<DadosPessoais> optPessoa = service.findById(id);
         if (!optPessoa.isPresent()) {
             redirAttr.addFlashAttribute("msgErro", "Pessoa com ID " + id + " não encontrada");
-            return new ModelAndView("redirect:/pessoas");
+            return new ModelAndView("redirect:/mvc-tradicional/pessoas");
         }
         ModelAndView mv = new ModelAndView("pessoas/form");
         mv.addObject("dados", optPessoa.get());
@@ -102,7 +102,7 @@ public class DadosPessoaisClassicController {
         }
         service.save(dados);
         redirAttr.addFlashAttribute("msgSucesso", "Pessoa incluida com sucesso - ID " + dados.getId());
-        return new ModelAndView("redirect:/classic/pessoas");
+        return new ModelAndView("redirect:/mvc-tradicional/pessoas");
     }
 
     @PostMapping("/{id}/salvar")
@@ -115,14 +115,14 @@ public class DadosPessoaisClassicController {
         dados.setId(id);
         service.save(dados);
         redirAttr.addFlashAttribute("msgSucesso", "Pessoa com ID " + id + " alterada com sucesso");
-        return new ModelAndView("redirect:/classic/pessoas");
+        return new ModelAndView("redirect:/mvc-tradicional/pessoas");
     }
 
     @PostMapping("/{id}/excluir")
     public ModelAndView excluirExistente(@PathVariable("id") Integer id, RedirectAttributes redirAttr) {
         service.deleteById(id);
         redirAttr.addFlashAttribute("msgSucesso", "Pessoa com ID " + id + " excluida com sucesso");
-        return new ModelAndView("redirect:/classic/pessoas");
+        return new ModelAndView("redirect:/mvc-tradicional/pessoas");
     }
 
     // @ModelAttribute Permite acessar a lista de interesses a partir de qualquer View acionada

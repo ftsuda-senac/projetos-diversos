@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Navbar e Footer</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4" th:fragment="navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">TADS DSW</a>
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarCollapse"
+                        aria-controls="navbarCollapse"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               th:href="@{/mvc-tradicional/pessoas}">Pessoas MVC Tradicional</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               th:href="@{/app-frontend/pessoas/lista.html}">Pessoas APP Frontend JS (estático)</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <footer class="footer mt-auto py-3 bg-light" th:fragment="footer">
+            <div class="container-lg">
+                <p class="text-muted text-center">
+                    <a href="https://github.com/ftsuda-senac"
+                       target="_blank" rel="nofollow noopener noreferrer">@ftsuda-senac</a></p>
+            </div>
+        </footer>
+    </body>
+</html>

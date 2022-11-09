@@ -55,7 +55,7 @@
                 if (idPessoa) {
                     // Lógica AJAX baseada neste exemplo: https://codepen.io/ftsuda-senac/pen/MxEmxM
                     const xhr = new XMLHttpRequest();
-                    xhr.open('GET', '/classic/pessoas/' + idPessoa + '/visualizar-json', true);
+                    xhr.open('GET', '/mvc-tradicional/pessoas/' + idPessoa + '/visualizar-json', true);
                     xhr.onload = function () {
                         if (xhr.status >= 200 && xhr.status < 400) {
                             let dados = JSON.parse(xhr.responseText);

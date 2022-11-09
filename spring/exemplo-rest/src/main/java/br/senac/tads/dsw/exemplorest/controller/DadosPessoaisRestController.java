@@ -25,8 +25,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/rest/pessoas")
-// tentar acessar usando 127.0.0.1:8080 no código Ajax/Javascript
-// @CrossOrigin(origins = "http://localhost:8080")
+// Para testar, tentar acessar usando 127.0.0.1:8080 no código Ajax/Javascript
+// @CrossOrigin(origins = "http://127.0.0.1:8080")
 // @CrossOrigin(origins = "*")
 public class DadosPessoaisRestController {
 

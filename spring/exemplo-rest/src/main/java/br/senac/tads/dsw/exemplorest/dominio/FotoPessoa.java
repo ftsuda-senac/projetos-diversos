@@ -1,6 +1,7 @@
 package br.senac.tads.dsw.exemplorest.dominio;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-public class FotoPessoa {
+public class FotoPessoa implements Serializable {
 
     @Id
     @SequenceGenerator(

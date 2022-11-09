@@ -19,16 +19,23 @@
         <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">TADS DSW</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarCollapse"
+                        aria-controls="navbarCollapse"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav me-auto mb-2 mb-md-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/classic/pessoas">Pessoas MVC Tradicional</a>
+                            <a class="nav-link"
+                               href="/mvc-tradicional/pessoas">Pessoas MVC Tradicional</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/app-frontend/pessoas/lista.html">Pessoas APP Frontend estático</a>
+                            <a class="nav-link"
+                               href="/app-frontend/pessoas/lista.html">Pessoas APP Frontend JS (estático)</a>
                         </li>
                     </ul>
                     <form class="d-flex">
@@ -56,132 +63,228 @@
                         -->
 
                         <form method="post" action="" novalidate id="dadosForm">
-                            <input type="hidden" name="id" value="" />
+                            <input
+                                type="hidden"
+                                name="id"
+                                value=""
+                            />
                             <div class="row mb-3">
-                                <label for="txtNome" class="col-sm-2 col-form-label">Nome</label>
+                                <label for="txtNome"
+                                       class="col-sm-2 col-form-label">Nome</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control"
-                                           id="txtNome" placeholder="Preencha o nome completo"
-                                           maxlength="100" required name="nome" value=""
-                                           />
+                                    <input
+                                       type="text"
+                                       name="nome"
+                                       value=""
+                                       id="txtNome"
+                                       placeholder="Preencha o nome completo"
+                                       class="form-control"
+                                       maxlength="100"
+                                       required
+                                    />
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="txtApelido" class="col-sm-2 col-form-label">Apelido</label>
+                                <label for="txtApelido"
+                                       class="col-sm-2 col-form-label">Apelido</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control"
-                                           id="txtApelido" placeholder="Preencha um apelido"
-                                           maxlength="100" required name="apelido" value=""
-                                           />
+                                    <input
+                                       type="text"
+                                       name="apelido"
+                                       value=""
+                                       id="txtApelido"
+                                       placeholder="Preencha um apelido"
+                                       class="form-control"
+                                       maxlength="100"
+                                       required
+                                    />
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="txtDescricao" class="col-sm-2 col-form-label">Descrição</label>
+                                <label for="txtDescricao"
+                                       class="col-sm-2 col-form-label">Descrição</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control"
-                                              id="txtDescricao" placeholder="Descrição"
-                                              maxlength="1000" name="descricao"></textarea>
+                                    <textarea
+                                       name="descricao"
+                                       id="txtDescricao"
+                                       placeholder="Descrição"
+                                       class="form-control"
+                                       maxlength="1000"></textarea>
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="txtDataNascimento" class="col-sm-2 col-form-label">Data de nascimento</label>
+                                <label for="txtDataNascimento"
+                                       class="col-sm-2 col-form-label">Data de nascimento</label>
                                 <div class="col-sm-10">
-                                    <input type="date" class="form-control"
-                                           id="txtDataNascimento"
-                                           required name="dataNascimento" value=""
-                                           />
+                                    <input
+                                       type="date"
+                                       name="dataNascimento"
+                                       value=""
+                                       id="txtDataNascimento"
+                                       class="form-control"
+                                       required
+                                    />
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="txtEmail" class="col-sm-2 col-form-label">E-mail</label>
+                                <label for="txtEmail"
+                                       class="col-sm-2 col-form-label">E-mail</label>
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control"
-                                           id="txtEmail"  placeholder="E-mail válido"
-                                           maxlength="100" required name="email" value=""
-                                           />
+                                    <input
+                                       type="email"
+                                       name="email"
+                                       value=""
+                                       id="txtEmail"
+                                       placeholder="E-mail válido"
+                                       class="form-control"
+                                       maxlength="100"
+                                       required
+                                    />
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="txtTelefone" class="col-sm-2 col-form-label">Telefone</label>
+                                <label for="txtTelefone"
+                                       class="col-sm-2 col-form-label">Telefone</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control"
-                                           id="txtTelefone" placeholder="Formato (99) 99999-9999"
-                                           maxlength="20" name="telefone" value=""
-                                           />
+                                    <input
+                                       type="text"
+                                       name="telefone"
+                                       value=""
+                                       id="txtTelefone"
+                                       placeholder="Formato (99) 99999-9999"
+                                       class="form-control"
+                                       maxlength="20"
+                                    />
                                 </div>
                             </div>
 
                             <!-- SÓ PREENCHE SENHA E REPETIÇÃO NA INCLUSÃO -->
                             <div class="row mb-3" id="campoSenha">
-                                <label for="txtSenha" class="col-sm-2 col-form-label">Senha</label>
+                                <label for="txtSenha"
+                                       class="col-sm-2 col-form-label">Senha</label>
                                 <div class="col-sm-10">
-                                    <input type="password" class="form-control"
-                                           id="txtSenha" placeholder="Senha" name="senha" value=""
-                                           />
+                                    <input
+                                       type="password"
+                                       name="senha"
+                                       value=""
+                                       id="txtSenha"
+                                       placeholder="Senha"
+                                       class="form-control"
+                                    />
                                 </div>
                             </div>
                             <div class="row mb-3" id="campoSenhaRepetida">
-                                <label for="txtSenhaRepetida" class="col-sm-2 col-form-label">Repetir senha</label>
+                                <label for="txtSenhaRepetida"
+                                       class="col-sm-2 col-form-label">Repetir senha</label>
                                 <div class="col-sm-10">
-                                    <input type="password" class="form-control"
-                                           id="txtSenhaRepetida" placeholder="Repetir senha" name="senhaRepetida" value=""
-                                           />
+                                    <input
+                                       type="password"
+                                       name="senhaRepetida"
+                                       value=""
+                                       id="txtSenhaRepetida"
+                                       placeholder="Repetir senha"
+                                       class="form-control"
+                                    />
                                 </div>
                             </div>
 
                             <div class="row mb-3">
-                                <label for="txtNumero" class="col-sm-2 col-form-label">Número de 1 a 99</label>
+                                <label for="txtNumero"
+                                       class="col-sm-2 col-form-label">Número de 1 a 99</label>
                                 <div class="col-sm-10">
-                                    <input type="number" class="form-control"
-                                           id="txtNumero" placeholder="Número de 1 a 99"
-                                           min="1" max="99" name="numero" value="0"
-                                           />
+                                    <input
+                                       type="number"
+                                       name="numero"
+                                       value="0"
+                                       id="txtNumero"
+                                       placeholder="Número de 1 a 99"
+                                       class="form-control"
+                                       min="1"
+                                       max="99"
+                                    />
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="txtAltura" class="col-sm-2 col-form-label">Altura</label>
+                                <label for="txtAltura"
+                                       class="col-sm-2 col-form-label">Altura</label>
                                 <div class="col-sm-10">
-                                    <input type="number" class="form-control"
-                                           id="txtAltura" placeholder="Altura em metros com no máximo 2 casa decimais"
-                                           min="0" max="3" step="0.01" name="altura" value=""
-                                           />
+                                    <input
+                                       type="number"
+                                       name="altura"
+                                       value=""
+                                       id="txtAltura"
+                                       placeholder="Altura em metros com no máximo 2 casa decimais"
+                                       class="form-control"
+                                       min="0"
+                                       max="3"
+                                       step="0.01"
+                                    />
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="txtPeso" class="col-sm-2 col-form-label">Peso</label>
+                                <label for="txtPeso"
+                                       class="col-sm-2 col-form-label">Peso</label>
                                 <div class="col-sm-10">
-                                    <input type="number" class="form-control"
-                                           id="txtPeso" placeholder="Peso em Kg com no máximo 1 casa decimal"
-                                           min="0" max="500" step="0.1" name="peso" value=""
-                                           />
+                                    <input
+                                       type="number"
+                                       name="peso"
+                                       value=""
+                                       id="txtPeso"
+                                       placeholder="Peso em Kg com no máximo 1 casa decimal"
+                                       class="form-control"
+                                       min="0"
+                                       max="500"
+                                       step="0.1"
+                                    />
                                 </div>
                             </div>
                             <fieldset class="row mb-3">
                                 <legend class="col-sm-2 col-form-label pt-0">Gênero</legend>
                                 <div class="col-sm-10">
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input"
-                                               id="generoI" value="-1" name="genero" checked="checked"
-                                               />
-                                        <label class="form-check-label" for="generoI">Não informar</label>
+                                        <input
+                                           type="radio"
+                                           name="genero"
+                                           value="-1"
+                                           id="generoI"
+                                           class="form-check-input"
+                                           checked
+                                        />
+                                        <label for="generoI"
+                                               class="form-check-label">Não informar</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input"
-                                               id="generoF" value="0" name="genero"
-                                               />
-                                        <label class="form-check-label" for="generoF">Feminino</label>
+                                        <input
+                                           type="radio"
+                                           name="genero"
+                                           value="0"
+                                           id="generoF"
+                                           class="form-check-input"
+                                        />
+                                        <label for="generoF"
+                                               class="form-check-label">Feminino</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input"
-                                               id="generoM" value="1" name="genero"
-                                               />
-                                        <label class="form-check-label" for="generoM">Masculino</label>
+                                        <input
+                                            type="radio"
+                                            name="genero"
+                                            value="1"
+                                            id="generoM"
+                                            class="form-check-input"
+                                        />
+                                        <label for="generoM"
+                                               class="form-check-label">Masculino</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio"  class="form-check-input"
-                                               id="generoO" value="2" name="genero"
-                                               />
-                                        <label class="form-check-label" for="generoO">Outro</label>
+                                        <input
+                                            type="radio"
+                                            name="genero"
+                                            value="2"
+                                            id="generoO"
+                                            class="form-check-input"
+                                        />
+                                        <label for="generoO"
+                                               class="form-check-label" >Outro</label>
                                     </div>
                                 </div>
                             </fieldset>
@@ -192,10 +295,16 @@
                                 <!-- ESTAO APRESENTADOS DIRETAMENTE NESTE HTML SOMENTE COMO EXEMPLO -->
                                 <div class="col-sm-10" id="opcoesInteresses">
                                     <div class="form-check form-check-inline">
-                                        <input type="checkbox" class="form-check-input"
-                                               id="interesse0" value="0" name="interessesIds" />
-                                        <label class="form-check-label"
-                                               for="interesse0">Opção</label>
+                                        <input
+                                            type="checkbox"
+                                            name="interessesIds"
+                                            value="0"
+                                            id="interesse0"
+
+                                            class="form-check-input"
+                                        />
+                                        <label for="interesse0"
+                                               class="form-check-label">Opção</label>
                                     </div>
                                 </div>
                             </fieldset>
@@ -203,12 +312,14 @@
                             <div class="row">
                                 <div class="col-md-3 offset-md-3">
                                     <div class="d-grid">
-                                        <a href="lista.html" role="button" class="btn btn-outline-dark">Cancelar</a>
+                                        <a href="lista.html" role="button"
+                                           class="btn btn-outline-dark">Cancelar</a>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="d-grid">
-                                        <button type="submit" class="btn btn-success">Salvar</button>
+                                        <button type="submit"
+                                                class="btn btn-success">Salvar</button>
                                     </div>
                                 </div>
                             </div>
@@ -220,7 +331,9 @@
 
         <footer class="footer mt-auto py-3 bg-light">
             <div class="container-lg">
-                <p class="text-muted text-center"><a href="https://github.com/ftsuda-senac" target="_blank" rel="nofollow noreferer">@ftsuda-senac</a></p>
+                <p class="text-muted text-center">
+                    <a href="https://github.com/ftsuda-senac"
+                       target="_blank" rel="nofollow noopener noreferrer">@ftsuda-senac</a></p>
             </div>
         </footer>
 
@@ -242,14 +355,14 @@
                         } else {
                             reject({
                                 status: xhr.status,
-                                statusText: xhr.statusText
+                                msg: 'Erro ao carregar dados'
                             });
                         }
                     };
                     xhr.onerror = function () {
                         reject({
                             status: xhr.status,
-                            statusText: xhr.statusText
+                            msg: 'Erro ao carregar dados'
                         });
                     };
                     xhr.send();
@@ -261,9 +374,13 @@
                 for (const interesse of interesses) {
                     const elementId = 'interesse' + interesse.id;
                     element += '<div class="form-check form-check-inline">';
-                    element += '<input class="form-check-input" type="checkbox" ' +
-                            'name="interessesIds" id="' + elementId + '" value="' + interesse.id + '" />';
-                    element += '<label class="form-check-label" for="' + elementId + '">' + interesse.nome + '</label>';
+                    element += '<input type="checkbox" ' +
+                            'name="interessesIds" ' +
+                            'value="' + interesse.id + '" ' +
+                            'id="' + elementId + '" ' +
+                            'class="form-check-input" />';
+                    element += '<label for="' + elementId + '" ' +
+                            'class="form-check-label">' + interesse.nome + '</label>';
                     element += '</div>';
                 }
                 return element;
@@ -295,12 +412,12 @@
                         });
                     }
                 }).catch(function (err) {
-                    alert('ERRO\r\n' + 'Status: ' + err.status + '\r\nStatusText: ' + err.statusText);
+                    alert('ERRO\r\n' + 'Status: ' + err.status + '\r\nMensagem: ' + err.msg);
                 });
             }
 
-            function salvar() {
-                const form = document.getElementById('dadosForm');
+            function salvar(evt) {
+                const form = document.getElementById('dadosForm'); // OU evt.target, se estiver associado ao onsubmit do <form>
                 let idPessoa = +form.id.value; // O "+" converte para número
                 if (idPessoa === 0) {
                     idPessoa = null;
@@ -312,11 +429,11 @@
                 // 3) ENVIAR USANDO AJAX (POST OU PUT)
 
                 // Percorre os checkboxes dos interesses e pega os valores selecionados
-                const interesses = document.querySelectorAll('[name="interessesIds"]')
+                const interesses = document.querySelectorAll('[name="interessesIds"]');
                 const interessesIdsArr = []
                 for (const elCheckbox of interesses) {
                     if (elCheckbox.checked) {
-                        interessesIdsArr.push(+elCheckbox.value)
+                        interessesIdsArr.push(+elCheckbox.value);
                     }
                 }
 
@@ -339,7 +456,7 @@
                 };
                 console.log('JSON montado: ' + JSON.stringify(dadosParaSalvar));
 
-                const xhr = new XMLHttpRequest()
+                const xhr = new XMLHttpRequest();
                 if (idPessoa) {
                     xhr.open('PUT', '/rest/pessoas/' + idPessoa, true);
                 } else {
@@ -349,9 +466,15 @@
                 xhr.setRequestHeader('Accept', 'application/json');
 
                 xhr.onload = function () {
-                    if (xhr.status >= 200 && xhr.status < 400) {
-                        alert('SUCESSO\r\n' + xhr.status + ' - ' + xhr.statusText + '\r\nLocation: ' + xhr.getResponseHeader('Location'));
+                    if (xhr.status === 201) {
+                        alert('PESSOA CRIADA COM SUCESSO\r\nHTTP Status code: ' + xhr.status + 
+                                '\r\nLocation: ' + xhr.getResponseHeader('Location'));
                         history.go(-1)
+                    } else if (xhr.status === 200) {
+                        alert('PESSOA ALTERADA COM SUCESSO\r\nHTTP Status code: ' + xhr.status);
+                        history.go(-1)
+                    } else {
+                        alert('ERRO\r\n' + 'Status: ' + xhr.status);
                     }
                 }
                 xhr.send(JSON.stringify(dadosParaSalvar));
@@ -364,19 +487,23 @@
                 // Vincula o evento 'submit' do form à função salvar()
                 document.getElementById('dadosForm').addEventListener('submit', function (evt) {
                     evt.preventDefault(); // Evita o submit padrão do <form>
-                    salvar();
+                    salvar(evt);
                 });
 
-                // Se informar ID na URL, carrega os dados da pessoa
+                // Se informar ID pessoa na query string da URL, carrega os dados da pessoa
                 // https://stackoverflow.com/a/901144
                 const urlParams = new URLSearchParams(window.location.search);
                 const idPessoa = urlParams.get('id');
 
                 carregarDados(idPessoa);
 
+                // Se ID pessoa for informado na query string,
+                // ajusta tela para alteração dos dados existentes
                 if (idPessoa) {
-                    // Ajusta tela para alteração dos dados existentes
-                    document.getElementById('titulo').innerHTML = 'Alteração de pessoa - ID <strong>' + idPessoa + '</strong> (VERSÃO APP Frontend)';
+                    document.getElementById('titulo').innerHTML = 'Alteração de pessoa - ID <strong>' + 
+                            idPessoa + '</strong> (VERSÃO APP Frontend)';
+                    
+                    // só preenche senha na inclusao - não pode alterar senha
                     document.getElementById('campoSenha').style.display = 'none';
                     document.getElementById('campoSenhaRepetida').style.display = 'none';
                 }

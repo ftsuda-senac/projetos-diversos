@@ -1,5 +1,6 @@
 package br.senac.tads.dsw.exemplorest.dominio;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -35,7 +36,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 // OBS: NOME DA TABELA NO BANCO DEVE SER "PESSOA"
 @Table(name = "pessoa")
-public class DadosPessoais {
+public class DadosPessoais implements Serializable {
 
     @Id
     @SequenceGenerator(
