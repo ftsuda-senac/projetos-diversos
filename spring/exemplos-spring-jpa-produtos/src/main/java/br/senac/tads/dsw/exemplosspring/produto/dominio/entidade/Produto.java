@@ -4,6 +4,7 @@
  */
 package br.senac.tads.dsw.exemplosspring.produto.dominio.entidade;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,7 +44,7 @@ import javax.validation.constraints.Size;
         @NamedAttributeNode(value = "imagens")
     })
 })
-public class Produto {
+public class Produto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package br.senac.tads.dsw.exemplosspring.pessoas.dominio.entidade;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -41,7 +42,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NamedQuery(name = "DadosPessoais.findById", query = "SELECT dp FROM DadosPessoais dp WHERE dp.id = :idPessoa")
 @NamedQuery(name = "DadosPessoais.findByIdComJoinFetch", query =
         "SELECT dp FROM DadosPessoais dp LEFT JOIN FETCH dp.interesses LEFT JOIN FETCH dp.fotos WHERE dp.id = :idPessoa")
-public class DadosPessoais {
+public class DadosPessoais implements Serializable {
 
     @Id
     @SequenceGenerator(name = "seq_pessoa_id",

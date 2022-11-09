@@ -1,5 +1,6 @@
 package br.senac.tads.dsw.exemplosspring.pessoas.dominio.entidade;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-public class FotoPessoa {
+public class FotoPessoa implements Serializable {
 
     @Id
     @SequenceGenerator(name = "seq_fotopessoa_id",
