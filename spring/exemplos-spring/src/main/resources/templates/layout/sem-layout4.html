@@ -1,0 +1,170 @@
+<!doctype html>
+<html class="h-100">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>Tela 4 sem layout</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+              th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css"
+              th:href="@{/webjars/font-awesome/css/all.min.css}" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
+              th:href="@{/webjars/swiper/swiper-bundle.min.css}" />
+        <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"
+                th:src="@{/webjars/swiper/swiper-bundle.min.js}"></script>
+        <style>
+            .titulo-vermelho {
+                color: red !important;
+            }
+            .limite {
+                margin: 0 auto;
+                width: 700px;
+                overflow-x: hidden;
+                border: 2px solid #ccc;
+            }
+            .swiper {
+                width: 100%;
+                padding-top: 50px;
+                padding-bottom: 50px;
+            }
+            .swiper-slide {
+                background-position: center center;
+                background-size: cover;
+                width: 300px;
+                height: 300px;
+            }
+            .swiper-slide img {
+                display: block;
+                height: 100%;
+            }
+        </style>
+        <script>
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const swiper = new Swiper(".carrossel", {
+                    effect: "coverflow",
+                    grabCursor: true,
+                    centeredSlides: true,
+                    slidesPerView: "auto",
+                    coverflowEffect: {
+                        rotate: 50,
+                        stretch: 0,
+                        depth: 100,
+                        modifier: 1,
+                        slideShadows: true,
+                    },
+                    pagination: {
+                        el: ".swiper-pagination",
+                    }
+                });
+            });
+
+        </script>
+    </head>
+    <body class="d-flex flex-column h-100">
+        <nav class="navbar navbar-expand-md mb-3 navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">TADS DSW</a>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled">Disabled</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search"
+                               placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <main>
+            <div class="container-md">
+                <h1>Exemplo Carrossel com Swiper.js</h1>
+                <p class="lead">Demo original em
+                    <a href="https://swiperjs.com/demos#effect-coverflow"
+                       rel="nofollow noopener noreferrer" target="_blank">
+                        https://swiperjs.com/demos#effect-coverflow</a>
+                <div class="limite">
+                    <div class="swiper carrossel">
+                        <div class="swiper-wrapper" th:remove="all-but-first">
+                            <div class="swiper-slide" th:each="foto : ${fotos}">
+                                <img src="https://swiperjs.com/demos/images/nature-1.jpg"
+                                     th:src="@{~__${foto.url}__}" th:alt-title="${foto.title}" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+
+                <p>Exemplo com <a href="https://swiperjs.com/" rel="nofollow noopener noreferrer" target="_blank">Swiper.js</a></p>
+                <p>Fotos obtidas em <a href="https://www.pexels.com/" rel="nofollow noopener noreferrer" target="_blank">Pexels</a></p>
+            </div>
+        </main>
+        <footer class="footer mt-auto py-3 bg-light">
+            <div class="container-lg">
+                <p class="text-muted text-center">Texto footer</p>
+            </div>
+        </footer>
+        <!--
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"
+            th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
+    </body>
+</html>

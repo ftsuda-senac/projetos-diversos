@@ -1,165 +1,305 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Formulário</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" />
-<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script> -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
-</head>
-<body>
-  <main class="container">
-    <div class="row">
-      <section class="col-md-12">
-        <h1>Formulário com validação</h1>
-        <form method="post" th:action="@{/formulario/salvar-prg-validacao}" th:object="${dadosPessoais}" novalidate>
-          <input type="hidden" name="id" value="123" th:field="*{id}">
-          <div class="row mb-3">
-            <label for="txtNome" class="col-sm-2 col-form-label">Nome</label>
-            <div class="col-sm-10">
-              <input type="text" name="nome" class="form-control"
-                th:classappend="${#fields.hasErrors('nome')}? is-invalid" id="txtNome" placeholder="Nome completo"
-                th:field="*{nome}" required maxlength="100" />
-              <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Digite um
-                nome.</div>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="txtDescricao" class="col-sm-2 col-form-label">Descrição</label>
-            <div class="col-sm-10">
-              <textarea name="descricao" class="form-control" id="txtDescricao" placeholder="Descrição"
-                th:field="*{descricao}"></textarea>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="txtDataNascimento" class="col-sm-2 col-form-label">Data de nascimento</label>
-            <div class="col-sm-10">
-              <input type="date" name="dataNascimento" class="form-control"
-                th:classappend="${#fields.hasErrors('dataNascimento')}? is-invalid" id="txtDataNascimento"
-                placeholder="Data no formato yyyy-MM-dd" th:field="*{dataNascimento}"
-                th:max="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
-              <div class="invalid-feedback" th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}">
-                Digite uma data válida.</div>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="txtEmail" class="col-sm-2 col-form-label">E-mail</label>
-            <div class="col-sm-10">
-              <input type="email" name="email" class="form-control"
-                th:classappend="${#fields.hasErrors('email')}? is-invalid" id="txtEmail" placeholder="E-mail"
-                th:field="*{email}" />
-              <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Digite um
-                e-mail.</div>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="txtTelefone" class="col-sm-2 col-form-label">Telefone</label>
-            <div class="col-sm-10">
-              <input type="text" name="telefone" class="form-control" id="txtTelefone" placeholder="(99) 99999-9999"
-                th:field="*{telefone}" />
-            </div>
-          </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>Formulário</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+              th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css"
+              th:href="@{/webjars/font-awesome/css/all.min.css}" />
+    </head>
+    <body>
+        <main class="container">
+            <div class="row">
+                <section class="col-md-12">
+                    <h1>Formulário com validação</h1>
+                    <form method="post" 
+                          th:action="@{/formulario/salvar-prg-validacao}" 
+                          th:object="${dadosPessoais}" novalidate>
+                        
+                        <input
+                            type="hidden"
+                            th:field="*{id}"
+                            name="id"
+                            value="123"
+                        />
 
-          <div class="row mb-3">
-            <label for="txtSenha" class="col-sm-2 col-form-label">Senha</label>
-            <div class="col-sm-10">
-              <input type="password" name="senha" class="form-control"
-                th:classappend="${#fields.hasErrors('senha')}? is-invalid" id="txtSenha" placeholder="Senha"
-                th:field="*{senha}" />
-              <div class="invalid-feedback" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">Digite uma
-                senha.</div>
-              <div class="invalid-feedback" th:if="${#fields.hasGlobalErrors()}"
-                th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+                        <div class="row mb-3">
+                            <label for="txtNome"
+                                   class="col-sm-2 col-form-label">Nome</label>
+                            <div class="col-sm-10">
+                                <input
+                                    type="text"
+                                    th:field="*{nome}"
+                                    id="txtNome"
+                                    placeholder="Preencha o nome completo"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('nome')}? is-invalid"
+                                    maxlength="100"
+                                    required
+                                />
+                                <div th:if="${#fields.hasErrors('nome')}"
+                                     th:errors="*{nome}" class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label for="txtApelido"
+                                   class="col-sm-2 col-form-label">Apelido</label>
+                            <div class="col-sm-10">
+                                <input
+                                    type="text"
+                                    th:field="*{apelido}"
+                                    id="txtApelido"
+                                    placeholder="Preencha um apelido"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('apelido')}? is-invalid"
+                                    maxlength="100"
+                                    required
+                                />
+                                <div th:if="${#fields.hasErrors('apelido')}"
+                                     th:errors="*{apelido}" class="invalid-feedback" ></div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="txtDescricao"
+                                   class="col-sm-2 col-form-label">Descrição</label>
+                            <div class="col-sm-10">
+                                <textarea
+                                    class="form-control"
+                                    th:field="*{descricao}"
+                                    id="txtDescricao"
+                                    placeholder="Descrição"
+                                    maxlength="1000"></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="txtDataNascimento"
+                                   class="col-sm-2 col-form-label">Data de nascimento</label>
+                            <div class="col-sm-10">
+                                <input
+                                    type="date"
+                                    th:field="*{dataNascimento}"
+                                    id="txtDataNascimento"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('dataNascimento')}? is-invalid"
+                                    required
+                               />
+                                <div th:if="${#fields.hasErrors('dataNascimento')}"
+                                     th:errors="*{dataNascimento}" class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="txtEmail"
+                                   class="col-sm-2 col-form-label">E-mail</label>
+                            <div class="col-sm-10">
+                                <input
+                                    type="email"
+                                    th:field="*{email}"
+                                    id="txtEmail"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('email')}? is-invalid"
+                                    placeholder="E-mail válido"
+                                    maxlength="100"
+                                    required
+                                />
+                                <div th:if="${#fields.hasErrors('email')}"
+                                     th:errors="*{email}" class="invalid-feedback" ></div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="txtTelefone"
+                                   class="col-sm-2 col-form-label">Telefone</label>
+                            <div class="col-sm-10">
+                                <input
+                                    type="text"
+                                    th:field="*{telefone}"
+                                    id="txtTelefone"
+                                    placeholder="Formato (99) 99999-9999"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('telefone')}? is-invalid"
+                                    maxlength="20"
+                                />
+                                <div th:if="${#fields.hasErrors('telefone')}"
+                                     th:errors="*{telefone}" class="invalid-feedback"></div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="txtSenha"
+                                   class="col-sm-2 col-form-label">Senha</label>
+                            <div class="col-sm-10">
+                                <input
+                                    type="password"
+                                    th:field="*{senha}"
+                                    id="txtSenha"
+                                    placeholder="Senha"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('senha')}? is-invalid"
+                                />
+                                <div th:if="${#fields.hasErrors('senha')}"
+                                     th:errors="*{senha}" class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="txtSenhaRepetida"
+                                   class="col-sm-2 col-form-label">Repetir senha</label>
+                            <div class="col-sm-10">
+                                <input
+                                    type="password"
+                                    th:field="*{senhaRepetida}"
+                                    id="txtSenhaRepetida"
+                                    placeholder="Repetir senha"
+                                    class="form-control"
+                                />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="txtNumero"
+                                   class="col-sm-2 col-form-label">Número de 1 a 99</label>
+                            <div class="col-sm-10">
+                                <input
+                                    type="number"
+                                    th:field="*{numero}"
+                                    id="txtNumero"
+                                    placeholder="Número de 1 a 99"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('numero')}? is-invalid"
+                                    min="1"
+                                    max="99"
+                                />
+                                <div th:if="${#fields.hasErrors('numero')}"
+                                     th:errors="*{numero}" class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="txtAltura"
+                                   class="col-sm-2 col-form-label">Altura</label>
+                            <div class="col-sm-10">
+                                <input
+                                    type="number"
+                                    th:field="*{altura}"
+                                    id="txtAltura"
+                                    placeholder="Altura em metros com no máximo 2 casa decimais"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('altura')}? is-invalid"
+                                    min="0"
+                                    max="3"
+                                    step="0.01"
+                                />
+                                <div th:if="${#fields.hasErrors('altura')}"
+                                     th:errors="*{altura}" class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="txtPeso" class="col-sm-2 col-form-label">Peso</label>
+                            <div class="col-sm-10">
+                                <input
+                                    type="number"
+                                    th:field="*{peso}"
+                                    id="txtPeso"
+                                    placeholder="Peso em Kg com no máximo 1 casa decimal"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('peso')}? is-invalid"
+                                    min="0"
+                                    max="500"
+                                    step="0.1"
+                                />
+                                <div th:if="${#fields.hasErrors('peso')}"
+                                     th:errors="*{peso}" class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <fieldset class="row mb-3">
+                            <legend class="col-sm-2 col-form-label pt-0">Gênero</legend>
+                            <div class="col-sm-10">
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        type="radio"
+                                        th:field="*{genero}"
+                                        value="-1"
+                                        id="generoI"
+                                        class="form-check-input"
+                                    />
+                                    <label for="generoI"
+                                           class="form-check-label">Não informar</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        type="radio"
+                                        th:field="*{genero}"
+                                        value="0"
+                                        id="generoF"
+                                        class="form-check-input"
+                                    />
+                                    <label for="generoF"
+                                           class="form-check-label">Feminino</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        type="radio"
+                                        th:field="*{genero}"
+                                        value="1"
+                                        id="generoM"
+                                        class="form-check-input"
+                                    />
+                                    <label for="generoM"
+                                           class="form-check-label">Masculino</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                        type="radio"
+                                        th:field="*{genero}"
+                                        value="2"
+                                        id="generoO"
+                                        class="form-check-input"
+                                    />
+                                    <label for="generoO"
+                                           class="form-check-label">Outro</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="row mb-3">
+                            <legend class="col-sm-2 col-form-label pt-0">Interesses</legend>
+                            <div class="col-sm-10">
+                                <div class="form-check form-check-inline"
+                                     th:each="interesse : ${interesses}">
+                                    <input
+                                        type="checkbox"
+                                        th:field="*{interesses}"
+                                        th:value="${interesse}"
+                                        th:id="interesse + ${interesse}"
+                                        class="form-check-input"
+                                    />
+                                    <label th:for="interesse + ${interesse}"
+                                           class="form-check-label"
+                                           th:text="${interesse}"></label>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-3">
+                                <div class="d-grid">
+                                    <a th:href="@{/formulario/lista}"
+                                       role="button" class="btn btn-outline-dark">Cancelar</a>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-grid">
+                                    <button type="submit"
+                                            class="btn btn-success">Enviar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </section>
             </div>
-          </div>
-          <div class="row mb-3">
-            <label for="txtSenhaRepetida" class="col-sm-2 col-form-label">Repetir senha</label>
-            <div class="col-sm-10">
-              <input type="password" name="senhaRepetida" class="form-control" id="txtSenhaRepetida"
-                placeholder="Repetir senha" th:field="*{senhaRepetida}" />
-              <div class="invalid-feedback" th:if="${#fields.hasErrors('senhaRepetida')}" th:errors="*{senhaRepetida}">
-                Digite uma senha.</div>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="txtNumero" class="col-sm-2 col-form-label">Número de 1 a 99</label>
-            <div class="col-sm-10">
-              <input type="number" name="numero" class="form-control"
-                th:classappend="${#fields.hasErrors('numero')}? is-invalid" id="txtNumero"
-                placeholder="Número de 1 a 99" min="1" max="99" th:field="*{numero}">
-              <div class="invalid-feedback" th:if="${#fields.hasErrors('numero')}" th:errors="*{numero}">
-                Digite um número válido.</div>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="txtAltura" class="col-sm-2 col-form-label">Altura</label>
-            <div class="col-sm-10">
-              <input type="number" name="altura" class="form-control"
-                th:classappend="${#fields.hasErrors('altura')}? is-invalid" id="txtAltura"
-                placeholder="Altura em metros com no máximo 2 casa decimais" min="0" max="3" step="0.01"
-                th:field="*{altura}">
-              <div class="invalid-feedback" th:if="${#fields.hasErrors('altura')}" th:errors="*{altura}">Digite
-                uma altura válida.</div>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="txtPeso" class="col-sm-2 col-form-label">Peso</label>
-            <div class="col-sm-10">
-              <input type="number" name="peso" class="form-control"
-                th:classappend="${#fields.hasErrors('peso')}? is-invalid" id="txtPeso"
-                placeholder="Peso em Kg com no máximo 1 casa decimal" min="0" max="500" step="0.1" th:field="*{peso}">
-              <div class="invalid-feedback" th:if="${#fields.hasErrors('peso')}" th:errors="*{peso}">Digite um
-                peso válido.</div>
-            </div>
-          </div>
-          <fieldset class="row mb-3">
-            <legend class="col-form-label col-sm-2 pt-0">Gênero</legend>
-            <div class="col-sm-10">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="genero" id="generoF" value="0" checked th:field="*{genero}" />
-                <label class="form-check-label" for="generoF">Feminino</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="genero" id="generoM" value="1" th:field="*{genero}">
-                <label class="form-check-label" for="generoM">Masculino</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="genero" id="generoN" value="2" th:field="*{genero}">
-                <label class="form-check-label" for="generoN">Nenhum</label>
-              </div>
-            </div>
-          </fieldset>
-          <fieldset class="row mb-3">
-              <legend class="col-form-label col-sm-2 pt-0">Interesses</legend>
-              <div class="col-sm-10">
-                <div class="form-check form-check-inline" th:each="interesse : ${interesses}">
-                  <input class="form-check-input" type="checkbox" name="interesses" th:id="interesse + ${interesse}"
-                    th:classappend="${#fields.hasErrors('interesses')}? is-invalid"
-                    th:value="${interesse}" th:field="*{interesses}">
-                    <label class="form-check-label" th:for="interesse + ${interesse}" th:text="${interesse}"></label>
-                </div>
-                <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('interesses')}" th:errors="*{interesses}">Selecione pelo menos uma opção</div>
-              </div>
-          </fieldset>
-          <div class="row">
-            <div class="col-md-3 offset-md-3">
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-success">Enviar</button>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="d-grid">
-                    <a th:href="@{/formulario/lista}" role="button" class="btn btn-outline-dark">Cancelar</a>
-                </div>
-            </div>
-          </div>
-        </form>
-      </section>
-    </div>
-  </main>
-</body>
+        </main>
+        <!--
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"
+            th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"></script>
+    </body>
 </html>

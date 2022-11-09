@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.senac.tads.dsw.exemplosspring;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import br.senac.tads.dsw.exemplosspring.item.Item;
 import br.senac.tads.dsw.exemplosspring.item.ItemService;
 
-/**
- *
- * @author ftsuda
- */
 @Controller
 @RequestMapping("/links")
 public class ExemploLinksController {

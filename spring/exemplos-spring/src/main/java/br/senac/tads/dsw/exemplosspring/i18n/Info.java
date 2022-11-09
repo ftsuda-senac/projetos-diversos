@@ -1,20 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.senac.tads.dsw.exemplosspring.i18n;
 
 import java.time.LocalDate;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- *
- * @author ftsuda
- */
 public class Info {
 
     @NotBlank(message = "{info.nome.blank}")
@@ -28,9 +19,9 @@ public class Info {
     private String email;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Past(message = "{info.dtNascimento.notpast}")
+    @PastOrPresent(message = "{info.dataNascimento.notPast}")
     //@Past(message = "A data de nascimento não está no passado")
-    private LocalDate dtNascimento;
+    private LocalDate dataNascimento;
 
     public String getNome() {
         return nome;
@@ -48,12 +39,12 @@ public class Info {
         this.email = email;
     }
 
-    public LocalDate getDtNascimento() {
-        return dtNascimento;
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
     }
 
-    public void setDtNascimento(LocalDate dtNascimento) {
-        this.dtNascimento = dtNascimento;
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
 }

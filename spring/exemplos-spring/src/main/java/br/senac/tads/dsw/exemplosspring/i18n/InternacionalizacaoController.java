@@ -1,7 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties. To change this
- * template file, choose Tools | Templates and open the template in the editor.
- */
 package br.senac.tads.dsw.exemplosspring.i18n;
 
 import javax.validation.Valid;
@@ -14,17 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-/**
- *
- * @author ftsuda
- */
 @Controller
 @RequestMapping("/i18n")
 public class InternacionalizacaoController {
 
     @GetMapping
     public ModelAndView mostrarTela() {
-        return new ModelAndView("i18n/tela").addObject("info", new Info());
+        return new ModelAndView("i18n/tela")
+                .addObject("info", new Info());
     }
 
     @PostMapping

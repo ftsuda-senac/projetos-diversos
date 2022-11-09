@@ -16,6 +16,7 @@ import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 import br.senac.tads.dsw.exemplosspring.validator.SenhasConfirmadas;
+import javax.validation.constraints.NotNull;
 
 @SenhasConfirmadas
 public class DadosPessoais implements Serializable {
@@ -27,10 +28,16 @@ public class DadosPessoais implements Serializable {
     @NotBlank(message = "POR FAVOR PREENCHER O NOME COMPLETO")
     @Size(max = 100)
     private String nome;
+    
+    @NotBlank
+    @Size(max = 100)
+    private String apelido;
 
+    @Size(max = 1000)
     private String descricao;
 
     @PastOrPresent
+    @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) // ISO-8601
     private LocalDate dataNascimento;
 
@@ -39,17 +46,16 @@ public class DadosPessoais implements Serializable {
     @Size(max = 100)
     private String email;
 
+    @Size(max = 20)
     private String telefone;
 
     // REGEX para senha https://stackoverflow.com/a/59317682
     @NotBlank
-    // @Pattern(regexp =
-    // "^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\\-__+.]){1,}).{8,}$")
+    // @Pattern(regexp = "^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\\-__+.]){1,}).{8,}$")
     private String senha;
 
     @NotBlank
-    // @Pattern(regexp =
-    // "^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\\-__+.]){1,}).{8,}$")
+    // @Pattern(regexp = "^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\\-__+.]){1,}).{8,}$")
     private String senhaRepetida;
 
     @Min(1)
@@ -88,6 +94,14 @@ public class DadosPessoais implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getApelido() {
+        return apelido;
+    }
+
+    public void setApelido(String apelido) {
+        this.apelido = apelido;
     }
 
     public String getDescricao() {

@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-// Ver
-// https://stackoverflow.com/questions/4787719/spring-console-application-configured-using-annotations
+// Ver https://stackoverflow.com/questions/4787719/spring-console-application-configured-using-annotations
 // Ver http://zetcode.com/spring/annotationconfigapplicationcontext/
 @Component
 public class ItemMain {

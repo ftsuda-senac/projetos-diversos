@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.senac.tads.dsw.exemplosspring.validator;
 
 import br.senac.tads.dsw.exemplosspring.DadosPessoais;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-/**
- *
- * @author ftsuda
- */
 public class SpringSenhasConfirmadasValidator implements Validator {
 
     @Override

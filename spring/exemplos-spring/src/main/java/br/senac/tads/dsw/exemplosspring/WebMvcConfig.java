@@ -7,6 +7,7 @@ package br.senac.tads.dsw.exemplosspring;
 
 import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,12 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+    
+    @Value("${app.upload-path:C:/uploads}")
+    private String uploadPath;
+
+    @Value("${app.upload-url-prefix:/uploads}")
+    private String uploadUrlPrefix;
 
     @Bean(name = "localeResolver")
     public CookieLocaleResolver localeResolver() {
@@ -76,9 +83,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/teste-uploads/**")
-                .addResourceLocations("file:///C:/uploads/");
+        registry.addResourceHandler(uploadUrlPrefix + "/**")
+                .addResourceLocations("file:///" + uploadPath);
     }
+    
+//    // Versão com valores fixos fora do application.properties (para referência)
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/teste-uploads/**")
+//                .addResourceLocations("file:///C:/uploads/");
+//    }
 
 //    /**
 //     * Redireciona uma requisição de / para uma tela espeficicada<br>

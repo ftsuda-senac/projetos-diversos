@@ -19,8 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/formulario")
 public class FormularioController {
 
-	@Autowired
-	private DadosPessoaisService service;
+    @Autowired
+    private DadosPessoaisService service;
 
     /**
      * Registra validadores e formatadores

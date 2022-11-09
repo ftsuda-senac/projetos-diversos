@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Visualização dos arquivos de imagem</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>
+            <h1>Imagens carregadas via upload</h1>
+            <div th:each="imagem : ${arquivos}">
+                <img th:src="@{~__${imagem.url}__}" th:alt="${imagem.nome}" />
+                <form method="post" action="/apagar">
+                    <input type="hidden" name="arquivo" th:value="${imagem.nome}" />
+                    <button type="submit">Apagar</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
