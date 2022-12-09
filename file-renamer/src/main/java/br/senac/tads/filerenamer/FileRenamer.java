@@ -28,6 +28,7 @@ public class FileRenamer {
         }
 
         String directory = args[0];
+        //String directory = "C:\\senac\\2022\\dswa\\Avaliacao-Disciplina";
         Path directoryPath = Paths.get(directory);
 
         if (!Files.exists(directoryPath)) {
