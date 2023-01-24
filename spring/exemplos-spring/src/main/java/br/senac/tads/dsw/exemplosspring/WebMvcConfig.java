@@ -51,11 +51,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(localeChangeInterceptor());
     }
 
-    /**
-     * Configura as mensagens para serem usadas com Bean Validation<br>
-     * Referência:
-     * https://www.baeldung.com/spring-custom-validation-message-source
-     */
+//    /**
+//     * Configura as mensagens para serem usadas com Bean Validation<br>
+//     * Referência:
+//     * https://www.baeldung.com/spring-custom-validation-message-source
+//     */
 //    @Bean(name = "messageSource")
 //    public ReloadableResourceBundleMessageSource messageSource() {
 //        ReloadableResourceBundleMessageSource source
@@ -106,6 +106,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
 //    }
 //
+//	  //	// Adiciona um prefixo /api nas URLs que apontam para classes do Tipo RestController
+//	  //	// https://stackoverflow.com/a/58256259
+//	  //	@Override
+//	  //	public void configurePathMatch(PathMatchConfigurer configurer) {
+//	  //		configurer.addPathPrefix("/api", HandlerTypePredicate.forAnnotation(RestController.class));
+//	  //	}    
+//  
 //    /**
 //     * Disponibiliza um bean responsável pela formatação da data
 //     *
