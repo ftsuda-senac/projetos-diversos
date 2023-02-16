@@ -15,7 +15,10 @@ public class ExemplosSpringApplication extends SpringBootServletInitializer
 
     private static final Logger log = LoggerFactory.getLogger(ExemplosSpringApplication.class);
 
+    // TESTE para forcar locale pt-BR em toda JVM rodando em Ubuntu em ingles e timezone GMT -03:00
     public static void main(String[] args) {
+        Locale.setDefault(new Locale("pt", "BR"));
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
         SpringApplication.run(ExemplosSpringApplication.class, args);
     }
 
