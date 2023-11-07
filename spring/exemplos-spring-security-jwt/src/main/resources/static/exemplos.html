@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+<body>
+    <h1>Exemplos Acesso APIs com JS</h1>
+    <div>
+        <form id="busca">
+            <input type="search" name="termo" placeholder="Buscar"/>
+            <button>Buscar</button>
+        </form>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>Data nascimento</th>
+            </tr>
+        </thead>
+        <tbody id="resultados">
+
+        </tbody>
+    </table>
+    <script src="funcoes.js"></script>
+    <script>
+
+        async function buscar(evt) {
+            evt.preventDefault();
+
+            const termoBusca = evt.target.termo.value;
+            console.log('Termo busca: ' + termoBusca)
+            try {
+                let resultados = await getJson('/dados-pessoais/busca?termo=' + termoBusca + '&quantidade=10');
+                document.getElementById('resultados').innerHTML = '';
+                for (const dados of resultados) {
+                    const linhaTabela = '<tr>' +
+                        '<td>' + dados.id + '</td>' +
+                        '<td>' + dados.nome + '</td>' +
+                        '<td>' + dados.email + '</td>' +
+                        '<td>' + dados.telefone + '</td>' +
+                        '<td>' + dados.dataNascimento + '</td>' +
+                        '</tr>'
+                    document.getElementById('resultados')
+                        .insertAdjacentHTML('beforeend', linhaTabela);
+                }
+            } catch(err) {
+                alert(err);
+            }
+        }
+
+        async function carregarDados() {
+            try {
+                let resultados = await getJson('/dados-pessoais');
+                document.getElementById('resultados').innerHTML = '';
+                for (const dados of resultados) {
+                    // const linhaTabela = '<tr>' +
+                    //     '<td>' + dados.id + '</td>' +
+                    //     '<td>' + dados.nome + '</td>' +
+                    //     '<td>' + dados.email + '</td>' +
+                    //     '<td>' + dados.telefone + '</td>' +
+                    //     '<td>' + dados.dataNascimento + '</td>' +
+                    //     '</tr>'
+                    // Alternativa mais moderna (string literals)
+                    const linhaTabela = `<tr>
+                        <td>${dados.id}</td>
+                        <td>${dados.nome}</td>
+                        <td>${dados.email}</td>
+                        <td>${dados.telefone}</td>
+                        <td>${dados.dataNascimento}</td>
+                        </tr>`
+                    document.getElementById('resultados')
+                        .insertAdjacentHTML('beforeend', linhaTabela);
+                }
+            } catch(err) {
+                alert(err);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarDados();
+            document.getElementById('busca').onsubmit = buscar;
+        });
+
+
+    </script>
+</body>
+</html>

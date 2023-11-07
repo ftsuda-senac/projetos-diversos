@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fernando Tsuda</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="estilos.css" />
+</head>
+
+<body>
+  <main>
+    <header>
+      <div id="nome-foto">
+        <div>
+          <img id="foto" />
+        </div>
+        <h1 id="nome">Fernando Tsuda</h1>
+      </div>
+      <div id="contato">
+        <ul>
+          <li><i class="fa-solid fa-envelope fa-2xl"></i> <span id="email"></span></li>
+          <li><i class="fa-solid fa-phone fa-2xl"></i> <span id="telefone"></span></li>
+          <li><i class="fa-solid fa-cake-candles fa-2xl"></i> <span id="dataNascimento"></span></li>
+        </ul>
+      </div>
+    </header>
+    <div class="principal"> <!-- TODO O CORPO DAS DEMAIS INFORMAÇÕES -->
+      <div class="coluna">
+        <section class="info" id="conhecimentos">
+          <h3>Conhecimentos</h3>
+          <ul id="conhecimentosList">
+          </ul>
+        </section>
+      </div>
+    </div>
+
+  </main>
+  <script src="funcoes.js"></script>
+  <script>
+    async function carregarDados() {
+      const searchParams = new URLSearchParams(window.location.search);
+      const idParam = searchParams.has('id') ? searchParams.get('id') : 1;
+      try {
+        let resultado = await getJson(`/dados-pessoais/${idParam}`);
+        document.getElementById('foto').src = resultado.urlFoto;
+        document.getElementById('nome').innerHTML = resultado.nome;
+        document.getElementById('email').innerHTML = resultado.email;
+        document.getElementById('telefone').innerHTML = resultado.telefone;
+        document.getElementById('dataNascimento').innerHTML = resultado.dataNascimento;
+
+        let conhecimentosLi = '';
+        for (const c of resultado.conhecimentos) {
+          conhecimentosLi += `<li>${c}</li>`;
+        }
+        document.getElementById('conhecimentosList').innerHTML = '';
+        document.getElementById('conhecimentosList')
+          .insertAdjacentHTML('beforeend', conhecimentosLi);
+      } catch (err) {
+        alert(err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', carregarDados);
+  </script>
+</body>
+
+</html>
