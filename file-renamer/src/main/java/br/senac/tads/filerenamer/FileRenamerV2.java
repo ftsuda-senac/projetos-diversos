@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -31,7 +32,7 @@ public class FileRenamerV2 {
 //        }
 //        String directory = args[0];
 
-        String directory = "C:\\senac\\2023-1\\dswa-atividade-filme";
+        String directory = "C:\\senac\\2023-2\\turmaa\\ADO3";
         Path directoryPath = Paths.get(directory);
 
         if (!Files.exists(directoryPath)) {
@@ -56,7 +57,14 @@ public class FileRenamerV2 {
                     .forEach(p1 -> {
 
                         Path originalFile = p1.getName(p1.getNameCount() - 1);
-                        String originalFileName = originalFile.toString().split("\\.")[0];
+                        String[] fileParts =  originalFile.toString().split("\\.");
+                        String originalFileName = null;
+                        if (fileParts.length <= 2) {
+                            originalFileName = fileParts[0];
+                        } else {
+                            originalFileName = String.join(".", Arrays.copyOfRange(fileParts, 0, fileParts.length - 1));
+                        }
+
                         // System.out.println(originalFileName);
                         String personName = null;
                         try (BufferedReader br = new BufferedReader(new FileReader(p1.toFile()))) {
@@ -81,8 +89,21 @@ public class FileRenamerV2 {
             try (Stream<Path> paths2 = Files.walk(Paths.get(directory))) {
                 paths2.filter(p2 -> Files.isRegularFile(p2) && p2.getName(p2.getNameCount() - 1).toString().startsWith(entry.getKey()))
                         .forEach(p2 -> {
-                            String fileExtension = p2.getFileName().toString().split("\\.")[1].toLowerCase();
-                            Path newPath = Paths.get(directory, entry.getValue().replaceAll("\\s+", "-") + "." + fileExtension);
+                            String[] fileParts = p2.getFileName().toString().split("\\.");
+                            String fileExtension = fileParts[fileParts.length - 1].toLowerCase();
+                            String fileName;
+                            Path newPath;
+                            int i = 0;
+                            do {
+                                i++;
+                                if (i < 2) {
+                                    fileName = entry.getValue().replaceAll("\\s+", "-");
+                                } else {
+                                     fileName = entry.getValue().replaceAll("\\s+", "-") + "_" + i;
+                                }
+                                newPath = Paths.get(directory, fileName + "." + fileExtension);
+                            } while (Files.exists(newPath));
+
                             //System.out.println(newPath.toString());
                             try {
                                 Files.move(p2, newPath, StandardCopyOption.REPLACE_EXISTING);
