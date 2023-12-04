@@ -94,6 +94,7 @@ public class FileRenamerV2 {
                             String fileName;
                             Path newPath;
                             int i = 0;
+                            // Trata casos onde a entrega tem mais de 1 arquivo
                             do {
                                 i++;
                                 if (i < 2) {
