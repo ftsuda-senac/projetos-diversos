@@ -74,6 +74,7 @@ public class FileRenamerV2 {
                                 if (matcher.find() && matcher.groupCount() > 0) {
                                     personName = matcher.group(1);
                                     mapFileAndName.put(originalFileName, personName);
+                                    System.out.println(personName);
                                     break;
                                 }
                             }
