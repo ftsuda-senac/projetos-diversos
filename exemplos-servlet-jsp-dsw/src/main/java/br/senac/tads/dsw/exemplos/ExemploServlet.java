@@ -7,6 +7,7 @@ package br.senac.tads.dsw.exemplos;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +25,19 @@ public class ExemploServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html");
+        
+        String nome = request.getParameter("nome");
+        if (nome == null) {
+            nome = "usuário";
+        }
+        
+        StringBuilder headerIn = new StringBuilder();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            headerIn.append(headerName).append(": ")
+                    .append(request.getHeader(headerName)).append("\r\n");
+        }
 
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
@@ -34,7 +48,11 @@ public class ExemploServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Exemplo Servlet</h1>");
+            out.println("<h2>Olá " + nome + "</h2>");
             out.println("<p>Data e hora atual: " + LocalDateTime.now() + "</p>");
+            out.println("<pre>");
+            out.println(headerIn.toString());
+            out.println("</pre>");
             out.println("</body>");
             out.println("</html>");
         }
