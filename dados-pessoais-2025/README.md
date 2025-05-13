@@ -5,8 +5,34 @@ Projeto de referência para demonstrar recursos básicos do Spring Boot
 * Versão do Spring Boot: 3.4.5
 * Versão do Java: 21
 
-## Dependências Spring Initializr
+## Processo de desenvolvimento
 
+* Wireframe das telas
+* Modelar entity/BD
+    * Pessoas
+        * ID interno
+        * UUID publico
+        * Username
+        * Nome completo
+        * E-mail
+        * Telefone
+        * Senha
+        * Data de cadastro
+        * Status ativo/inativo
+    * Interesses
+        * ID
+        * Nome
+    * Foto pessoa
+        * ID
+        * Nome arquivo
+        * Legenda
+* Criar services
+* Criar MVC + Thymeleaf para CRUD administrativo
+* Configurar login para acesso administrativo
+* Criar webservices para CRUD dos usuários + telas simples estáticas para acesso
+* Configurar login com JWT para acesso próprio
+
+## Dependências Spring Initializr
 
 * Web
 * Thymeleaf
@@ -77,14 +103,3 @@ indent_size = 2
 indent_style = space
 indent_size = 2
 ```
-
-Etapas
-* Modelar entity/BD
-    * Pessoas
-    * Interesses
-    * Foto pessoa
-* Criar services
-* Criar MVC + Thymeleaf para CRUD administrativo
-* Configurar login para acesso administrativo
-* Criar webservices para CRUD dos usuários + telas simples estáticas para acesso
-* Configurar login com JWT para acesso próprio
