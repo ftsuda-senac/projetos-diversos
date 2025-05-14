@@ -5,6 +5,15 @@ Projeto de referência para demonstrar recursos básicos do Spring Boot
 * Versão do Spring Boot: 3.4.5
 * Versão do Java: 21
 
+## Objetivo
+
+Reimplementar o projeto dados-pessoais trazendo boas práticas que não foram usadas no projeto anterior
+
+* Uso do DTO separado do Entity
+* Parâmetros de busca/paginação agrupados em objeto
+* Documentação Swagger das APIs REST
+* Tratamento de erros centralizado + Problem Details
+
 ## Processo de desenvolvimento
 
 * Wireframe das telas

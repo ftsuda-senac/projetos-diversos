@@ -1,4 +1,4 @@
-package br.com.webmobi.dados_pessoais;
+package br.com.webmobi.dadospessoais;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class DadosPessoaisApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DadosPessoaisApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DadosPessoaisApplication.class, args);
+    }
 
 }

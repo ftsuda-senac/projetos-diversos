@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html class="h-100">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dados Pessoais</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
+    integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous" />
+</head>
+
+<body class="d-flex flex-column h-100">
+  <!-- NAVBAR - INICIO -->
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Contatos</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Mudar navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="index.html">Pessoas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/interesses/index.html">Interesses</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- NAVBAR - FIM -->
+
+  <main class="container-lg flex-shrink-0">
+    <h1 class="text-center" id="nome">Pessoas</h1>
+    <div class="row justify-content-center">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Apelido</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="dados">
+          <tr>
+            <th>999</th>
+            <td>Xpto Wxyz</td>
+            <td>xpto</td>
+            <td>
+              <div class="btn-group" role="group" aria-label="Ações">
+                <a class="btn btn-primary" role="button" data-th-href="@{/gerenciamento/alterar/{id}(id=${item.id})}">
+                  <i class="fas fa-edit"></i> Alterar
+                </a>
+                <button type="button" class="btn btn-danger" data-th-data-item-id="${item.id}"
+                  data-th-data-item-nome="${item.nome}" data-bs-toggle="modal" data-bs-target="#modalExcluir">
+                  <i class="fas fa-trash-alt"></i> Excluir
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <a class="btn btn-lg btn-success" role="button" href="formulario.html">
+        <i class="fas fa-plus-square"></i> Incluir novo
+      </a>
+    </div>
+  </main>
+
+  <div>
+    <div class="modal fade" id="modalExcluir" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+      aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel"><i class="fas fa-trash-alt"></i> Confirmar exclusão</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+            <p id="modalExcluirMsg">Confirma exclusão?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Não</button>
+            <form id="modalExcluirForm" style="display: inline-block" method="post">
+              <button type="submit" class="btn btn-danger">Sim</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER - INICIO -->
+  <footer class="footer mt-auto py-3 bg-body-tertiary">
+    <div class="container text-center">
+      <span class="text-body-secondary">&copy; Senac - TADS DSW 2025</span>
+    </div>
+  </footer>
+  <!-- FOOTER - FIM -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+    crossorigin="anonymous"></script>
+  <script>
+    function confirmarExclusao(id) {
+      const confirmado = confirm('Confirma exclusão do ID ' + id + '?');
+      if (confirmado) {
+        // Implementa lógica para fetch ao endpoint do DELETE
+        // Recarregadas dados da tela
+        alert('Excluído');
+      }
+    }
+
+    async function findAll() {
+      try {
+        const httpResp = await fetch('http://localhost:8080/api/dados');
+        if (!httpResp.ok) {
+          alert('Erro na requisição HTTP - ' + httpResp.status);
+          return;
+        }
+        const dadosArray = await httpResp.json();
+
+        // Limpar a tag <tbody id="dados">
+        const elTbody = document.getElementById('dados');
+        elTbody.innerHTML = '';
+
+        for (const dadoPessoa of dadosArray) {
+          const linhaTabela = `<tr>
+            <th>${dadoPessoa.id}</th>
+            <td>${dadoPessoa.nome}</td>
+            <td>${dadoPessoa.apelido}</td>
+            <td>
+              <a href="detalhes.html?id=${dadoPessoa.id}">Detalhes</a>
+              <a href="formulario.html?id=${dadoPessoa.id}">Alterar</a>
+              <button onclick="confirmarExclusao(${dadoPessoa.id})">Excluir</button>
+            </td>
+          </tr>`;
+          elTbody.insertAdjacentHTML('beforeend', linhaTabela);
+        }
+      } catch (err) {
+        alert('Erro na requisição - ' + err);
+      }
+    }
+
+    document.getElementById('btnFetch').onclick = findAll;
+
+  </script>
+</body>
+
+</html>
