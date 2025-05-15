@@ -16,30 +16,40 @@ Reimplementar o projeto dados-pessoais trazendo boas práticas que não foram us
 
 ## Processo de desenvolvimento
 
-* Wireframe das telas
-* Modelar entity/BD
-    * Pessoas
-        * ID interno
-        * UUID publico
-        * Username
-        * Nome completo
-        * E-mail
-        * Telefone
-        * Senha
-        * Data de cadastro
-        * Status ativo/inativo
-    * Interesses
-        * ID
-        * Nome
-    * Foto pessoa
-        * ID
-        * Nome arquivo
-        * Legenda
-* Criar services
-* Criar MVC + Thymeleaf para CRUD administrativo
-* Configurar login para acesso administrativo
-* Criar webservices para CRUD dos usuários + telas simples estáticas para acesso
-* Configurar login com JWT para acesso próprio
+- [x] Wireframe das telas
+    * Disponíveis como arquivos estáticos
+- [x] Modelar entity/BD
+    - Pessoas
+        - ID interno
+        - UUID publico
+        - Username
+        - Nome completo
+        - E-mail
+        - Telefone
+        - Senha
+        - Data de cadastro
+        - Status ativo/inativo
+    - Interesses
+        - ID
+        - Nome
+    - Foto pessoa
+        - ID
+        - Nome arquivo
+        - Nome arquivo original
+        - Legenda
+- [x] Criar services
+- [x] Criar Webservices REST
+    - [x] CRUD básico
+    - [xs] Upload de fotos
+- [ ] Configurações e implementações de Security
+    - [ ] Geração/leitura do token JWT
+    - [ ] Login
+    - [ ] Alterar senha
+    - [ ] Resetar senha
+    - [ ] Configurar autorizações de acesso
+    - [ ] Obter usuário do token
+- [ ] Implementar versão MVC clássico com Thymeleaf
+
 
 ## Dependências Spring Initializr
 

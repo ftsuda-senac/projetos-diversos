@@ -8,14 +8,14 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Value("${app.imagem-path}")
-    private String imagemPath;
+    @Value("${app.upload-path}")
+    private String uploadPath;
 
-    @Value("${app.imagem-url-prefix}")
-    private String imagemUrlPrefix;
+    @Value("${app.upload-url-prefix}")
+    private String uploadUrlPrefix;
 
     /**
      * Define uma URL para acessar um diretório contendo as imagens<br>
@@ -26,8 +26,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(imagemUrlPrefix + "/**")
-                .addResourceLocations("file:///" + imagemPath);
+        registry.addResourceHandler(uploadUrlPrefix + "/**")
+                .addResourceLocations("file:///" + uploadPath);
     }
 
     /**
