@@ -2,7 +2,7 @@
 
 Projeto de referência para demonstrar recursos básicos do Spring Boot
 
-* Versão do Spring Boot: 3.4.5
+* Versão do Spring Boot: 3.5.0
 * Versão do Java: 21
 
 ## Objetivo
@@ -40,7 +40,7 @@ Reimplementar o projeto dados-pessoais trazendo boas práticas que não foram us
 - [x] Criar services
 - [x] Criar Webservices REST
     - [x] CRUD básico
-    - [xs] Upload de fotos
+    - [x] Upload de fotos
 - [ ] Configurações e implementações de Security
     - [ ] Geração/leitura do token JWT
     - [ ] Login
@@ -63,7 +63,7 @@ Reimplementar o projeto dados-pessoais trazendo boas práticas que não foram us
 * Configuration Processor
 * Devtools
 
-https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.4.5&packaging=jar&jvmVersion=21&groupId=br.com.webmobi&artifactId=dados-pessoais&name=dados-pessoais&description=Exemplo%20projeto%20dados%20pessoais&packageName=br.com.webmobi.dadospessoais&dependencies=devtools,lombok,configuration-processor,web,data-jpa,security,validation,thymeleaf,h2
+https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.5.0&packaging=jar&jvmVersion=21&groupId=br.com.webmobi&artifactId=dados-pessoais&name=dados-pessoais&description=Exemplo%20projeto%20dados%20pessoais&packageName=br.com.webmobi.dadospessoais&dependencies=devtools,lombok,configuration-processor,web,data-jpa,security,validation,thymeleaf,h2
 
 Após abrir o projeto na IDE, adicionar manualmente as seguintes dependências no pom.xml
 
@@ -121,4 +121,12 @@ indent_size = 2
 [{*.css, *.scss}]
 indent_style = space
 indent_size = 2
+
+[*.xml]
+indent_style = tab
+indent_size = 4
+
+[{*.yml, *.yaml}]
+indent_style = space
+indent_size = 4
 ```
