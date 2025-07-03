@@ -10,8 +10,8 @@ import br.com.webmobi.dadospessoais.dominio.entity.PessoaFotoEntity;
 
 public interface PessoaFotoRepository extends JpaRepository<PessoaFotoEntity, Integer> {
 
-    List<PessoaFotoEntity> findByPessoa_PublicId(UUID pessoaId);
+	List<PessoaFotoEntity> findByPessoa_PublicId(UUID pessoaId);
 
-    Optional<PessoaFotoEntity> findByPessoa_PublicIdAndNomeArquivo(UUID pessoaId, String nomeArquivo);
+	Optional<PessoaFotoEntity> findByPessoa_PublicIdAndNomeArquivo(UUID pessoaId, String nomeArquivo);
 
 }

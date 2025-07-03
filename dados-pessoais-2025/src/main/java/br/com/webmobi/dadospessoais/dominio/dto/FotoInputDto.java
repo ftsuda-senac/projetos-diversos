@@ -7,26 +7,26 @@ import jakarta.validation.constraints.Size;
 
 public class FotoInputDto {
 
-    @NotNull
-    private MultipartFile arquivo;
+	@NotNull
+	private MultipartFile arquivo;
 
-    @Size(max = 200)
-    private String legenda;
+	@Size(max = 200)
+	private String legenda;
 
-    public MultipartFile getArquivo() {
-        return arquivo;
-    }
+	public MultipartFile getArquivo() {
+		return arquivo;
+	}
 
-    public void setArquivo(MultipartFile arquivo) {
-        this.arquivo = arquivo;
-    }
+	public void setArquivo(MultipartFile arquivo) {
+		this.arquivo = arquivo;
+	}
 
-    public String getLegenda() {
-        return legenda;
-    }
+	public String getLegenda() {
+		return legenda;
+	}
 
-    public void setLegenda(String legenda) {
-        this.legenda = legenda;
-    }
+	public void setLegenda(String legenda) {
+		this.legenda = legenda;
+	}
 
 }

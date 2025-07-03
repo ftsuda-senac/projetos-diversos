@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UrlMapper {
 
-    @Value("${app.upload-url-prefix}")
-    private String uploadUrlPrefix;
+	@Value("${app.upload-url-prefix}")
+	private String uploadUrlPrefix;
 
-    public String getImagemUrlPath(UUID pessoaId, String nomeArquivo) {
-        return uploadUrlPrefix + "/" + pessoaId + "/fotos/" + nomeArquivo;
-    }
+	public String getImagemUrlPath(UUID pessoaId, String nomeArquivo) {
+		return uploadUrlPrefix + "/" + pessoaId + "/fotos/" + nomeArquivo;
+	}
+
 }

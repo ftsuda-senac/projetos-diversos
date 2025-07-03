@@ -20,47 +20,44 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class InteresseService implements CrudService<InteresseDto, InteresseDto, InteresseDto, Integer> {
 
-    private final InteresseRepository interesseRepository;
+	private final InteresseRepository interesseRepository;
 
-    private InteresseEntity createEntityFromDto(InteresseDto dto) {
-        InteresseEntity entity = new InteresseEntity();
-        entity.setNome(dto.nome());
-        return entity;
-    }
+	private InteresseEntity createEntityFromDto(InteresseDto dto) {
+		InteresseEntity entity = new InteresseEntity();
+		entity.setNome(dto.nome());
+		return entity;
+	}
 
-    @Override
-    public Page<InteresseDto> listar(Pageable pageable) {
-        throw new UnsupportedOperationException("Unimplemented method 'listar'");
-    }
+	@Override
+	public Page<InteresseDto> listar(Pageable pageable) {
+		throw new UnsupportedOperationException("Unimplemented method 'listar'");
+	}
 
-    @Override
-    public List<InteresseDto> listarTudo() {
-        return interesseRepository.findAll().stream()
-                .map(InteresseDto::new)
-                .toList();
-    }
+	@Override
+	public List<InteresseDto> listarTudo() {
+		return interesseRepository.findAll().stream().map(InteresseDto::new).toList();
+	}
 
-    @Override
-    public InteresseDto buscarPorId(Integer id) {
-        return interesseRepository.findById(id)
-                .map(InteresseDto::new)
-                .orElseThrow(() -> new NaoEncontradoException("Interesse não encontrado"));
-    }
+	@Override
+	public InteresseDto buscarPorId(Integer id) {
+		return interesseRepository.findById(id).map(InteresseDto::new)
+				.orElseThrow(() -> new NaoEncontradoException("Interesse não encontrado"));
+	}
 
-    @Override
-    @Transactional
-    public InteresseDto incluirNovo(@Valid InteresseDto inputDto) {
-        return new InteresseDto(interesseRepository.save(createEntityFromDto(inputDto)));
-    }
+	@Override
+	@Transactional
+	public InteresseDto incluirNovo(@Valid InteresseDto inputDto) {
+		return new InteresseDto(interesseRepository.save(createEntityFromDto(inputDto)));
+	}
 
-    @Override
-    public InteresseDto alterar(Integer publicId, @Valid InteresseDto dto) {
-        throw new UnsupportedOperationException("Unimplemented method 'alterar'");
-    }
+	@Override
+	public InteresseDto alterar(Integer publicId, @Valid InteresseDto dto) {
+		throw new UnsupportedOperationException("Unimplemented method 'alterar'");
+	}
 
-    @Override
-    public void excluir(Integer id) {
-        throw new UnsupportedOperationException("Unimplemented method 'excluir'");
-    }
+	@Override
+	public void excluir(Integer id) {
+		throw new UnsupportedOperationException("Unimplemented method 'excluir'");
+	}
 
 }

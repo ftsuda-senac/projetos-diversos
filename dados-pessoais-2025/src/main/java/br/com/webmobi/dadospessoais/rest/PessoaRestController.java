@@ -35,82 +35,75 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PessoaRestController {
 
-    private final PessoaService pessoaService;
+	private final PessoaService pessoaService;
 
-    private final PessoaFotoService pessoaFotoService;
+	private final PessoaFotoService pessoaFotoService;
 
-    private final UrlMapper urlMapper;
+	private final UrlMapper urlMapper;
 
-    private FotoDto toFotoDto(PessoaDto dto, String nomeArquivo) {
-        String path = urlMapper.getImagemUrlPath(dto.id(), nomeArquivo);
-        URI fotoUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUri();
-        return new FotoDto(fotoUri, nomeArquivo);
-    }
+	private FotoDto toFotoDto(PessoaDto dto, String nomeArquivo) {
+		String path = urlMapper.getImagemUrlPath(dto.id(), nomeArquivo);
+		URI fotoUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUri();
+		return new FotoDto(fotoUri, nomeArquivo);
+	}
 
-    // Ver https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.page.paged-model
-    // @ParameterObject - "abre" os parâmetros de paginação na tela do Swagger
-    @GetMapping
-    public PagedModel<PessoaDto> listar(@ParameterObject Pageable pageable) {
-        return new PagedModel<>(pessoaService.listar(pageable).map(dto -> {
-            List<FotoDto> fotosUrls = dto.fotos().stream()
-                    .map(foto -> toFotoDto(dto, foto.legenda()))
-                    .toList();
-            return new PessoaDto(dto, fotosUrls);
-        }));
-    }
+	// Ver https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.page.paged-model
+	// @ParameterObject - "abre" os parâmetros de paginação na tela do Swagger
+	@GetMapping
+	public PagedModel<PessoaDto> listar(@ParameterObject Pageable pageable) {
+		return new PagedModel<>(pessoaService.listar(pageable).map(dto -> {
+			List<FotoDto> fotosUrls = dto.fotos().stream().map(foto -> toFotoDto(dto, foto.legenda())).toList();
+			return new PessoaDto(dto, fotosUrls);
+		}));
+	}
 
-    @GetMapping(params = "all")
-    public ListContentContainerDto<PessoaDto> listarTudo() {
-        return new ListContentContainerDto<PessoaDto>(pessoaService.listarTudo().stream()
-                .map(dto -> {
-                    List<FotoDto> fotosUrls = dto.fotos().stream()
-                        .map(foto -> toFotoDto(dto, foto.legenda()))
-                        .toList();
-                    return new PessoaDto(dto, fotosUrls);
-                }).toList());
-    }
+	@GetMapping(params = "all")
+	public ListContentContainerDto<PessoaDto> listarTudo() {
+		return new ListContentContainerDto<PessoaDto>(pessoaService.listarTudo().stream().map(dto -> {
+			List<FotoDto> fotosUrls = dto.fotos().stream().map(foto -> toFotoDto(dto, foto.legenda())).toList();
+			return new PessoaDto(dto, fotosUrls);
+		}).toList());
+	}
 
-    @GetMapping("/{id}")
-    public PessoaDto buscarPorId(@PathVariable UUID id) {
-        PessoaDto dto = pessoaService.buscarPorId(id);
-        List<FotoDto> fotosUrls = dto.fotos().stream()
-                .map(foto -> toFotoDto(dto, foto.legenda()))
-                .toList();
-        return new PessoaDto(dto, fotosUrls);
-    }
+	@GetMapping("/{id}")
+	public PessoaDto buscarPorId(@PathVariable UUID id) {
+		PessoaDto dto = pessoaService.buscarPorId(id);
+		List<FotoDto> fotosUrls = dto.fotos().stream().map(foto -> toFotoDto(dto, foto.legenda())).toList();
+		return new PessoaDto(dto, fotosUrls);
+	}
 
-    @PostMapping
-    public ResponseEntity<PessoaDto> incluirNovo(@RequestBody PessoaInclusaoDto inputDto) {
-        PessoaDto dto = pessoaService.incluirNovo(inputDto);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(dto.id())
-                .toUri();
-        return ResponseEntity.created(location).body(dto);
-    }
+	@PostMapping
+	public ResponseEntity<PessoaDto> incluirNovo(@RequestBody PessoaInclusaoDto inputDto) {
+		PessoaDto dto = pessoaService.incluirNovo(inputDto);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(dto.id())
+				.toUri();
+		return ResponseEntity.created(location).body(dto);
+	}
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PessoaDto> alterar(@PathVariable UUID id, @RequestBody PessoaAlteracaoDto inputDto) {
-        PessoaDto dto = pessoaService.alterar(id, inputDto);
-        return ResponseEntity.ok().body(dto);
-    }
+	@PutMapping("/{id}")
+	public ResponseEntity<PessoaDto> alterar(@PathVariable UUID id, @RequestBody PessoaAlteracaoDto inputDto) {
+		PessoaDto dto = pessoaService.alterar(id, inputDto);
+		return ResponseEntity.ok().body(dto);
+	}
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable UUID id) {
-        pessoaService.excluir(id);
-        return ResponseEntity.noContent().build();
-    }
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> excluir(@PathVariable UUID id) {
+		pessoaService.excluir(id);
+		return ResponseEntity.noContent().build();
+	}
 
-    @PostMapping(path = "/{pessoaId}/fotos", consumes = "multipart/form-data")
-    public ResponseEntity<Void> incluirFoto(@PathVariable UUID pessoaId, @ModelAttribute FotoInputDto arquivo) {
-        PessoaFotoDto dto = pessoaFotoService.salvar(pessoaId, arquivo);
-        String path = urlMapper.getImagemUrlPath(pessoaId, dto.nomeArquivo());
-        URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUri();
-        return ResponseEntity.created(location).build();
-    }
+	@PostMapping(path = "/{pessoaId}/fotos", consumes = "multipart/form-data")
+	public ResponseEntity<Void> incluirFoto(@PathVariable UUID pessoaId, @ModelAttribute FotoInputDto arquivo) {
+		PessoaFotoDto dto = pessoaFotoService.salvar(pessoaId, arquivo);
+		String path = urlMapper.getImagemUrlPath(pessoaId, dto.nomeArquivo());
+		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUri();
+		return ResponseEntity.created(location).build();
+	}
 
-    @DeleteMapping("/{pessoaId}/fotos/{nomeArquivo}")
-    public ResponseEntity<Void> excluirFoto(@PathVariable UUID pessoaId, @PathVariable String nomeArquivo) {
-        pessoaFotoService.excluir(pessoaId, nomeArquivo);
-        return ResponseEntity.noContent().build();
-    }
+	@DeleteMapping("/{pessoaId}/fotos/{nomeArquivo}")
+	public ResponseEntity<Void> excluirFoto(@PathVariable UUID pessoaId, @PathVariable String nomeArquivo) {
+		pessoaFotoService.excluir(pessoaId, nomeArquivo);
+		return ResponseEntity.noContent().build();
+	}
 
 }

@@ -21,18 +21,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class InteresseRestController {
 
-    private final InteresseService interesseService;
+	private final InteresseService interesseService;
 
-    @GetMapping
-    public List<InteresseDto> listar() {
-        return interesseService.listarTudo();
-    }
+	@GetMapping
+	public List<InteresseDto> listar() {
+		return interesseService.listarTudo();
+	}
 
-    @PostMapping
-    public ResponseEntity<InteresseDto> incluirNovo(@RequestBody @Valid InteresseDto inputDto) {
-        InteresseDto dto = interesseService.incluirNovo(inputDto);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(dto.id()).toUri();
-        return ResponseEntity.created(location).body(dto);
-    }
+	@PostMapping
+	public ResponseEntity<InteresseDto> incluirNovo(@RequestBody @Valid InteresseDto inputDto) {
+		InteresseDto dto = interesseService.incluirNovo(inputDto);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(dto.id())
+				.toUri();
+		return ResponseEntity.created(location).body(dto);
+	}
 
 }
