@@ -6,26 +6,12 @@ import java.util.UUID;
 
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.webmobi.dadospessoais.dominio.UrlMapper;
-import br.com.webmobi.dadospessoais.dominio.dto.FotoDto;
-import br.com.webmobi.dadospessoais.dominio.dto.FotoInputDto;
-import br.com.webmobi.dadospessoais.dominio.dto.PessoaAlteracaoDto;
-import br.com.webmobi.dadospessoais.dominio.dto.PessoaDto;
-import br.com.webmobi.dadospessoais.dominio.dto.PessoaFotoDto;
-import br.com.webmobi.dadospessoais.dominio.dto.PessoaInclusaoDto;
+import br.com.webmobi.dadospessoais.dominio.dto.*;
 import br.com.webmobi.dadospessoais.dominio.service.PessoaFotoService;
 import br.com.webmobi.dadospessoais.dominio.service.PessoaService;
 import lombok.RequiredArgsConstructor;
@@ -47,12 +33,12 @@ public class PessoaRestController {
 		return new FotoDto(fotoUri, nomeArquivo);
 	}
 
-	// Ver https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.page.paged-model
+
 	// @ParameterObject - "abre" os parâmetros de paginação na tela do Swagger
 	@GetMapping
-	public PagedModel<PessoaDto> listar(@ParameterObject Pageable pageable) {
-		return new PagedModel<>(pessoaService.listar(pageable).map(dto -> {
-			List<FotoDto> fotosUrls = dto.fotos().stream().map(foto -> toFotoDto(dto, foto.legenda())).toList();
+	public PagedContentContainerDto<PessoaDto> listar(@ParameterObject Pageable pageable) {
+		return new PagedContentContainerDto<>(pessoaService.listar(pageable).map(dto -> {
+			List<FotoDto> fotosUrls = dto.pessoasFotos().stream().map(foto -> toFotoDto(dto, foto.legenda())).toList();
 			return new PessoaDto(dto, fotosUrls);
 		}));
 	}
@@ -60,7 +46,7 @@ public class PessoaRestController {
 	@GetMapping(params = "all")
 	public ListContentContainerDto<PessoaDto> listarTudo() {
 		return new ListContentContainerDto<PessoaDto>(pessoaService.listarTudo().stream().map(dto -> {
-			List<FotoDto> fotosUrls = dto.fotos().stream().map(foto -> toFotoDto(dto, foto.legenda())).toList();
+			List<FotoDto> fotosUrls = dto.pessoasFotos().stream().map(foto -> toFotoDto(dto, foto.legenda())).toList();
 			return new PessoaDto(dto, fotosUrls);
 		}).toList());
 	}
@@ -68,7 +54,7 @@ public class PessoaRestController {
 	@GetMapping("/{id}")
 	public PessoaDto buscarPorId(@PathVariable UUID id) {
 		PessoaDto dto = pessoaService.buscarPorId(id);
-		List<FotoDto> fotosUrls = dto.fotos().stream().map(foto -> toFotoDto(dto, foto.legenda())).toList();
+		List<FotoDto> fotosUrls = dto.pessoasFotos().stream().map(foto -> toFotoDto(dto, foto.legenda())).toList();
 		return new PessoaDto(dto, fotosUrls);
 	}
 

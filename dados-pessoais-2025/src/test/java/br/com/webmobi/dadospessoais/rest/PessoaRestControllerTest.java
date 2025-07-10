@@ -56,7 +56,7 @@ public class PessoaRestControllerTest {
 
 	static PessoaEntity criarPessoa(int id) {
 		PessoaEntity pessoaMock = new PessoaEntity();
-		pessoaMock.setId(1);
+		pessoaMock.setId(id);
 		pessoaMock.setPublicId(UUID.randomUUID());
 		String username = "pessoa" + id;
 		pessoaMock.setUsername(username);

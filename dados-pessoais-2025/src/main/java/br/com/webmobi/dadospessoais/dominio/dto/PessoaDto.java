@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -19,10 +20,14 @@ public record PessoaDto (
 		String telefone,
 		LocalDate dataNascimento,
 		List<String> interesses,
-
-		@JsonIgnore List<PessoaFotoDto> fotos,
-
+		@JsonIgnore List<PessoaFotoDto> pessoasFotos,
 		@JsonProperty("fotos") List<FotoDto> fotosUrl) {
+
+	@JsonCreator
+	public PessoaDto(UUID id, String username, String nome, String email, String telefone, LocalDate dataNascimento,
+			List<String> interesses, @JsonProperty("fotos") List<FotoDto> fotosUrl) {
+		this(id, username, nome, email, telefone, dataNascimento, interesses, null, fotosUrl);
+	}
 
 	public PessoaDto(PessoaEntity pessoaEntity) {
 		this(pessoaEntity.getPublicId(), pessoaEntity.getUsername(), pessoaEntity.getNome(), pessoaEntity.getEmail(),
