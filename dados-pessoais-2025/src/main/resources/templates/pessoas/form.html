@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html class="h-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRUD Pessoas</title>
+  <link rel="stylesheet" href="/webjars/font-awesome/css/all.min.css" />
+  <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+
+<body class="d-flex flex-column h-100">
+  <!-- NAVBAR - INICIO -->
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/mvc/pessoas">CRUD Pessoas</a>
+    </div>
+  </nav>
+  <!-- NAVBAR - FIM -->
+
+  <div class="container-lg flex-shrink-0">
+    <div class="row">
+      <main class="col-lg-12">
+        <h1 data-th-if="${item.id == null}">Incluir Pessoa</h1>
+        <h1 data-th-unless="${item.id == null}">Alterar Pessoa - <strong data-th-text="${item.username}"></strong></h1>
+
+        <form method="post" novalidate id="formDados" data-th-object="${item}"> <!-- POR PADRAO, O SUBMIT FAZ REQUISICAO PARA A URL ATUAL -->
+          <div class="row mb-3">
+            <label for="txtNome" class="col-sm-2 col-form-label">Username</label>
+            <div class="col-sm-10">
+              <input type="text" id="txtUsername"
+                placeholder="Preencha seu nome de usuário"
+                class="form-control" required
+                data-th-field="*{username}"
+                data-th-classappend="${#fields.hasErrors('username')}? is-invalid"
+                data-th-readonly="${item.id != null}"
+                data-th-disabled="${item.id != null}"
+                />
+              <p class="invalid-feedback" data-th-if="${#fields.hasErrors('username')}" data-th-errors="*{username}"></p>
+              <p id="nomeAjuda" class="form-text">Digitar um nome de usuário sem acentuação, caracteres especiais (exceto - e _) e
+                espaços em branco<br />Exemplos: fulano, ciclano-silva, teste123, teste_xpto</p>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="txtNome" class="col-sm-2 col-form-label">Nome</label>
+            <div class="col-sm-10">
+              <input type="text" id="txtNome"
+                placeholder="Preencha seu nome completo"
+                class="form-control" required
+                data-th-field="*{nome}"
+                data-th-classappend="${#fields.hasErrors('nome')}? is-invalid"
+                />
+              <p class="invalid-feedback" data-th-if="${#fields.hasErrors('nome')}" data-th-errors="*{nome}"></p>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="txtDataNascimento" class="col-sm-2 col-form-label">Data de nascimento</label>
+            <div class="col-sm-10">
+              <input type="date" id="txtDataNascimento"
+                placeholder="Preencha sua data de nascimento"
+                class="form-control"
+                data-th-field="*{dataNascimento}"
+                data-th-classappend="${#fields.hasErrors('dataNascimento')}? is-invalid"
+                />
+              <p class="invalid-feedback" data-th-if="${#fields.hasErrors('dataNascimento')}" data-th-errors="*{dataNascimento}"></p>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="txtEmail" class="col-sm-2 col-form-label">E-mail</label>
+            <div class="col-sm-10">
+              <input type="email" id="txtEmail"
+                placeholder="Preencha seu e-mail"
+                class="form-control" required
+                data-th-field="*{email}"
+                data-th-classappend="${#fields.hasErrors('email')}? is-invalid"
+                />
+              <p class="invalid-feedback" data-th-if="${#fields.hasErrors('email')}" data-th-errors="*{email}"></p>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="txtTelefone" class="col-sm-2 col-form-label">Telefone</label>
+            <div class="col-sm-10">
+              <input type="text" id="txtTelefone"
+                placeholder="Preencha seu telefone"
+                class="form-control"
+                data-th-field="*{telefone}"
+                data-th-classappend="${#fields.hasErrors('telefone')}? is-invalid"
+                />
+              <p class="invalid-feedback" data-th-if="${#fields.hasErrors('telefone')}" data-th-errors="*{telefone}"></p>
+            </div>
+          </div>
+          <div class="row mb-3" data-th-if="${item.id == null}">
+            <label for="txtSenha" class="col-sm-2 col-form-label">Senha</label>
+            <div class="col-sm-10">
+              <input type="password" id="txtSenha"
+                placeholder="Preencha sua senha"
+                class="form-control" required
+                data-th-field="*{senha}"
+                data-th-classappend="${#fields.hasErrors('senha')}? is-invalid"
+                />
+              <p class="invalid-feedback" data-th-if="${#fields.hasErrors('senha')}" data-th-errors="*{senha}"></p>
+            </div>
+          </div>
+          <div class="row mb-3" data-th-if="${item.id == null}">
+            <label for="txtSenhaConfirmacao" class="col-sm-2 col-form-label">Repetir senha</label>
+            <div class="col-sm-10">
+              <input type="password" id="txtSenhaConfirmacao"
+                placeholder="Repita sua senha"
+                class="form-control"
+                data-th-field="*{senhaConfirmacao}"
+                data-th-classappend="${#fields.hasErrors('senhaConfirmacao')}? is-invalid"
+                />
+              <p class="invalid-feedback" data-th-if="${#fields.hasErrors('senhaConfirmacao')}" data-th-errors="*{senhaConfirmacao}"></p>
+            </div>
+          </div>
+          <fieldset class="row mb-3">
+            <legend class="col-sm-2 col-form-label pt-0">Interesses</legend>
+            <div class="col-sm-10" id="opcoesInteresses">
+              <div data-th-classappend="${#fields.hasErrors('interessesIds')}? is-invalid">
+                <div class="form-check form-check-inline" data-th-each="opcaoInteresse : ${opcoesInteresses}" >
+                  <input
+                      type="checkbox"
+                      class="form-check-input"
+                      data-th-field="*{interessesIds}"
+                      data-th-value="${opcaoInteresse.id}"
+                      data-th-id="interesse + ${opcaoInteresse.id}"
+                      data-th-classappend="${#fields.hasErrors('interessesIds')}? is-invalid"
+                  />
+                  <label data-th-for="interesse + ${opcaoInteresse.id}"
+                         class="form-check-label"
+                         data-th-text="${opcaoInteresse.nome}"></label>
+                </div>
+              </div>
+              <p class="invalid-feedback" data-th-if="${#fields.hasErrors('interessesIds')}" data-th-errors="*{interessesIds}"></p>
+            </div>
+          </fieldset>
+          <div class="row">
+            <div class="col-md-3 offset-md-3">
+              <div class="d-grid">
+                <a data-th-href="@{/mvc/pessoas}" role="button" class="btn btn-outline-dark">Cancelar</a>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="d-grid">
+                <button type="submit" class="btn btn-success">Salvar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- FOOTER - INICIO -->
+  <footer class="footer mt-auto py-3 bg-body-tertiary">
+    <div class="container text-center">
+      <span class="text-body-secondary">Rodapé</span>
+    </div>
+  </footer>
+  <!-- FOOTER - FIM -->
+  <script src="/webjars/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+
+  </script>
+</body>
+
+</html>

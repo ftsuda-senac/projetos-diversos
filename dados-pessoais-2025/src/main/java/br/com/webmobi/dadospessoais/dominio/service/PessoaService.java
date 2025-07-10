@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import br.com.webmobi.dadospessoais.dominio.dto.PessoaAlteracaoDto;
 import br.com.webmobi.dadospessoais.dominio.dto.PessoaDto;
 import br.com.webmobi.dadospessoais.dominio.dto.PessoaInclusaoDto;
+import br.com.webmobi.dadospessoais.dominio.dto.PessoaMvcDto;
 import br.com.webmobi.dadospessoais.dominio.entity.PessoaEntity;
 import br.com.webmobi.dadospessoais.dominio.exception.NaoEncontradoException;
 import br.com.webmobi.dadospessoais.dominio.repository.InteresseRepository;
@@ -69,6 +70,12 @@ public class PessoaService implements CrudService<PessoaDto, PessoaInclusaoDto, 
 	@Transactional(readOnly = true)
 	public PessoaDto buscarPorId(UUID publicId) {
 		return pessoaRepository.findByPublicId(publicId).map(PessoaDto::new)
+				.orElseThrow(() -> new NaoEncontradoException("Pessoa ID " + publicId + " não encontrada"));
+	}
+
+	@Transactional(readOnly = true)
+	public PessoaMvcDto buscarPorIdMvc(UUID publicId) {
+		return pessoaRepository.findByPublicId(publicId).map(PessoaMvcDto::new)
 				.orElseThrow(() -> new NaoEncontradoException("Pessoa ID " + publicId + " não encontrada"));
 	}
 
