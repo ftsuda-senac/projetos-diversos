@@ -2,8 +2,9 @@
 
 Projeto de referência para demonstrar recursos básicos do Spring Boot
 
-* Versão do Spring Boot: 3.5.0
+* Versão do Spring Boot: 3.5.3
 * Versão do Java: 21
+* Banco de dados: H2
 
 ## Objetivo
 
@@ -48,7 +49,13 @@ Reimplementar o projeto dados-pessoais trazendo boas práticas que não foram us
     - [ ] Resetar senha
     - [ ] Configurar autorizações de acesso
     - [ ] Obter usuário do token
-- [ ] Implementar versão MVC clássico com Thymeleaf
+- [x] Implementar versão MVC clássico com Thymeleaf
+- [x] Testes automatizados
+    - [x] Data JPA
+    - [x] Service (somente 1 funcionalidade)
+    - [x] RestController (somente 1 funcionalidade)
+    - [ ] MvcController
+    - [x] Integração (somente 1 funcionalidade)
 
 
 ## Dependências Spring Initializr
@@ -62,8 +69,9 @@ Reimplementar o projeto dados-pessoais trazendo boas práticas que não foram us
 * Lombok
 * Configuration Processor
 * Devtools
+* JSpecify
 
-https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.5.0&packaging=jar&jvmVersion=21&groupId=br.com.webmobi&artifactId=dados-pessoais&name=dados-pessoais&description=Exemplo%20projeto%20dados%20pessoais&packageName=br.com.webmobi.dadospessoais&dependencies=devtools,lombok,configuration-processor,web,data-jpa,security,validation,thymeleaf,h2
+https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.5.3&packaging=jar&jvmVersion=21&groupId=br.com.webmobi&artifactId=dados-pessoais&name=dados-pessoais&description=Exemplo%20projeto%20dados%20pessoais&packageName=br.com.webmobi.dadospessoais&dependencies=devtools,lombok,configuration-processor,web,data-jpa,security,validation,thymeleaf,h2
 
 Após abrir o projeto na IDE, adicionar manualmente as seguintes dependências no pom.xml
 
@@ -71,7 +79,7 @@ Após abrir o projeto na IDE, adicionar manualmente as seguintes dependências n
 <dependency>
     <groupId>org.springdoc</groupId>
     <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-    <version>2.8.8</version>
+    <version>2.8.9</version>
 </dependency>
 <dependency>
     <groupId>nz.net.ultraq.thymeleaf</groupId>
@@ -89,7 +97,7 @@ Após abrir o projeto na IDE, adicionar manualmente as seguintes dependências n
 <dependency>
     <groupId>org.webjars</groupId>
     <artifactId>bootstrap</artifactId>
-    <version>5.3.5</version>
+    <version>5.3.7</version>
 </dependency>
 <dependency>
     <groupId>org.webjars</groupId>
