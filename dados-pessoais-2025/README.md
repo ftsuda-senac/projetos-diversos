@@ -2,7 +2,7 @@
 
 Projeto de referência para demonstrar recursos básicos do Spring Boot
 
-* Versão do Spring Boot: 3.5.3
+* Versão do Spring Boot: 3.5.5
 * Versão do Java: 21
 * Banco de dados: H2
 
@@ -57,7 +57,6 @@ Reimplementar o projeto dados-pessoais trazendo boas práticas que não foram us
     - [ ] MvcController
     - [x] Integração (somente 1 funcionalidade)
 
-
 ## Dependências Spring Initializr
 
 * Web
@@ -71,7 +70,7 @@ Reimplementar o projeto dados-pessoais trazendo boas práticas que não foram us
 * Devtools
 * JSpecify
 
-https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.5.3&packaging=jar&jvmVersion=21&groupId=br.com.webmobi&artifactId=dados-pessoais&name=dados-pessoais&description=Exemplo%20projeto%20dados%20pessoais&packageName=br.com.webmobi.dadospessoais&dependencies=devtools,lombok,configuration-processor,web,data-jpa,security,validation,thymeleaf,h2
+https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.5.5&packaging=jar&jvmVersion=21&groupId=br.com.webmobi&artifactId=dados-pessoais&name=dados-pessoais&description=Exemplo%20projeto%20dados%20pessoais&packageName=br.com.webmobi.dadospessoais&dependencies=devtools,lombok,configuration-processor,web,data-jpa,security,validation,thymeleaf,h2
 
 Após abrir o projeto na IDE, adicionar manualmente as seguintes dependências no pom.xml
 
@@ -107,6 +106,7 @@ Após abrir o projeto na IDE, adicionar manualmente as seguintes dependências n
 ```
 
 Adicionar o arquivo .editorconfig com o conteúdo abaixo:
+
 ```
 [*]
 end_of_line = lf
