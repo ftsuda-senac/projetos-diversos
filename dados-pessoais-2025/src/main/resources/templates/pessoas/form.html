@@ -23,7 +23,7 @@
         <h1 data-th-if="${item.id == null}">Incluir Pessoa</h1>
         <h1 data-th-unless="${item.id == null}">Alterar Pessoa - <strong data-th-text="${item.username}"></strong></h1>
 
-        <form method="post" novalidate id="formDados" data-th-object="${item}"> <!-- POR PADRAO, O SUBMIT FAZ REQUISICAO PARA A URL ATUAL -->
+        <form method="post" novalidate id="formDados" data-th-object="${item}"> <!-- POR PADRAO, O SUBMIT FAZ REQUISICAO PARA A URL ATUAL - NAO PRECISA DO ACTION -->
           <div class="row mb-3">
             <label for="txtNome" class="col-sm-2 col-form-label">Username</label>
             <div class="col-sm-10">
