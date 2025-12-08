@@ -1,0 +1,13 @@
+Adicionar uma funcionalidade na classe FileRenamerV3.java para que sejam extraidos as seguintes informações do arquivo TXT que não tenha sufixo _2, _3, etc
+Nome do aluno
+Data de envio - Converter para o formato dd/MM/yyyy HH:mm:ss
+Campo de envio - Texto digitado pelo aluno. Não precisa pegar se estiver com o valor "Não há dados de texto de envio para este exercício."
+Comentários - Texto digitado. Deixar em branco se estiver com o valor "Não há comentários de alunos para este exercício."
+Arquivos: Separar com "|" os nomes dos arquivos originais entregues.
+Consolidar as informações em uma planilha Excel
+
+===
+Criar um arquivo FileRenamerV4.java com as funcionalidades do FileRenamerV3 com as seguintes diferenças:
+- Será informado um diretório pai (Ex: E:\\senac\\25-2\\4b) e dentro dele terão alguns arquivos .zip com as entregas das atividades
+- Primeiramente, descompactar os arquivos para que fique dentro de uma subpasta com o mesmo nome do arquivo .zip - Se a pasta já existir, pode ignorar
+- Depois, percorrer todos os diretórios descompactados e executar mesma lógica da classes FileRenamerV3 (renomear os arquivos para o nome do aluno, consolidar as informações em um arquivo Excel) - Neste caso a planilha deverá ser criada no diretório pai e para cada subdiretório processado, incluir uma aba nova na planilha, com as mesmas informações coletadas pelo FileRenamerV3.java e seguindo as mesmas regras - lembrar de normalizar os nomes das abas e, quando necessário, trocar espaços em branco e hífens por um underline para que a aba tenha um nome válido
