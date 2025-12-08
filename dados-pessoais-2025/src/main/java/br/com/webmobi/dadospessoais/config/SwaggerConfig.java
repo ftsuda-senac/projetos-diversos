@@ -5,12 +5,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
-@SecurityScheme(
-  name = "bearer-jwt",
-  type = SecuritySchemeType.HTTP,
-  bearerFormat = "JWT",
-  scheme = "bearer"
-)
+@SecurityScheme(name = "bearer-jwt", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
 public class SwaggerConfig {
 
 }

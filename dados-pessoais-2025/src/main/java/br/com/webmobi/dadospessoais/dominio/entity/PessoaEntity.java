@@ -29,58 +29,55 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity(name = "Pessoa")
 @Table(name = "tb_pessoa", uniqueConstraints = {
-        @UniqueConstraint(name = "uk_pessoa_username", columnNames = { "username" }),
-        @UniqueConstraint(name = "uk_pessoa_public_id", columnNames = { "public_id" })
-})
+		@UniqueConstraint(name = "uk_pessoa_username", columnNames = { "username" }),
+		@UniqueConstraint(name = "uk_pessoa_public_id", columnNames = { "public_id" }) })
 public class PessoaEntity {
 
-    @Id
-    @SequenceGenerator(name = "seq_pessoa_id", allocationSize = 1, initialValue = 101)
-    @GeneratedValue(generator = "seq_pessoa_id")
-    private Integer id;
+	@Id
+	@SequenceGenerator(name = "seq_pessoa_id", allocationSize = 1, initialValue = 101)
+	@GeneratedValue(generator = "seq_pessoa_id")
+	private Integer id;
 
-    @Column(updatable = false, nullable = false, columnDefinition = "text")
-    private String username;
+	@Column(updatable = false, nullable = false, columnDefinition = "text")
+	private String username;
 
-    @Column(name = "public_id", updatable = false,  nullable = false, columnDefinition = "text")
-    private UUID publicId;
+	@Column(name = "public_id", updatable = false, nullable = false, columnDefinition = "text")
+	private UUID publicId;
 
-    @Column(nullable = false, columnDefinition = "text")
-    private String nome;
+	@Column(nullable = false, columnDefinition = "text")
+	private String nome;
 
-    @Column(nullable = false, columnDefinition = "text")
-    private String email;
+	@Column(nullable = false, columnDefinition = "text")
+	private String email;
 
-    @Column(columnDefinition = "text")
-    private String telefone;
+	@Column(columnDefinition = "text")
+	private String telefone;
 
-    @Column(columnDefinition = "text")
-    private String hashSenha;
+	@Column(columnDefinition = "text")
+	private String hashSenha;
 
-    private LocalDate dataNascimento;
+	private LocalDate dataNascimento;
 
-    private Instant dataCriacao;
+	private Instant dataCriacao;
 
-    private Instant dataAtualizacao;
+	private Instant dataAtualizacao;
 
-    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
-    private Set<PessoaFotoEntity> fotos;
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private Set<PessoaFotoEntity> fotos;
 
-    @ManyToMany
-    @JoinTable(name = "tb_pessoa_interesse",
-            joinColumns = @JoinColumn(name = "pessoa_id", foreignKey = @ForeignKey(name = "fk_pessoa_interesse__pessoa_id")),
-            inverseJoinColumns = @JoinColumn(name = "interesse_id"), foreignKey = @ForeignKey(name = "fk_pessoa_interesse__interesse_id"))
-    private Set<InteresseEntity> interesses;
+	@ManyToMany
+	@JoinTable(name = "tb_pessoa_interesse", joinColumns = @JoinColumn(name = "pessoa_id", foreignKey = @ForeignKey(name = "fk_pessoa_interesse__pessoa_id")), inverseJoinColumns = @JoinColumn(name = "interesse_id"), foreignKey = @ForeignKey(name = "fk_pessoa_interesse__interesse_id"))
+	private Set<InteresseEntity> interesses;
 
-    @PrePersist
-    public void onCreate() {
-        this.publicId = UUID.randomUUID();
-        this.dataCriacao = this.dataAtualizacao = Instant.now();
-    }
+	@PrePersist
+	public void onCreate() {
+		this.publicId = UUID.randomUUID();
+		this.dataCriacao = this.dataAtualizacao = Instant.now();
+	}
 
-    @PreUpdate
-    public void onUpdate() {
-        this.dataAtualizacao = Instant.now();
-    }
+	@PreUpdate
+	public void onUpdate() {
+		this.dataAtualizacao = Instant.now();
+	}
 
 }

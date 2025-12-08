@@ -17,21 +17,21 @@ import jakarta.validation.Valid;
  */
 public interface CrudService<T, TC, TU, ID> {
 
-    Page<T> listar(Pageable pageable);
+	Page<T> listar(Pageable pageable);
 
-    List<T> listarTudo();
+	List<T> listarTudo();
 
-    // Se não encontrar lançar exception
-    T buscarPorId(ID id);
+	// Se não encontrar lançar exception
+	T buscarPorId(ID id);
 
-    // Adicionar @Valid para evitar erro https://stackoverflow.com/questions/76874888/hv000151-hibernate-validator-exception-constraints-not-being-inherited-from-i
-    T incluirNovo(@Valid TC inputDto);
+	// Adicionar @Valid para evitar erro https://stackoverflow.com/questions/76874888/hv000151-hibernate-validator-exception-constraints-not-being-inherited-from-i
+	T incluirNovo(@Valid TC inputDto);
 
-    // Se não encontrar lançar exception
-    // Adicionar @Valid para evitar erro https://stackoverflow.com/questions/76874888/hv000151-hibernate-validator-exception-constraints-not-being-inherited-from-i
-    T alterar(ID publicId, @Valid TU inputDto);
+	// Se não encontrar lançar exception
+	// Adicionar @Valid para evitar erro https://stackoverflow.com/questions/76874888/hv000151-hibernate-validator-exception-constraints-not-being-inherited-from-i
+	T alterar(ID publicId, @Valid TU inputDto);
 
-    // Se não encontrar lançar exception
-    void excluir(ID id);
+	// Se não encontrar lançar exception
+	void excluir(ID id);
 
 }

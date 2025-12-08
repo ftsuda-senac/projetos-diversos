@@ -10,14 +10,15 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 @Documented
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = SenhasIguaisValidator.class)
 public @interface SenhasIguais {
 
-    String message() default "A senha e a confirmação devem ser iguais";
+	String message() default "A senha e a confirmação devem ser iguais";
 
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
+
 }

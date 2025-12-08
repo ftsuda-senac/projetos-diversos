@@ -5,8 +5,8 @@ import br.com.webmobi.dadospessoais.dominio.validacao.SenhasIguais;
 @SenhasIguais
 public interface SenhaConfirmacao {
 
-    String getSenha();
+	String getSenha();
 
-    String getSenhaConfirmacao();
+	String getSenhaConfirmacao();
 
 }

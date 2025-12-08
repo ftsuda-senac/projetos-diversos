@@ -8,11 +8,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UsernameUnicoValidator implements ConstraintValidator<UsernameUnico, String> {
 
-    private final PessoaRepository pessoaRepository;
+	private final PessoaRepository pessoaRepository;
 
-    @Override
-    public boolean isValid(String username, ConstraintValidatorContext context) {
-        return !pessoaRepository.existsByUsername(username);
-    }
+	@Override
+	public boolean isValid(String username, ConstraintValidatorContext context) {
+		return !pessoaRepository.existsByUsername(username);
+	}
 
 }

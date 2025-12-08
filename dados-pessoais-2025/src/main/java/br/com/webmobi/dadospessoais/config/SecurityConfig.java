@@ -20,21 +20,21 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        Map<String, PasswordEncoder> encoders = new HashMap<>();
-        BCryptPasswordEncoder bcryptEnc = new BCryptPasswordEncoder();
-        encoders.put("bcrypt", bcryptEnc);
-        encoders.put("noop", NoOpPasswordEncoder.getInstance());
-        var passwordEncoder = new DelegatingPasswordEncoder("bcrypt", encoders);
-        passwordEncoder.setDefaultPasswordEncoderForMatches(bcryptEnc);
-        return passwordEncoder;
-    }
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		Map<String, PasswordEncoder> encoders = new HashMap<>();
+		BCryptPasswordEncoder bcryptEnc = new BCryptPasswordEncoder();
+		encoders.put("bcrypt", bcryptEnc);
+		encoders.put("noop", NoOpPasswordEncoder.getInstance());
+		var passwordEncoder = new DelegatingPasswordEncoder("bcrypt", encoders);
+		passwordEncoder.setDefaultPasswordEncoderForMatches(bcryptEnc);
+		return passwordEncoder;
+	}
 
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	@Bean
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        // @formatter:off
+		// @formatter:off
         return http
                 .cors(cors -> Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
@@ -50,6 +50,6 @@ public class SecurityConfig {
                 .build();
         // @formatter:on
 
-    }
+	}
 
 }

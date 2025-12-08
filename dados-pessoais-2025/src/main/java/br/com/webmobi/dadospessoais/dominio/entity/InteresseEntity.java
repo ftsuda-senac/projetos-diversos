@@ -3,13 +3,7 @@ package br.com.webmobi.dadospessoais.dominio.entity;
 import java.util.Map;
 
 import br.com.webmobi.dadospessoais.util.AppUtil;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,27 +16,32 @@ import lombok.Setter;
 @Table(name = "tb_interesse")
 public class InteresseEntity {
 
-    @Id
-    @SequenceGenerator(name = "seq_interesse_id", allocationSize = 1, initialValue = 101)
-    @GeneratedValue(generator = "seq_interesse_id")
-    private Integer id;
+	public InteresseEntity(Integer id, String nome) {
+		this.id = id;
+		this.nome = nome;
+	}
 
-    @NotBlank
-    @Column(nullable = false, columnDefinition = "text")
-    private String nome;
+	@Id
+	@SequenceGenerator(name = "seq_interesse_id", allocationSize = 1, initialValue = 101)
+	@GeneratedValue(generator = "seq_interesse_id")
+	private Integer id;
 
-    @NotBlank
-    @Column(nullable = false, columnDefinition = "text")
-    private String nomeNormalizado;
+	@NotBlank
+	@Column(nullable = false, columnDefinition = "text")
+	private String nome;
 
-    public InteresseEntity(String nome) {
-        this.nome = nome;
-    }
+	@NotBlank
+	@Column(nullable = false, columnDefinition = "text")
+	private String nomeNormalizado;
 
-    @PrePersist
-    public void onCreate() {
-        this.nomeNormalizado = AppUtil.normalizarStringComExcecoes(this.nome.trim(),
-            Map.ofEntries(Map.entry("c++", "cpp"), Map.entry("c#", "csharp")));
-    }
+	public InteresseEntity(String nome) {
+		this.nome = nome;
+	}
+
+	@PrePersist
+	public void onCreate() {
+		this.nomeNormalizado = AppUtil.normalizarStringComExcecoes(this.nome.trim(),
+				Map.ofEntries(Map.entry("c++", "cpp"), Map.entry("c#", "csharp")));
+	}
 
 }

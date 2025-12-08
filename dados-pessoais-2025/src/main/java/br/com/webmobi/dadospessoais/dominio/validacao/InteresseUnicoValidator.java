@@ -9,12 +9,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class InteresseUnicoValidator implements ConstraintValidator<InteresseUnico, String> {
 
-    private final InteresseRepository interesseRepository;
+	private final InteresseRepository interesseRepository;
 
-    @Override
-    public boolean isValid(String nome, ConstraintValidatorContext context) {
-        String nomeNormalizado = AppUtil.normalizarString(nome);
-        return !interesseRepository.existsByNomeNormalizado(nomeNormalizado);
-    }
+	@Override
+	public boolean isValid(String nome, ConstraintValidatorContext context) {
+		String nomeNormalizado = AppUtil.normalizarString(nome);
+		return !interesseRepository.existsByNomeNormalizado(nomeNormalizado);
+	}
 
 }

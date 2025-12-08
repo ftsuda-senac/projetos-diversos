@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html class="h-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRUD Pessoas</title>
+  <link rel="stylesheet" href="/webjars/font-awesome/css/all.min.css" />
+  <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+
+<body class="d-flex flex-column h-100">
+  <!-- NAVBAR - INICIO -->
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/mvc/pessoas">CRUD Pessoas</a>
+    </div>
+  </nav>
+  <!-- NAVBAR - FIM -->
+
+  <div class="container-lg flex-shrink-0">
+    <div class="row">
+      <main class="col-lg-12">
+        <h1>Pessoas cadastradas</h1>
+
+        <div data-th-if="${msg != null}" id="alerta" data-th-class="${'alert ' + msg.bsAlertClassName}" role="alert">
+          <h4 class="alert-heading" data-th-text="${msg.text}"></h4>
+        </div>
+
+        <table class="table table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>E-mail</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="dados">
+            <tr data-th-each="item : ${itens}">
+              <th data-th-text="${item.id}"></th>
+              <td data-th-text="${item.username}"></td>
+              <td data-th-text="${item.email}"></td>
+              <td>
+                <div class="btn-group" role="group" aria-label="Ações">
+                  <a class="btn btn-primary" role="button" data-th-href="@{/mvc/pessoas/{id}/alterar(id=${item.id})}">
+                    <i class="fas fa-edit"></i> Alterar
+                  </a>
+                  <button type="button" class="btn btn-danger" data-th-data-item-id="${item.id}" data-th-data-item-nome="${item.nome}" data-bs-toggle="modal" data-bs-target="#modalExcluir">
+                    <i class="fas fa-trash-alt"></i> Excluir
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div>
+          <a class="btn btn-lg btn-success"
+             role="button" data-th-href="@{/mvc/pessoas/incluir}">
+              <i class="fas fa-plus-square"></i> Incluir novo
+          </a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div>
+    <div class="modal fade" id="modalExcluir" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+      aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel"><i class="fas fa-trash-alt"></i> Confirmar exclusão</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+            <p id="modalExcluirMsg">Confirma exclusão?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Não</button>
+            <form id="modalExcluirForm" style="display: inline-block" method="post">
+              <button type="submit" class="btn btn-danger">Sim</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER - INICIO -->
+  <footer class="footer mt-auto py-3 bg-body-tertiary">
+    <div class="container text-center">
+      <span class="text-body-secondary">Rodapé</span>
+    </div>
+  </footer>
+  <!-- FOOTER - FIM -->
+  <script src="/webjars/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Evento show.bs.modal descrito na documentação do Bootstrap
+    document.getElementById('modalExcluir').addEventListener('show.bs.modal', (evt) => {
+      const botaoExcluir = evt.relatedTarget; // Botão clicado que disparou evento
+      const id = botaoExcluir.dataset.itemId; // Recupera informação do atributo data-item-id
+      const nome = botaoExcluir.dataset.itemNome;
+      const elModal = evt.target; // Recuperar o próprio modal
+      elModal.querySelector('#modalExcluirMsg').innerHTML = `Confirma exclusão do item <strong>${nome}</strong> (id: ${id})?`;
+      elModal.querySelector('#modalExcluirForm').action = `/mvc/pessoas/${id}/excluir`;
+    });
+
+    // Habilitar tooltip do Boostrap
+    document.addEventListener('DOMContentLoaded', () => {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+      const btnCopiarAll = document.querySelectorAll('a[data-bs-toggle="tooltip"].copiar');
+      [...btnCopiarAll].forEach((btnCopiarEl) => {
+        const tooltip = bootstrap.Tooltip.getOrCreateInstance(btnCopiarEl);
+        btnCopiarEl.addEventListener('hidden.bs.tooltip', () => {
+          tooltip.setContent({ '.tooltip-inner': 'Copiar para Área de transferência' });
+        });
+      });
+
+      // Copiar URL para área de transferência
+      document.querySelectorAll('a.copiar').forEach((el) => {
+        el.addEventListener('click', (event) => {
+          event.preventDefault();
+
+          // Pegando pelo currentTarget por causa do <i> do FontAwesome
+          const btnCopiar = event.currentTarget;
+          const url = btnCopiar.dataset.apiUrl;
+          console.log('URL a ser copiada: ', url);
+          navigator.clipboard.writeText(url).then(() => {
+            const tooltip = bootstrap.Tooltip.getOrCreateInstance(btnCopiar);
+            tooltip.setContent({ '.tooltip-inner': 'Copiado' });
+          }).catch(err => {
+            console.error('Erro ao copiar URL: ', err);
+          });
+        });
+      });
+    });
+
+  </script>
+</body>
+</html>

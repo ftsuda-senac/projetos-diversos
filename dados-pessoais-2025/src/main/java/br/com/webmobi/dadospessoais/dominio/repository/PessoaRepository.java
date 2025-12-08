@@ -10,15 +10,15 @@ import br.com.webmobi.dadospessoais.dominio.entity.PessoaEntity;
 
 public interface PessoaRepository extends JpaRepository<PessoaEntity, Integer> {
 
-    boolean existsByPublicId(UUID email);
+	boolean existsByPublicId(UUID email);
 
-    boolean existsByUsername(String username);
+	boolean existsByUsername(String username);
 
-    Optional<PessoaEntity> findByPublicId(UUID publicId);
+	Optional<PessoaEntity> findByPublicId(UUID publicId);
 
-    Optional<PessoaEntity> findByUsername(String username);
+	Optional<PessoaEntity> findByUsername(String username);
 
-    @Modifying
-    void deleteByPublicId(UUID publicId);
+	@Modifying
+	void deleteByPublicId(UUID publicId);
 
 }

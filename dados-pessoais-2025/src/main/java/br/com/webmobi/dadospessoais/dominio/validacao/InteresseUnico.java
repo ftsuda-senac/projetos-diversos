@@ -15,9 +15,10 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = InteresseUnicoValidator.class)
 public @interface InteresseUnico {
 
-    String message() default "Interesse já cadastrado";
+	String message() default "Interesse já cadastrado";
 
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
+
 }
