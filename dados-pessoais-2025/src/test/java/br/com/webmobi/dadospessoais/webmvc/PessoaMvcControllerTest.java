@@ -2,9 +2,14 @@ package br.com.webmobi.dadospessoais.webmvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -26,10 +31,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.mock.web.MockMultipartFile;
 
 import br.com.webmobi.dadospessoais.dominio.UrlMapper;
 import br.com.webmobi.dadospessoais.dominio.dto.InteresseDto;
 import br.com.webmobi.dadospessoais.dominio.dto.PessoaDto;
+import br.com.webmobi.dadospessoais.dominio.dto.PessoaFotoDto;
 import br.com.webmobi.dadospessoais.dominio.dto.PessoaInclusaoDto;
 import br.com.webmobi.dadospessoais.dominio.dto.PessoaMvcDto;
 import br.com.webmobi.dadospessoais.dominio.entity.InteresseEntity;
@@ -152,10 +159,47 @@ class PessoaMvcControllerTest {
 	}
 
 	@Test
+	void alterarDeveRetornarFormularioQuandoErroValidacao() throws Exception {
+		UUID publicId = UUID.randomUUID();
+		given(interesseService.listarTudo()).willReturn(List.of(new InteresseDto(1, "Java")));
+		given(pessoaService.alterar(any(UUID.class), any())).willThrow(new ConstraintViolationException(Set.of()));
+
+		mockMvc.perform(post("/mvc/pessoas/{id}/alterar", publicId).param("username", "fulano")
+				.param("nome", "Fulano da Silva").param("email", "fulano@email.com")
+				.param("telefone", "(11) 99999-1234").param("dataNascimento", "2000-05-20")
+				.param("interessesIds", "1", "2"))
+				.andExpect(status().isOk()).andExpect(view().name("pessoas/form"))
+				.andExpect(model().attributeExists("opcoesInteresses"));
+	}
+
+	@Test
 	void excluirDeveRedirecionarQuandoSucesso() throws Exception {
 		UUID publicId = UUID.randomUUID();
 
 		mockMvc.perform(post("/mvc/pessoas/{id}/excluir", publicId)).andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/mvc/pessoas")).andExpect(flash().attributeExists("msg"));
+	}
+
+	@Test
+	void incluirFotoDeveRetornarCreated() throws Exception {
+		UUID publicId = UUID.randomUUID();
+		MockMultipartFile arquivo = new MockMultipartFile("arquivo", "foto.jpg", "image/jpeg", "conteudo".getBytes());
+		given(pessoaFotoService.salvar(any(UUID.class), any()))
+				.willReturn(new PessoaFotoDto("foto.jpg", "Legenda"));
+		given(urlMapper.getImagemUrlPath(publicId, "foto.jpg")).willReturn("/uploads/" + publicId + "/fotos/foto.jpg");
+
+		mockMvc.perform(multipart("/mvc/pessoas/{pessoaId}/fotos", publicId).file(arquivo).param("legenda", "Legenda"))
+				.andExpect(status().isCreated()).andExpect(header().string("Location",
+						"http://localhost/uploads/" + publicId + "/fotos/foto.jpg"));
+	}
+
+	@Test
+	void excluirFotoDeveRetornarNoContent() throws Exception {
+		UUID publicId = UUID.randomUUID();
+
+		mockMvc.perform(delete("/mvc/pessoas/{pessoaId}/fotos/{nomeArquivo}", publicId, "foto.jpg"))
+				.andExpect(status().isNoContent());
+
+		then(pessoaFotoService).should(times(1)).excluir(publicId, "foto.jpg");
 	}
 }
