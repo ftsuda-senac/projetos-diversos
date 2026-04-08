@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-// Usando class ao invés do record para compatibiilidade com Thymeleaf
+// Usando POJO clássico ao invés do record para compatibiilidade com Thymeleaf
 @Getter
 @Setter
 @NoArgsConstructor
@@ -57,7 +57,6 @@ public class PessoaMvcDto {
 			LocalDate dataNascimento, List<Integer> interessesIds) {
 		this.id = id;
 		this.username = username;
-		;
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
