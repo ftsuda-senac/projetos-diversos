@@ -17,7 +17,7 @@
   <!-- NAVBAR - INICIO -->
   <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Contatos</a>
+      <a class="navbar-brand" href="#">Dados Pessoais</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
         aria-controls="navbarCollapse" aria-expanded="false" aria-label="Mudar navegação">
         <span class="navbar-toggler-icon"></span>
@@ -37,14 +37,15 @@
   <!-- NAVBAR - FIM -->
 
   <main class="container-lg flex-shrink-0">
-    <h1 class="text-center" id="nome">Pessoas</h1>
+    <h1 class="text-center">Pessoas cadastradas - Fetch API</h1>
     <div class="row justify-content-center">
-      <table class="table">
-        <thead>
+      <table class="table table-striped">
+        <thead class="table-dark">
           <tr>
             <th>ID</th>
             <th>Nome</th>
-            <th>Apelido</th>
+            <th>Username</th>
+            <th>E-mail</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -53,13 +54,13 @@
             <th>999</th>
             <td>Xpto Wxyz</td>
             <td>xpto</td>
+            <td>xpto@email.com</td>
             <td>
               <div class="btn-group" role="group" aria-label="Ações">
-                <a class="btn btn-primary" role="button" data-th-href="@{/gerenciamento/alterar/{id}(id=${item.id})}">
+                <a class="btn btn-primary" role="button">
                   <i class="fas fa-edit"></i> Alterar
                 </a>
-                <button type="button" class="btn btn-danger" data-th-data-item-id="${item.id}"
-                  data-th-data-item-nome="${item.nome}" data-bs-toggle="modal" data-bs-target="#modalExcluir">
+                <button type="button" class="btn btn-danger">
                   <i class="fas fa-trash-alt"></i> Excluir
                 </button>
               </div>
@@ -67,9 +68,11 @@
           </tr>
         </tbody>
       </table>
-      <a class="btn btn-lg btn-success" role="button" href="formulario.html">
-        <i class="fas fa-plus-square"></i> Incluir novo
-      </a>
+      <div>
+        <a class="btn btn-lg btn-success" role="button" href="formulario.html">
+          <i class="fas fa-plus-square"></i> Incluir novo
+        </a>
+      </div>
     </div>
   </main>
 
@@ -99,7 +102,7 @@
   <!-- FOOTER - INICIO -->
   <footer class="footer mt-auto py-3 bg-body-tertiary">
     <div class="container text-center">
-      <span class="text-body-secondary">&copy; Senac - TADS DSW 2025</span>
+      <span class="text-body-secondary">Exemplo Dados Pessoais</span>
     </div>
   </footer>
   <!-- FOOTER - FIM -->
@@ -119,10 +122,9 @@
 
     async function findAll() {
       try {
-        const httpResp = await fetch('http://localhost:8080/api/dados');
+        const httpResp = await fetch('http://localhost:8080/api/pessoas');
         if (!httpResp.ok) {
-          alert('Erro na requisição HTTP - ' + httpResp.status);
-          return;
+           throw new Error(`Erro HTTP - status ${httpResp.status}`)
         }
         const dadosArray = await httpResp.json();
 
@@ -130,15 +132,21 @@
         const elTbody = document.getElementById('dados');
         elTbody.innerHTML = '';
 
-        for (const dadoPessoa of dadosArray) {
+        for (const dadoPessoa of dadosArray.content) {
           const linhaTabela = `<tr>
             <th>${dadoPessoa.id}</th>
             <td>${dadoPessoa.nome}</td>
-            <td>${dadoPessoa.apelido}</td>
+            <td>${dadoPessoa.username}</td>
+            <td>${dadoPessoa.email}</td>
             <td>
-              <a href="detalhes.html?id=${dadoPessoa.id}">Detalhes</a>
-              <a href="formulario.html?id=${dadoPessoa.id}">Alterar</a>
-              <button onclick="confirmarExclusao(${dadoPessoa.id})">Excluir</button>
+              <div class="btn-group" role="group" aria-label="Ações">
+              <a class="btn btn-primary" role="button"  href="formulario.html?id=${dadoPessoa.id}">
+                <i class="fas fa-edit"></i> Alterar
+              </a>
+              <button type="button" class="btn btn-danger" onclick="confirmarExclusao(${dadoPessoa.id})">
+                <i class="fas fa-trash-alt"></i> Excluir
+              </button>
+              </div>
             </td>
           </tr>`;
           elTbody.insertAdjacentHTML('beforeend', linhaTabela);
@@ -148,7 +156,7 @@
       }
     }
 
-    document.getElementById('btnFetch').onclick = findAll;
+    findAll();
 
   </script>
 </body>

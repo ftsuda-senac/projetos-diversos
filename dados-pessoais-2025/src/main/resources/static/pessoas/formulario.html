@@ -11,14 +11,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
     integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 </head>
 
 <body class="d-flex flex-column h-100">
   <!-- NAVBAR - INICIO -->
   <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Contatos</a>
+      <a class="navbar-brand" href="#">Dados Pessoais</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
         aria-controls="navbarCollapse" aria-expanded="false" aria-label="Mudar navegação">
         <span class="navbar-toggler-icon"></span>
@@ -40,18 +39,20 @@
   <div class="container-lg flex-shrink-0">
     <div class="row">
       <main class="col-lg-12">
-        <h1>Pessoas</h1>
-        <h2 id="tituloInclusao" class="d-none">Incluir nova pessoa</h2>
-        <h2 id="tituloAlteracao" class="d-none">Alterar pessoa</h2>
+        <h1 id="tituloInclusao" class="d-none mb-3">Incluir nova pessoa</h1>
+        <h1 id="tituloAlteracao" class="d-none">Alterar pessoa</h1>
+        <h2 id="pessoaId" class="d-none mb-3">ID: <strong></strong></h2>
         <form method="post" id="formDados" novalidate>
           <div class="row mb-3">
-            <label for="txtApelido" class="col-sm-2 col-form-label">Apelido</label>
+            <label for="txtUsername" class="col-sm-2 col-form-label">Username</label>
             <div class="col-sm-10">
-              <input type="text" name="apelido" value="" id="txtApelido"
-                placeholder="Preencha um apelido (username) válido e único"
-                class="form-control"
-                maxlength="100" required />
+              <input type="text" name="username" value="" id="txtUsername"
+                placeholder="Preencha seu nome de usuário"
+                class="form-control" 
+                required maxlength="100" />
               <p class="invalid-feedback"></p>
+              <p id="nomeAjuda" class="form-text">Digitar um nome de usuário sem acentuação, caracteres especiais (exceto - e _) e
+                espaços em branco<br />Exemplos: fulano, ciclano-silva, teste123, teste_xpto</p>
             </div>
           </div>
           <div class="row mb-3">
@@ -59,7 +60,17 @@
             <div class="col-sm-10">
               <input type="text" name="nome" value="" id="txtNome"
                 placeholder="Preencha o nome completo"
-                class="form-control" maxlength="100" required />
+                class="form-control"
+                required maxlength="100" />
+              <p class="invalid-feedback"></p>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="txtDataNascimento" class="col-sm-2 col-form-label">Data de nascimento</label>
+            <div class="col-sm-10">
+              <input type="date" name="dataNascimento" value="" id="txtDataNascimento"
+              class="form-control"
+                maxlength="10" />
               <p class="invalid-feedback"></p>
             </div>
           </div>
@@ -67,8 +78,9 @@
             <label for="txtEmail" class="col-sm-2 col-form-label">E-mail</label>
             <div class="col-sm-10">
               <input type="email" name="email" value="" id="txtEmail"
-                placeholder="E-mail válido" class="form-control"
-                maxlength="100" required />
+                placeholder="E-mail válido"
+                class="form-control"
+                required maxlength="100"  />
               <p class="invalid-feedback"></p>
             </div>
           </div>
@@ -76,32 +88,30 @@
             <label for="txtTelefone" class="col-sm-2 col-form-label">Telefone</label>
             <div class="col-sm-10">
               <input type="text" name="telefone" value="" id="txtTelefone"
-                placeholder="Telefone" class="form-control"
-                maxlength="20" required />
+                placeholder="Telefone"
+                class="form-control"
+                maxlength="20"  />
               <p class="invalid-feedback"></p>
             </div>
           </div>
-          <div class="row mb-3">
-            <label for="txtDataNascimento" class="col-sm-2 col-form-label">Data de nascimento</label>
-            <div class="col-sm-10">
-              <input type="date" name="dataNascimento" value="" id="txtDataNascimento" class="form-control"
-                maxlength="10" />
-              <p class="invalid-feedback"></p>
-            </div>
-          </div>
-          <div class="row mb-3">
+
+          <div class="row mb-3 campoSomenteInclusao">
             <label for="txtSenha" class="col-sm-2 col-form-label">Senha</label>
             <div class="col-sm-10">
-              <input type="password" name="senha" value="" id="txtSenha" placeholder="Senha" class="form-control"
-                minlength="8" />
+              <input type="password" name="senha" value="" id="txtSenha"
+                placeholder="Preencha sua senha"
+                class="form-control"
+                required minlength="8" />
               <p class="invalid-feedback"></p>
             </div>
           </div>
-          <div class="row mb-3">
-            <label for="txtSenhaConfirmacao" class="col-sm-2 col-form-label">Confirmar senha</label>
+          <div class="row mb-3 campoSomenteInclusao">
+            <label for="txtSenhaConfirmacao" class="col-sm-2 col-form-label">Repetir senha</label>
             <div class="col-sm-10">
-              <input type="password" name="senhaConfirmacao" value="" id="txtSenhaConfirmacao" placeholder="Repetir a senha"
-                class="form-control" minlength="8" />
+              <input type="password" name="senhaConfirmacao" value="" id="txtSenhaConfirmacao"
+                placeholder="Repita sua senha"
+                class="form-control"
+                minlength="8" />
               <p class="invalid-feedback"></p>
             </div>
           </div>
@@ -147,7 +157,7 @@
   <!-- FOOTER - INICIO -->
   <footer class="footer mt-auto py-3 bg-body-tertiary">
     <div class="container text-center">
-      <span class="text-body-secondary">&copy; Senac - TADS DSW 2025</span>
+      <span class="text-body-secondary">Exemplo Dados Pessoais</span>
     </div>
   </footer>
   <!-- FOOTER - FIM -->
@@ -161,8 +171,7 @@
       try {
         const httpResp = await fetch('http://localhost:8080/api/interesses');
         if (!httpResp.ok) {
-          alert('Erro na requisição HTTP - ' + httpResp.status);
-          return;
+          throw new Error(`Erro HTTP - status ${httpResp.status}`)
         }
         const dadosArray = await httpResp.json();
 
@@ -173,7 +182,7 @@
         for (const interesse of dadosArray) {
           const idInput = `interesse${interesse.id}`;
           const opcaoInteresse = `<div class="form-check form-check-inline">
-              <input type="checkbox" name="interessesIds" value="${interesse.id}" id="${idInput}" class="form-check-input" />
+              <input type="checkbox" name="interessesIds" value="${interesse.id}" id="${idInput}" class="form-check-input" data-label="${interesse.nome}" />
               <label for="${idInput}" class="form-check-label">${interesse.nome}</label>
             </div>`;
           elOpcoesInteresses.insertAdjacentHTML('beforeend', opcaoInteresse);
@@ -183,34 +192,33 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => { findAllInteresses() });
-
-    async function salvar(evt) {
-      evt.preventDefault();
-
-      const elFormulario = document.getElementById('formDados');
-
-      // Verificar quais interesses foram selecionados
-      const interessesIds = [];
-      const interessesChk = document.querySelectorAll('[name="interessesIds"]');
-      for (const elChk of interessesChk) {
-        if (elChk.checked) {
-          interessesIds.push(+elChk.value); // + converte a string para number
+    async function carregarPessoa(id) {
+      try {
+        const httpResp = await fetch(`http://localhost:8080/api/pessoas/${id}`);
+        if (!httpResp.ok) {
+          throw new Error(`Erro HTTP - status ${httpResp.status}`)
         }
-      }
+        const dados = await httpResp.json();
 
-      const dadosParaEnviar = {
-        apelido: elFormulario.apelido.value,
-        nome: elFormulario.nome.value,
-        email: elFormulario.email.value,
-        telefone: elFormulario.telefone.value,
-        dataNascimento: elFormulario.dataNascimento.value,
-        senha: elFormulario.senha.value,
-        senhaConfirmacao: elFormulario.senhaConfirmacao.value,
-        interessesIds: interessesIds
-      }
-      console.log(JSON.stringify(dadosParaEnviar));
+        const form = document.getElementById('formDados');
+        form.nome.value = dados.nome;
+        form.username.value = dados.username;
+        form.dataNascimento.value = dados.dataNascimento;
+        form.email.value = dados.email;
+        form.telefone.value = dados.telefone;
 
+        for (const interesse of dados.interesses) {
+          const inputChk = document.querySelector(`[name="interessesIds"][data-label="${interesse}"]`);
+          if (inputChk) {
+            inputChk.checked = true
+          }
+        }
+      } catch (err) {
+        alert('Erro na requisição - ' + err);
+      }
+    }
+
+    function limparValidacao() {
       // Limpa mensagens de validação da requisição anterior
       const elInputs = document.querySelectorAll('.is-invalid');
       for (const elInput of elInputs) {
@@ -220,37 +228,128 @@
       for (const elMensagem of elMensagens) {
         elMensagem.textContent = '';
       }
-
-      const httpResp = await fetch('http://localhost:8080/api/dados', {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify(dadosParaEnviar)
-      });
-      if (!httpResp.ok) {
-        if (httpResp.status === 400) {
-          const erros = await httpResp.json();
-          for (const erro of erros.errors) {
-            const field = erro.field;
-            const mensagem = erro.defaultMessage;
-
-            const elInput = document.querySelector(`[name="${field}"]`);
-            const elMensagem = document.querySelector(`[name="${field}"] + p`);
-
-            elInput.classList.add('is-invalid');
-            elMensagem.textContent = mensagem;
-          }
-        } else {
-          alert('Erro na requisição HTTP - ' + httpResp.status);
-        }
-        return;
-      }
-      alert('Sucesso');
-      window.location.href = 'index.html';
     }
 
-    document.getElementById('formDados').onsubmit = salvar;
+    function mostrarErrosValidacao(erros) {
+      for (const erro of erros) {
+        const field = erro.field;
+        const mensagem = erro.defaultMessage;
+
+        const elInput = document.querySelector(`[name="${field}"]`);
+        const elMensagem = document.querySelector(`[name="${field}"] + p`);
+
+        elInput.classList.add('is-invalid');
+        elMensagem.textContent = mensagem;
+      }
+    }
+
+    // Verificar quais interesses foram selecionados
+    function obterInteresses() {
+      const interessesIds = [];
+      const interessesChk = document.querySelectorAll('[name="interessesIds"]');
+      for (const elChk of interessesChk) {
+        if (elChk.checked) {
+          interessesIds.push(+elChk.value); // + converte a string para number
+        }
+      }
+      return interessesIds;
+    }
+
+    async function salvar(evt, id) {
+      evt.preventDefault();
+
+      const elFormulario = evt.target; // equivale a document.getElementById('formDados');
+
+      limparValidacao();
+      const interessesIds = obterInteresses();
+
+      const dadosParaEnviar = id ? ({
+        nome: elFormulario.nome.value,
+        dataNascimento: elFormulario.dataNascimento.value,
+        email: elFormulario.email.value,
+        telefone: elFormulario.telefone.value,
+        interessesIds: interessesIds
+      }) : ({
+        username: elFormulario.username.value,
+        nome: elFormulario.nome.value,
+        dataNascimento: elFormulario.dataNascimento.value,
+        email: elFormulario.email.value,
+        telefone: elFormulario.telefone.value,
+        senha: elFormulario.senha.value,
+        senhaConfirmacao: elFormulario.senhaConfirmacao.value,
+        interessesIds: interessesIds
+      });
+      console.log(JSON.stringify(dadosParaEnviar));
+
+      const url = id ? `http://localhost:8080/api/pessoas/${id}`: 'http://localhost:8080/api/pessoas';
+      const method = id ? 'PUT' : 'POST';
+
+      try {
+        const httpResp = await fetch(url, {
+          method: method,
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify(dadosParaEnviar)
+        });
+        if (!httpResp.ok) {
+          if (httpResp.status === 400) {
+            const erros = await httpResp.json();
+            mostrarErrosValidacao(erros.errors);
+          } else {
+            throw new Error(`Erro HTTP - status ${httpResp.status}`)
+          }
+          return;
+        }
+        alert('Sucesso');
+        window.location.href = 'index.html';
+      } catch(err) {
+        alert('Erro na requisição - ' + err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+
+      // Lógica para limitar a data de nascimento ao dia atual
+      const dataLocal = new Date();
+      const ano = dataLocal.getFullYear();
+      // O mês começa em 0, por isso somamos 1. O padStart garante o formato '01' em vez de '1'
+      const mes = String(dataLocal.getMonth() + 1).padStart(2, '0');
+      const dia = String(dataLocal.getDate()).padStart(2, '0');
+
+      const hojeLocal = `${ano}-${mes}-${dia}`;
+
+      // Agora o 'max' será exatamente o dia de hoje no fuso do usuário
+      document.getElementById('txtDataNascimento').setAttribute('max', hojeLocal);
+
+      await findAllInteresses();
+
+      // Se informar ID pessoa na query string da URL, carrega os dados da pessoa
+      // https://stackoverflow.com/a/901144
+      const urlParams = new URLSearchParams(window.location.search);
+      const pessoaId = urlParams.get('id');
+      if (pessoaId) {
+        await carregarPessoa(pessoaId);
+        // Desabilitar campo username
+        const usernameInput = document.getElementById('txtUsername');
+        usernameInput.setAttribute('readonly', true);
+        usernameInput.setAttribute('disabled', true);
+        document.getElementById('nomeAjuda').classList.add('d-none');
+        document.querySelectorAll('.campoSomenteInclusao').forEach(el => el.classList.add('d-none'));
+        document.getElementById('tituloAlteracao').classList.remove('d-none');
+        document.getElementById('pessoaId').classList.remove('d-none');
+        document.querySelector('#pessoaId > strong').textContent = pessoaId;
+
+        document.getElementById('formDados').addEventListener('submit', async (evt) => {
+          await salvar(evt, idPessoa);
+        });
+      } else {
+        document.getElementById('tituloInclusao').classList.remove('d-none');
+        document.getElementById('formDados').addEventListener('submit', async (evt) => {
+          await salvar(evt, null)
+        });
+      }
+    });
 
   </script>
 </body>

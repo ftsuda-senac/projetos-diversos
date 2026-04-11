@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @Validated
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class InteresseService implements CrudService<InteresseDto, InteresseDto, InteresseDto, Integer> {
 

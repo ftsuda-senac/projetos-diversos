@@ -35,6 +35,8 @@ public class PessoaMvcController {
 
 	private final InteresseService interesseService;
 
+	private final ConstraintViolationsToErrorsConverter constraintViolationsConverter;
+
 	private final UrlMapper urlMapper;
 
 	private FotoDto toFotoDto(PessoaDto dto, String nomeArquivo) {
@@ -83,8 +85,7 @@ public class PessoaMvcController {
 					new AlertMessage(AlertMessageType.SUCCESS, "Pessoa incluida com sucesso"));
 			return new ModelAndView("redirect:/mvc/pessoas");
 		} catch (ConstraintViolationException ex) {
-			ConstraintViolationsToErrorsConverter cve = new ConstraintViolationsToErrorsConverter();
-			cve.addConstraintViolations(ex.getConstraintViolations(), bindingResult);
+			constraintViolationsConverter.addConstraintViolations(ex.getConstraintViolations(), bindingResult);
 			return new ModelAndView("pessoas/form").addObject("opcoesInteresses", interesseService.listarTudo());
 		}
 	}
@@ -98,8 +99,7 @@ public class PessoaMvcController {
 					new AlertMessage(AlertMessageType.SUCCESS, "Pessoa alterada com sucesso"));
 			return new ModelAndView("redirect:/mvc/pessoas");
 		} catch (ConstraintViolationException ex) {
-			ConstraintViolationsToErrorsConverter cve = new ConstraintViolationsToErrorsConverter();
-			cve.addConstraintViolations(ex.getConstraintViolations(), bindingResult);
+			constraintViolationsConverter.addConstraintViolations(ex.getConstraintViolations(), bindingResult);
 			return new ModelAndView("pessoas/form").addObject("opcoesInteresses", interesseService.listarTudo());
 		}
 	}

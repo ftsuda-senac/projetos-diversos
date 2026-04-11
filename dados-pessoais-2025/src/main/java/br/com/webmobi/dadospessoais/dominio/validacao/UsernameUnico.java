@@ -15,7 +15,7 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = UsernameUnicoValidator.class)
 public @interface UsernameUnico {
 
-	String message() default "Username já cadastrado";
+	String message() default "{username-unico.error.defaultMessage}";
 
 	Class<?>[] groups() default {};
 

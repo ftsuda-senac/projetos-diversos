@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Validated
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 public class PessoaFotoService {
@@ -51,7 +52,6 @@ public class PessoaFotoService {
 		return Paths.get(uploadPath, pessoaEntity.getPublicId().toString(), "fotos");
 	}
 
-	@Transactional(readOnly = true)
 	public List<PessoaFotoDto> listar(UUID pessoaId) {
 		return pessoaFotoRepository.findByPessoa_PublicId(pessoaId).stream().map(PessoaFotoDto::new).toList();
 	}

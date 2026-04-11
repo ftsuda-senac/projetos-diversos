@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @Validated
+@Transactional(readOnly = true) // Força a inclusão do Transactional em métodos mutáveis (create/update/delete)
 @RequiredArgsConstructor
 public class PessoaService implements CrudService<PessoaDto, PessoaInclusaoDto, PessoaAlteracaoDto, UUID> {
 
@@ -55,25 +56,21 @@ public class PessoaService implements CrudService<PessoaDto, PessoaInclusaoDto, 
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public Page<PessoaDto> listar(Pageable pageable) {
 		return pessoaRepository.findAll(pageable).map(PessoaDto::new);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public List<PessoaDto> listarTudo() {
 		return pessoaRepository.findAll().stream().map(PessoaDto::new).toList();
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public PessoaDto buscarPorId(UUID publicId) {
 		return pessoaRepository.findByPublicId(publicId).map(PessoaDto::new)
 				.orElseThrow(() -> new NaoEncontradoException("Pessoa ID " + publicId + " não encontrada"));
 	}
 
-	@Transactional(readOnly = true)
 	public PessoaMvcDto buscarPorIdMvc(UUID publicId) {
 		return pessoaRepository.findByPublicId(publicId).map(PessoaMvcDto::new)
 				.orElseThrow(() -> new NaoEncontradoException("Pessoa ID " + publicId + " não encontrada"));
@@ -97,6 +94,7 @@ public class PessoaService implements CrudService<PessoaDto, PessoaInclusaoDto, 
 		return new PessoaDto(entity);
 	}
 
+
 	@Override
 	@Transactional
 	public void excluir(UUID publicId) {
@@ -105,6 +103,50 @@ public class PessoaService implements CrudService<PessoaDto, PessoaInclusaoDto, 
 			throw new NaoEncontradoException("Pessoa ID " + publicId + " não encontrada");
 		}
 		pessoaRepository.deleteByPublicId(publicId);
+	}
+
+	// Metodos abaixo criados para atender fluxo MVC
+	// durante correção do Converter dos erros
+
+	@Deprecated(forRemoval = true)
+	private PessoaEntity createEntityFromMvcDto(PessoaMvcDto dto) {
+		PessoaEntity entity = new PessoaEntity();
+		entity.setUsername(dto.getUsername());
+		entity.setNome(dto.getNome());
+		entity.setEmail(dto.getEmail());
+		entity.setTelefone(dto.getTelefone());
+		entity.setDataNascimento(dto.getDataNascimento());
+		entity.setHashSenha(passwordEncoder.encode(dto.getSenha()));
+		entity.setInteresses(new HashSet<>(interesseRepository.findByIdIn(dto.getInteressesIds())));
+		return entity;
+	}
+
+	@Deprecated(forRemoval = true)
+	private PessoaEntity updateEntityFromMvcDto(PessoaEntity entity, PessoaMvcDto dto) {
+		entity.setNome(dto.getNome());
+		entity.setEmail(dto.getEmail());
+		entity.setTelefone(dto.getTelefone());
+		entity.setDataNascimento(dto.getDataNascimento());
+		entity.setInteresses(new HashSet<>(interesseRepository.findByIdIn(dto.getInteressesIds())));
+		return entity;
+	}
+
+	@Deprecated(forRemoval = true)
+	@Transactional
+	public PessoaMvcDto incluirNovoMvc(@Valid PessoaMvcDto dto) {
+		PessoaEntity entity = createEntityFromMvcDto(dto);
+		pessoaRepository.save(entity);
+		return new PessoaMvcDto(entity);
+	}
+
+	@Deprecated(forRemoval = true)
+	@Transactional
+	public PessoaMvcDto alterarMvc(UUID publicId, @Valid PessoaMvcDto dto) {
+		PessoaEntity entity = pessoaRepository.findByPublicId(publicId)
+				.orElseThrow(() -> new NaoEncontradoException("Pessoa ID " + publicId + " não encontrada"));
+		entity = updateEntityFromMvcDto(entity, dto);
+		pessoaRepository.save(entity);
+		return new PessoaMvcDto(entity);
 	}
 
 }

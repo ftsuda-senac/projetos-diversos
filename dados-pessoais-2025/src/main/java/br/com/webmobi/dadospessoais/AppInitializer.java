@@ -33,12 +33,13 @@ public class AppInitializer implements CommandLineRunner {
 				new InteresseEntity("C#"), new InteresseEntity("Kotlin"), new InteresseEntity("Swift"),
 				new InteresseEntity("Dart"), new InteresseEntity("TypeScript"), new InteresseEntity("HTML"),
 				new InteresseEntity("CSS"), new InteresseEntity("SQL")));
+				
 		pessoaService.incluirNovo(new PessoaInclusaoDto("fulano", "Fulano da Silva", "fulano@email.com",
-				"11 98123-1234", LocalDate.parse("2000-10-20"), "Abcd1234", "Abcd1234", List.of(101, 102, 103)));
+				"11 98123-1234", LocalDate.parse("2000-10-20"), "Abcd%1234", "Abcd%1234", List.of(101, 102, 103)));
 		pessoaService.incluirNovo(new PessoaInclusaoDto("ciclano", "Ciclano de Souza", "ciclano@email.com",
-				"11 98234-2233", LocalDate.parse("1999-05-10"), "Abcd1234", "Abcd1234", List.of(104, 105, 106)));
+				"11 98234-2233", LocalDate.parse("1999-05-10"), "Abcd%1234", "Abcd%1234", List.of(104, 105, 106)));
 		pessoaService.incluirNovo(new PessoaInclusaoDto("beltrana", "Beltrana dos Santos", "beltrana@email.com",
-				"11 98987-4567", LocalDate.parse("2001-08-15"), "Abcd1234", "Abcd1234", List.of(101, 106, 107)));
+				"11 98987-4567", LocalDate.parse("2001-08-15"), "Abcd%1234", "Abcd%1234", List.of(101, 106, 107)));
 	}
 
 }
