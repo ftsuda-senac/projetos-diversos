@@ -1,7 +1,10 @@
 package br.com.webmobi.dadospessoais.dominio.exception;
 
+import java.io.Serial;
+
 public class NaoEncontradoException extends RuntimeException {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	public NaoEncontradoException(String message) {

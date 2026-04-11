@@ -16,11 +16,11 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DatabindException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
 
 import br.com.webmobi.dadospessoais.dominio.dto.PessoaDto;
 import br.com.webmobi.dadospessoais.dominio.entity.InteresseEntity;
@@ -95,7 +95,7 @@ public class PessoaIntegrationTest {
 	@Test
 	@Order(1)
 	public void integrationTestGivenPageRequestWhenListarThenRetornarPaginaPessoas()
-			throws JsonMappingException, JsonProcessingException {
+			throws DatabindException, JacksonException {
 
 		// Given
 		var response = given().spec(specification) //

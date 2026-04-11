@@ -1,8 +1,8 @@
 package br.com.webmobi.dadospessoais.dominio.service;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -49,7 +49,7 @@ public class PessoaFotoService {
 
 	// Padrão do diretório: /[UUID]/[subdir-tipo]/nome-arquivo
 	private Path getFilePath(PessoaEntity pessoaEntity) {
-		return Paths.get(uploadPath, pessoaEntity.getPublicId().toString(), "fotos");
+		return Path.of(uploadPath, pessoaEntity.getPublicId().toString(), "fotos");
 	}
 
 	public List<PessoaFotoDto> listar(UUID pessoaId) {
@@ -74,7 +74,7 @@ public class PessoaFotoService {
 		MultipartFile arquivo = dto.getArquivo();
 		// Gerar nome de arquivo aleatório
 		String nomeArquivo = "" + Instant.now().getEpochSecond() + getFileExtension(arquivo.getOriginalFilename());
-		Path arquivoDestino = Paths.get(dirDestino.toString(), nomeArquivo);
+		Path arquivoDestino = Path.of(dirDestino.toString(), nomeArquivo);
 		log.debug("Gravando arquivo em {}", arquivoDestino);
 		try {
 			arquivo.transferTo(arquivoDestino);
@@ -101,10 +101,10 @@ public class PessoaFotoService {
 		pessoaFotoRepository.delete(fotoEntity);
 
 		// Excluir arquivo do disco
-		Path arquivoDestino = Paths.get(getFilePath(pessoaEntity).toString(), nomeArquivo);
+		Path arquivoDestino = Path.of(getFilePath(pessoaEntity).toString(), nomeArquivo);
 		try {
 			Files.deleteIfExists(arquivoDestino);
-		} catch (Exception ex) {
+		} catch (IOException ex) {
 			throw new RuntimeException("Erro ao excluir a foto do arquivo", ex);
 		}
 	}

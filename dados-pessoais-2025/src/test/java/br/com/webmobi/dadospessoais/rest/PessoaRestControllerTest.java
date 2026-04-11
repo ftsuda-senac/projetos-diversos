@@ -18,10 +18,9 @@ import java.util.UUID;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.security.autoconfigure.SecurityAutoConfiguration;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -37,8 +36,7 @@ import br.com.webmobi.dadospessoais.dominio.service.PessoaFotoService;
 import br.com.webmobi.dadospessoais.dominio.service.PessoaService;
 
 // Ver https://stackoverflow.com/questions/47593537/disable-spring-security-config-class-for-webmvctest-in-spring-boot/
-@WebMvcTest(controllers = PessoaRestController.class, excludeAutoConfiguration = {
-		OAuth2ResourceServerAutoConfiguration.class, SecurityAutoConfiguration.class })
+@WebMvcTest(controllers = PessoaRestController.class, excludeAutoConfiguration = { SecurityAutoConfiguration.class })
 @AutoConfigureMockMvc
 public class PessoaRestControllerTest {
 
