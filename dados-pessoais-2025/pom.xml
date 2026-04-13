@@ -34,11 +34,6 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>io.rest-assured</groupId>
-				<artifactId>rest-assured</artifactId>
-				<version>5.5.7</version>
-			</dependency>
-			<dependency>
 				<groupId>me.paulschwarz</groupId>
 				<artifactId>spring-dotenv-bom</artifactId>
 				<version>5.1.0</version>
@@ -177,11 +172,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>rest-assured</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
 			<scope>test</scope>
@@ -229,12 +219,18 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.14</version> <!-- Verifique a versão mais recente -->
+				<version>0.8.14</version>
 				<executions>
+					<!-- Agente para testes unitários (surefire) -->
 					<execution>
+						<id>prepare-agent</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
+						<configuration>
+							<!-- Propriedade lida pelo surefire via @{jacoco.agent.argLine} -->
+							<propertyName>jacoco.agent.argLine</propertyName>
+						</configuration>
 					</execution>
 					<execution>
 						<id>report</id>
@@ -242,18 +238,118 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
+						<configuration>
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+							<formats>
+								<format>HTML</format>
+								<format>XML</format>
+								<format>CSV</format>
+							</formats>
+						</configuration>
+					</execution>
+
+					<!-- Agente para testes de integração (failsafe) -->
+					<execution>
+						<id>prepare-agent-integration</id>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+						<configuration>
+							<!-- Propriedade lida pelo failsafe via @{jacoco.agent.it.argLine} -->
+							<propertyName>jacoco.agent.it.argLine</propertyName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>report-integration</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report-integration</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+							<formats>
+								<format>HTML</format>
+								<format>XML</format>
+								<format>CSV</format>
+							</formats>
+						</configuration>
+					</execution>
+
+					<!-- Consolida os dois exec em um único relatório final -->
+					<execution>
+						<id>merge-results</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>merge</goal>
+						</goals>
+						<configuration>
+							<fileSets>
+								<fileSet>
+									<directory>${project.build.directory}</directory>
+									<includes>
+										<include>jacoco.exec</include>
+										<include>jacoco-it.exec</include>
+									</includes>
+								</fileSet>
+							</fileSets>
+							<destFile>${project.build.directory}/jacoco-merged.exec</destFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>report-merged</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<dataFile>${project.build.directory}/jacoco-merged.exec</dataFile>
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco-merged</outputDirectory>
+							<formats>
+								<format>HTML</format>
+								<format>XML</format>
+								<format>CSV</format>
+							</formats>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+
 			<!-- https://rieckpil.de/how-to-configure-mockito-agent-for-java-21-without-warning/ -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<!-- @formatter:off -->
-					<argLine>-javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar -Xshare:off</argLine>
+					<!-- @{...} usa late-binding para ler o argLine definido pelo JaCoCo em tempo de build -->
+					<argLine>@{jacoco.agent.argLine} -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar -Xshare:off</argLine>
 					<!-- @formatter:on -->
+					<!-- Exclui testes de integração — executados pelo failsafe -->
+					<excludes>
+						<exclude>**/integration/**</exclude>
+					</excludes>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<!-- @formatter:off -->
+					<argLine>@{jacoco.agent.it.argLine} -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar -Xshare:off</argLine>
+					<!-- @formatter:on -->
+					<!-- Inclui apenas testes de integração do pacote integration -->
+					<includes>
+						<include>**/integration/**Test.java</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

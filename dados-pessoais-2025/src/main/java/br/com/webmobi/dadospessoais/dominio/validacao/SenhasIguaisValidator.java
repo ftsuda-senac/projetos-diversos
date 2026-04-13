@@ -1,5 +1,7 @@
 package br.com.webmobi.dadospessoais.dominio.validacao;
 
+import java.util.Objects;
+
 import br.com.webmobi.dadospessoais.dominio.dto.SenhaConfirmacao;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -16,7 +18,7 @@ public class SenhasIguaisValidator implements ConstraintValidator<SenhasIguais, 
 
 	@Override
 	public boolean isValid(SenhaConfirmacao dados, ConstraintValidatorContext context) {
-		boolean resultado = dados.getSenha().equals(dados.getSenhaConfirmacao());
+		boolean resultado = dados != null && Objects.equals(dados.getSenha(), dados.getSenhaConfirmacao());
 		if (resultado) {
 			return true;
 		}

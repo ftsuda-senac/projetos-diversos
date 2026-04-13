@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.test.annotation.Commit;
 
 import br.com.webmobi.dadospessoais.dominio.entity.InteresseEntity;
 import br.com.webmobi.dadospessoais.dominio.entity.PessoaEntity;
@@ -176,5 +177,105 @@ public class PessoaRepositoryTest {
 		// then(pessoaSalva.getDataAtualizacao()).isAfter(pessoaSalva.getDataCriacao());
 	}
 
+	@Test
+	@Order(6)
+	@DisplayName("existsByPublicId retorna true para UUID existente")
+	void testGivenPublicIdExistenteWhenExistsByPublicIdThenRetornarTrue() {
+		// Given/Arrange
+		UUID publicId = pessoaDefault.getPublicId();
+
+		// When/Act
+		boolean exists = pessoaRepository.existsByPublicId(publicId);
+
+		// Then/Assert
+		then(exists).isTrue();
+	}
+
+	@Test
+	@Order(7)
+	@DisplayName("existsByPublicId retorna false para UUID inexistente")
+	void testGivenPublicIdInexistenteWhenExistsByPublicIdThenRetornarFalse() {
+		// Given/Arrange — UUID nunca inserido
+		UUID publicId = UUID.randomUUID();
+
+		// When/Act
+		boolean exists = pessoaRepository.existsByPublicId(publicId);
+
+		// Then/Assert
+		then(exists).isFalse();
+	}
+
+	@Test
+	@Order(8)
+	@DisplayName("existsByUsername retorna true para username existente")
+	void testGivenUsernameExistenteWhenExistsByUsernameThenRetornarTrue() {
+		// When/Act
+		boolean exists = pessoaRepository.existsByUsername(pessoaDefault.getUsername());
+
+		// Then/Assert
+		then(exists).isTrue();
+	}
+
+	@Test
+	@Order(9)
+	@DisplayName("existsByUsername retorna false para username inexistente")
+	void testGivenUsernameInexistenteWhenExistsByUsernameThenRetornarFalse() {
+		// When/Act
+		boolean exists = pessoaRepository.existsByUsername("usuario_que_nao_existe");
+
+		// Then/Assert
+		then(exists).isFalse();
+	}
+
+	@Test
+	@Order(10)
+	@DisplayName("Buscar pessoa por username existente")
+	void testGivenUsernameExistenteWhenFindByUsernameThenRetornarPessoa() {
+		// When/Act
+		Optional<PessoaEntity> optPessoa = pessoaRepository.findByUsername(pessoaDefault.getUsername());
+
+		// Then/Assert
+		then(optPessoa.isPresent()).isTrue();
+		then(optPessoa.get().getEmail()).isEqualTo(pessoaDefault.getEmail());
+		then(optPessoa.get().getNome()).isEqualTo(pessoaDefault.getNome());
+	}
+
+	@Test
+	@Order(11)
+	@DisplayName("Buscar pessoa por username inexistente retorna Optional vazio")
+	void testGivenUsernameInexistenteWhenFindByUsernameThenRetornarOptionalVazio() {
+		// When/Act
+		Optional<PessoaEntity> optPessoa = pessoaRepository.findByUsername("usuario_que_nao_existe");
+
+		// Then/Assert
+		then(optPessoa.isPresent()).isFalse();
+	}
+
+	@Test
+	@Order(12)
+	@DisplayName("Excluir pessoa por publicId")
+	@Commit
+	void testGivenPublicIdWhenDeleteByPublicIdThenPessoaRemovida() {
+		// Given/Arrange — insere pessoa exclusiva para este teste
+		PessoaEntity paraExcluir = new PessoaEntity();
+		paraExcluir.setUsername("paraexcluir");
+		paraExcluir.setNome("Para Excluir");
+		paraExcluir.setEmail("paraexcluir@email.com");
+		paraExcluir.setDataNascimento(LocalDate.parse("1990-01-01"));
+		paraExcluir.setInteresses(new HashSet<>(interesseRepository
+				.findByIdIn(List.of(interessesIds.get(0)))));
+		pessoaRepository.saveAndFlush(paraExcluir);
+
+		UUID publicId = paraExcluir.getPublicId();
+		then(pessoaRepository.existsByPublicId(publicId)).isTrue();
+
+		// When/Act
+		pessoaRepository.deleteByPublicId(publicId);
+		pessoaRepository.flush();
+
+		// Then/Assert
+		then(pessoaRepository.existsByPublicId(publicId)).isFalse();
+		then(pessoaRepository.findByPublicId(publicId).isPresent()).isFalse();
+	}
 
 }
